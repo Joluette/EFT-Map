@@ -1,0 +1,306 @@
+[
+  {
+    "File": "assets/customs-calibration.json",
+    "Hash": "4F55E336FC3D889EB130A92A4992C7B30E26AAC96FC3E8521145F39D711949DB"
+  },
+  {
+    "File": "assets/customs-ground.png",
+    "Hash": "2C573000C6B4A897E437C5D31588037A601DA181E0AC8B8B9A807849ED3C1220"
+  },
+  {
+    "File": "assets/Customs.original.svg",
+    "Hash": "7C4713FF1D97FDCC92A8440B8C77EC68672E0F23577C1C4DE4D7913FD402F7F0"
+  },
+  {
+    "File": "assets/maps.json",
+    "Hash": "5689E450FC0DBBD71D3EA4166A6D3F5159A4571619A535788B4A62982432BF02"
+  },
+  {
+    "File": "assets/maps.upstream.json",
+    "Hash": "C53A327DCDCFF67A49B9FE2D150731EDB4C1611DFC2F75DB2CE97444DEE2EF77"
+  },
+  {
+    "File": "assets/maps/customs-base.png",
+    "Hash": "2C573000C6B4A897E437C5D31588037A601DA181E0AC8B8B9A807849ED3C1220"
+  },
+  {
+    "File": "assets/maps/customs-Second_Floor.png",
+    "Hash": "7C1D88CDA4EDFD0E10DF382D884FCCE6F994BECC48CD6BCAD32A318451985170"
+  },
+  {
+    "File": "assets/maps/customs-Third_Floor.png",
+    "Hash": "D524D2D3D9C8CBD56EAB44B7D95BC77542CE6F8A3A14627FE13E2B5EA7701190"
+  },
+  {
+    "File": "assets/maps/customs-Underground_Level.png",
+    "Hash": "47E6BB587AD057A3B27507CA6FB7161870AEF0781E69D820298CEABBC9AD6E8F"
+  },
+  {
+    "File": "assets/maps/factory-base.png",
+    "Hash": "1ACDF5EA15BB1C69A65EFB0890DE12ABC5F9236F7732AA81CC61C172AB9A54E4"
+  },
+  {
+    "File": "assets/maps/factory-Basement.png",
+    "Hash": "518937FE0C46CCBFE5F65D84BD7852E1709D06AE27C39E156BDD86D2A896073D"
+  },
+  {
+    "File": "assets/maps/factory-Second_Floor.png",
+    "Hash": "2CA27B85609FBE5EB78FF7E2705B8E38248DBA6149883021E6EDC65FD4FE4BC1"
+  },
+  {
+    "File": "assets/maps/factory-Third_Floor.png",
+    "Hash": "AB46972DFAA6FEFEF5C9D4A80A178285866F86E602B72CA57F2E8C7C4554C891"
+  },
+  {
+    "File": "assets/maps/ground-zero-base.png",
+    "Hash": "73F9EE9A23004799910649091CAA96C0D319A3521320C6EDBCFC5B5535D06FE5"
+  },
+  {
+    "File": "assets/maps/ground-zero-Second_Floor.png",
+    "Hash": "ED40A70F3EF3F18A003C72A0B38E43C061CFD6DE14FBA6C0F62598EF0819712D"
+  },
+  {
+    "File": "assets/maps/ground-zero-Third_Floor.png",
+    "Hash": "9845551857C46F61C082A6DDA833BFC1371C1B7914625EB3ADAE07405C4C5FD3"
+  },
+  {
+    "File": "assets/maps/ground-zero-Underground_Level.png",
+    "Hash": "B8F5C3B19F80CFB34AFDECB02BA72A7876EF8F5F0D8747F0D2626FBB822EB293"
+  },
+  {
+    "File": "assets/maps/interchange-base.png",
+    "Hash": "8AAAEC1D0E280EFE5F5A98F155BC0C4AEF60C4E2EAB852ECF135E1BDB942BB4D"
+  },
+  {
+    "File": "assets/maps/interchange-First_Floor.png",
+    "Hash": "37B19495FC86601299670B5A4301131D9F379003DEEE3ECC8B63D738215C7AED"
+  },
+  {
+    "File": "assets/maps/interchange-Second_Floor.png",
+    "Hash": "477931BC10F6F5C63A102F4D3D91039007F988A925CBAC4CF2DCDD799604A226"
+  },
+  {
+    "File": "assets/maps/lighthouse-base.png",
+    "Hash": "7317EAA1B7630E40ED54F8C3CD607593E5EAA092D860676F5DFC36C205B10CE5"
+  },
+  {
+    "File": "assets/maps/reserve-base.png",
+    "Hash": "33D89B97BA630BF77FA69E96E933DC88F3582540087731C2EE710A95537784FD"
+  },
+  {
+    "File": "assets/maps/reserve-Bunkers.png",
+    "Hash": "14B432C029AF2F31E9A6859151DABF8A51E2BD3F2D2D1903DBC8458B15067911"
+  },
+  {
+    "File": "assets/maps/shoreline-base.png",
+    "Hash": "92B72718818FD9C4C3B37A7297A19E629DEE069B6E3F9616794C6CC37CDC520B"
+  },
+  {
+    "File": "assets/maps/shoreline-Second_Floor.png",
+    "Hash": "C0828060C33AA8DDE0F46737B87D5D8A55225A0EB3C425B2F29FCA9DAB875E35"
+  },
+  {
+    "File": "assets/maps/shoreline-Third_Floor.png",
+    "Hash": "89E1033129A977494A6B74B1E93C48A834180C87237ED703332E876393A4E2AD"
+  },
+  {
+    "File": "assets/maps/shoreline-Underground_Level.png",
+    "Hash": "AE2CA4ADA1610C5B71907906377E038F76A47728AF1C54952F08067D48100E7F"
+  },
+  {
+    "File": "assets/maps/streets-of-tarkov-base.png",
+    "Hash": "ACBC478B0278A67E7A4EDAC3E5D03BA09A0A3CDB99453C840A90E74EF8E1813E"
+  },
+  {
+    "File": "assets/maps/streets-of-tarkov-Fifth_Floor.png",
+    "Hash": "230926E686D78C76A68E06F9460DFABC624029B9D43A2DF48F0165C5739982C9"
+  },
+  {
+    "File": "assets/maps/streets-of-tarkov-Fourth_Floor.png",
+    "Hash": "365C885F2B1654DEC0D0A958FF457774A95B1FC781B6C6632065CC316D73EA78"
+  },
+  {
+    "File": "assets/maps/streets-of-tarkov-Second_Floor.png",
+    "Hash": "26E174A882919B2E988F6BAB2B9EF615371B6C267B57D4D67C57E177DB4F5DC0"
+  },
+  {
+    "File": "assets/maps/streets-of-tarkov-Third_Floor.png",
+    "Hash": "A342C60519A890CED7BC6ADFA35DC4344D4FFFBF3C3A1246208690C9D2CBC4BA"
+  },
+  {
+    "File": "assets/maps/streets-of-tarkov-Underground_Level.png",
+    "Hash": "F20D9B6B0678B5288E75FB52F4CF3CF4E2DD3C33083F2AF05EA5F39E0C0326D3"
+  },
+  {
+    "File": "assets/maps/terminal-base.png",
+    "Hash": "948E31B2893E44EFF7FE898EEE5C3D54C6625B6EEFF35AD68B57F515F2045105"
+  },
+  {
+    "File": "assets/maps/woods-base.png",
+    "Hash": "2F53A23B0E56DD358B0246F02161D3FF973EC38B6AB8394B8452967A3456D697"
+  },
+  {
+    "File": "assets/sources/Customs.svg",
+    "Hash": "7C4713FF1D97FDCC92A8440B8C77EC68672E0F23577C1C4DE4D7913FD402F7F0"
+  },
+  {
+    "File": "assets/sources/Factory.svg",
+    "Hash": "C8E576CA7974E086B78151F9BFF532B5A99B2FC4A130B080E5BE030236BC07BD"
+  },
+  {
+    "File": "assets/sources/GroundZero.svg",
+    "Hash": "2A7BC873FA9270EC0BEF99476145066CA76D17A05C36753FA93F781F3B970C4A"
+  },
+  {
+    "File": "assets/sources/Interchange.svg",
+    "Hash": "31A44112CD5FE33484CE6BE7B7DC80D13DB6077CBA2583A4425ED94C665F47C4"
+  },
+  {
+    "File": "assets/sources/Labs.svg",
+    "Hash": "099A9EAABC305431D906151E03C45D6F06BB885EC46234735E93CC2AB02A222A"
+  },
+  {
+    "File": "assets/sources/Lighthouse.svg",
+    "Hash": "C1B2603AC306E66900C0DB8B68807554E7C6230C031142A3541FC7C065F8D013"
+  },
+  {
+    "File": "assets/sources/Reserve.svg",
+    "Hash": "FDB20697675ED153CB5F80F62C6FEB3AE4642EFBB779931BB349AE7B8310184E"
+  },
+  {
+    "File": "assets/sources/Shoreline.svg",
+    "Hash": "DABE88B2908659524E5A0ABF598429C52E158624C2EC12DEF42D2374C5D439EE"
+  },
+  {
+    "File": "assets/sources/StreetsOfTarkov.svg",
+    "Hash": "700965797067EC8F044D297806F9306EA4A5F06983665626AFE18890B1480F0A"
+  },
+  {
+    "File": "assets/sources/Terminal.svg",
+    "Hash": "F0D0CC7B615E933E5846C4B4F35E7577AE151396A729B1F02E6C1267212ACD71"
+  },
+  {
+    "File": "assets/sources/Woods.svg",
+    "Hash": "B356DED5E763E81EDC1710D58C2FC7943F6AD6F48CD261C83DD0A192F45F0B9A"
+  },
+  {
+    "File": "assets/vectors/customs-base.svg",
+    "Hash": "3B413E87FE100A8012F6DF8BD6F124FC9FEB0E9DF7B29FCE95AE3F58EF4513E3"
+  },
+  {
+    "File": "assets/vectors/customs-Second_Floor.svg",
+    "Hash": "9A4B6C7BB315F3A711E383473482D0D99CF983957DE3B07993EC9609395E924E"
+  },
+  {
+    "File": "assets/vectors/customs-Third_Floor.svg",
+    "Hash": "77EB3BCD728E6D532BFA9674D9C74A85F3ABB8347FDD2CD6E4DF042542D2DC7B"
+  },
+  {
+    "File": "assets/vectors/customs-Underground_Level.svg",
+    "Hash": "B6969AB012BFB03160234D83EC88D3CE4144C25882BBC4058CF52E1D6487B78F"
+  },
+  {
+    "File": "assets/vectors/factory-base.svg",
+    "Hash": "D503A4E6A6F38290BE5F0F0E28D85376F8382336E125B019DCFE580AE37077AE"
+  },
+  {
+    "File": "assets/vectors/factory-Basement.svg",
+    "Hash": "B6941F05BFE3BA15A1315E643E8A44625B98F124F4165ABA702D5A60B4485992"
+  },
+  {
+    "File": "assets/vectors/factory-Second_Floor.svg",
+    "Hash": "7711F595CD78F65A22DFE333F246B8DBEC7D534903E53A7171F3370CA0C63007"
+  },
+  {
+    "File": "assets/vectors/factory-Third_Floor.svg",
+    "Hash": "E75F9D87B4EB9878D013546F67FD6235BE3E869F5CDCB5AFD64043EA6D6966F0"
+  },
+  {
+    "File": "assets/vectors/ground-zero-base.svg",
+    "Hash": "F94C9C9695FDD3907E6CB0034DEBE2D596DBA11CB196F05938FFE53C127A81D9"
+  },
+  {
+    "File": "assets/vectors/ground-zero-Second_Floor.svg",
+    "Hash": "00F5F2E8F5BEA992E5E7DBE104F896CD99C3F02C2906A56EC753D9652A4EBDEC"
+  },
+  {
+    "File": "assets/vectors/ground-zero-Third_Floor.svg",
+    "Hash": "B1EA29ED6E88360B4B304F236F834AADFC81DE600805B50D31965E74AD09C18B"
+  },
+  {
+    "File": "assets/vectors/ground-zero-Underground_Level.svg",
+    "Hash": "4A9FFDA68D6FBE020692484627C1E6C6401F31DBF6D8DB4B00924002BC56265C"
+  },
+  {
+    "File": "assets/vectors/interchange-base.svg",
+    "Hash": "34BCC3D08429EB824B6C2828B6393CFD7BEFF7FD42B08BB431CB392FC8ADF7FB"
+  },
+  {
+    "File": "assets/vectors/interchange-First_Floor.svg",
+    "Hash": "D4E3D967434E7126444C09F25B7E3E9111388F10628CE25429A7994F2C1CA231"
+  },
+  {
+    "File": "assets/vectors/interchange-Second_Floor.svg",
+    "Hash": "BA818DF4006C23F36B533202C3A089033D628AC384AE1A8FA5604A9736149953"
+  },
+  {
+    "File": "assets/vectors/lighthouse-base.svg",
+    "Hash": "10A0FBFC9DED1A94159950606E3436498EA27EB785F0F8BC9F0BBB5D4BE1E23A"
+  },
+  {
+    "File": "assets/vectors/reserve-base.svg",
+    "Hash": "C6C7C15B622AA729AC122C413025AC2C59A84A75A2DEBCCD4B8B385DDC732513"
+  },
+  {
+    "File": "assets/vectors/reserve-Bunkers.svg",
+    "Hash": "A8A7D496F1EFDA50331EF267486BC6EEC2E445C4774DD4B49867FD635D2FDC19"
+  },
+  {
+    "File": "assets/vectors/shoreline-base.svg",
+    "Hash": "AABBEED9EF91F86212FCF34A8AFBDEE1D5A5669B3B72B986123C871D070D991C"
+  },
+  {
+    "File": "assets/vectors/shoreline-Second_Floor.svg",
+    "Hash": "58B1EF23CB183CF30D285A39E823D397885D6CCEDCCF7D91B1A35227B22D8F87"
+  },
+  {
+    "File": "assets/vectors/shoreline-Third_Floor.svg",
+    "Hash": "711B0FF48C0276F24F3590BA382D1B0449216B48BF2AB528C5A54B7386E94FC9"
+  },
+  {
+    "File": "assets/vectors/shoreline-Underground_Level.svg",
+    "Hash": "2CEE4090ADF9D3E50BA820C6ABE317AABDFD819FEDA21E8388964A54901711F6"
+  },
+  {
+    "File": "assets/vectors/streets-of-tarkov-base.svg",
+    "Hash": "EB7BF52B6D83FD374630133E40C6E0D12D003AFB270F6585F11D9236FEDA042F"
+  },
+  {
+    "File": "assets/vectors/streets-of-tarkov-Fifth_Floor.svg",
+    "Hash": "1A24363399364DA8A9B6AEF50274CBB725E4869D703149952CF4A50A57E3CDFB"
+  },
+  {
+    "File": "assets/vectors/streets-of-tarkov-Fourth_Floor.svg",
+    "Hash": "552F4D773D04F81954080F883D0657A667FE4932249624A1C94E692870979748"
+  },
+  {
+    "File": "assets/vectors/streets-of-tarkov-Second_Floor.svg",
+    "Hash": "1DDF2DB92175AA68FAA8BB44BBA96B5AFEFB9EB7B0CB1B2B8DAAF92660C98A53"
+  },
+  {
+    "File": "assets/vectors/streets-of-tarkov-Third_Floor.svg",
+    "Hash": "39D692DCAC18A86F9DF2AE6A63FAAFDE94F12CFC6F424BD949B7A1FA5F416409"
+  },
+  {
+    "File": "assets/vectors/streets-of-tarkov-Underground_Level.svg",
+    "Hash": "ACE843D32B28E0B338218DFB43C5AC9FFA7A6365046DF92405C584F88C2FFCB6"
+  },
+  {
+    "File": "assets/vectors/terminal-base.svg",
+    "Hash": "481B2CDF0975306120BA05F0569F9B14ACB6D7401ADE8D84DFA3E97BE5CC119B"
+  },
+  {
+    "File": "assets/vectors/woods-base.svg",
+    "Hash": "84F20BD4EB35CA9DD52552DD0C83619FE3CAC32EEA914CC52614A77B12181357"
+  }
+]

@@ -1,0 +1,212 @@
+{
+  "tarkovDevRevision": "ec44177bd3c21aa2b33938153acd0a96dbd939aa",
+  "svgMapsRevision": "5a8b6115d1c0cf56f2ebaac1a96fa5ae3074d178",
+  "monitorRevision": "3cf361efc49fecf6bffce3cae567f55a303757cd",
+  "mapKey": "customs",
+  "bounds": [
+    [
+      698,
+      -307
+    ],
+    [
+      -372,
+      237
+    ]
+  ],
+  "coordinateRotation": 180,
+  "transform": [
+    0.239,
+    168.65,
+    0.239,
+    136.35
+  ],
+  "author": "Shebuka",
+  "authorLink": "https://github.com/the-hideout/tarkov-dev-svg-maps/",
+  "svgPath": "https://assets.tarkov.dev/maps/svg/Customs.svg",
+  "pngWidth": 3210,
+  "pngHeight": 1632,
+  "projection": "SVGOverlay; normalized bounds after CRS rotation; xMidYMid meet",
+  "labels": [
+    {
+      "position": [
+        -215,
+        -119
+      ],
+      "text": "Big Red"
+    },
+    {
+      "position": [
+        200,
+        150
+      ],
+      "text": "Dorms"
+    },
+    {
+      "position": [
+        404,
+        31
+      ],
+      "text": "New Gas"
+    },
+    {
+      "position": [
+        331,
+        -173
+      ],
+      "text": "Old Gas"
+    },
+    {
+      "position": [
+        201,
+        -127
+      ],
+      "text": "Fortress"
+    },
+    {
+      "position": [
+        83,
+        -153
+      ],
+      "text": "Crackhouse"
+    },
+    {
+      "position": [
+        567,
+        -67
+      ],
+      "text": "Streamer House",
+      "size": 90
+    },
+    {
+      "position": [
+        -69,
+        9
+      ],
+      "text": "Main Bridge",
+      "rotation": "6",
+      "size": 90
+    },
+    {
+      "position": [
+        110,
+        85
+      ],
+      "text": "Sniper Hill",
+      "size": 90
+    },
+    {
+      "position": [
+        -288,
+        -134
+      ],
+      "text": "Storage",
+      "size": 90
+    },
+    {
+      "position": [
+        -211,
+        -219
+      ],
+      "text": "Trailer Park",
+      "size": 90
+    },
+    {
+      "position": [
+        -66,
+        46
+      ],
+      "text": "Junk Bridge",
+      "size": 90
+    },
+    {
+      "position": [
+        106,
+        -90
+      ],
+      "text": "Repair Shop",
+      "size": 90
+    },
+    {
+      "position": [
+        491,
+        63
+      ],
+      "text": "Sniper Ridge",
+      "rotation": "5"
+    },
+    {
+      "position": [
+        75,
+        -9
+      ],
+      "text": "Old Construction",
+      "size": 90
+    },
+    {
+      "position": [
+        200,
+        -13
+      ],
+      "text": "Skeleton",
+      "rotation": "-9"
+    },
+    {
+      "position": [
+        390,
+        -94
+      ],
+      "text": "Warehouse 3"
+    },
+    {
+      "position": [
+        472,
+        -67
+      ],
+      "text": "Depot"
+    },
+    {
+      "position": [
+        555,
+        -118
+      ],
+      "text": "Warehouse 7"
+    },
+    {
+      "position": [
+        572,
+        0
+      ],
+      "text": "Military Checkpoint"
+    },
+    {
+      "position": [
+        238,
+        53
+      ],
+      "text": "Bus Station",
+      "size": 90
+    },
+    {
+      "position": [
+        333,
+        -67
+      ],
+      "text": "Warehouse 4"
+    },
+    {
+      "position": [
+        497,
+        110
+      ],
+      "text": "Powerline Tower"
+    },
+    {
+      "position": [
+        46,
+        -59
+      ],
+      "text": "Warehouse 17",
+      "size": 90
+    }
+  ]
+}

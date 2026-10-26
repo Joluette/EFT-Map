@@ -1,0 +1,2950 @@
+[
+  {
+    "Id": "customs",
+    "Name": "Customs",
+    "Author": "Shebuka",
+    "AuthorLink": "https://github.com/the-hideout/tarkov-dev-svg-maps/",
+    "License": "CC BY-NC-SA 4.0",
+    "Rotation": 180,
+    "Bounds": [
+      [
+        698,
+        -307
+      ],
+      [
+        -372,
+        237
+      ]
+    ],
+    "Layers": [
+      {
+        "Id": "base",
+        "Name": "Poziom bazowy",
+        "Image": "maps/customs-base.png",
+        "Width": 3210,
+        "Height": 1632,
+        "Affine": [
+          -3.0,
+          -3.6739403974420594e-16,
+          -3.6739403974420584e-16,
+          2.999999999999999,
+          2094.0000000000005,
+          921.0000000000001
+        ],
+        "Remote": false,
+        "TileTemplate": "",
+        "TileSize": 256,
+        "MaxTileZoom": 6,
+        "VectorImage": "vectors/customs-base.svg"
+      },
+      {
+        "Id": "Second_Floor",
+        "Name": "2nd Floor",
+        "Image": "maps/customs-Second_Floor.png",
+        "Width": 3210,
+        "Height": 1632,
+        "Affine": [
+          -3.0,
+          -3.6739403974420594e-16,
+          -3.6739403974420584e-16,
+          2.999999999999999,
+          2094.0000000000005,
+          921.0000000000001
+        ],
+        "Remote": false,
+        "TileTemplate": "",
+        "TileSize": 256,
+        "MaxTileZoom": 6,
+        "VectorImage": "vectors/customs-Second_Floor.svg"
+      },
+      {
+        "Id": "Third_Floor",
+        "Name": "3rd Floor",
+        "Image": "maps/customs-Third_Floor.png",
+        "Width": 3210,
+        "Height": 1632,
+        "Affine": [
+          -3.0,
+          -3.6739403974420594e-16,
+          -3.6739403974420584e-16,
+          2.999999999999999,
+          2094.0000000000005,
+          921.0000000000001
+        ],
+        "Remote": false,
+        "TileTemplate": "",
+        "TileSize": 256,
+        "MaxTileZoom": 6,
+        "VectorImage": "vectors/customs-Third_Floor.svg"
+      },
+      {
+        "Id": "Underground_Level",
+        "Name": "Underground",
+        "Image": "maps/customs-Underground_Level.png",
+        "Width": 3210,
+        "Height": 1632,
+        "Affine": [
+          -3.0,
+          -3.6739403974420594e-16,
+          -3.6739403974420584e-16,
+          2.999999999999999,
+          2094.0000000000005,
+          921.0000000000001
+        ],
+        "Remote": false,
+        "TileTemplate": "",
+        "TileSize": 256,
+        "MaxTileZoom": 6,
+        "VectorImage": "vectors/customs-Underground_Level.svg"
+      },
+      {
+        "Id": "tile-2",
+        "Name": "4th Floor",
+        "Image": "maps/customs-tile-2.png",
+        "Width": 2047,
+        "Height": 1041,
+        "Affine": [
+          -1.912,
+          -2.341524679969739e-16,
+          -2.341524679969739e-16,
+          1.912,
+          1335.2,
+          587.8
+        ],
+        "Remote": true,
+        "TileTemplate": "https://assets.tarkov.dev/maps/customs_0.16/4th/{z}/{x}/{y}.png",
+        "TileSize": 256,
+        "MaxTileZoom": 6,
+        "TileZoom": 3,
+        "TileLeft": 14,
+        "TileTop": 503
+      }
+    ],
+    "Labels": [
+      {
+        "Text": "Big Red",
+        "X": -215,
+        "Z": -119
+      },
+      {
+        "Text": "Dorms",
+        "X": 200,
+        "Z": 150
+      },
+      {
+        "Text": "New Gas",
+        "X": 404,
+        "Z": 31
+      },
+      {
+        "Text": "Old Gas",
+        "X": 331,
+        "Z": -173
+      },
+      {
+        "Text": "Fortress",
+        "X": 201,
+        "Z": -127
+      },
+      {
+        "Text": "Crackhouse",
+        "X": 83,
+        "Z": -153
+      },
+      {
+        "Text": "Streamer House",
+        "X": 567,
+        "Z": -67
+      },
+      {
+        "Text": "Main Bridge",
+        "X": -69,
+        "Z": 9
+      },
+      {
+        "Text": "Sniper Hill",
+        "X": 110,
+        "Z": 85
+      },
+      {
+        "Text": "Storage",
+        "X": -288,
+        "Z": -134
+      },
+      {
+        "Text": "Trailer Park",
+        "X": -211,
+        "Z": -219
+      },
+      {
+        "Text": "Junk Bridge",
+        "X": -66,
+        "Z": 46
+      },
+      {
+        "Text": "Repair Shop",
+        "X": 106,
+        "Z": -90
+      },
+      {
+        "Text": "Sniper Ridge",
+        "X": 491,
+        "Z": 63
+      },
+      {
+        "Text": "Old Construction",
+        "X": 75,
+        "Z": -9
+      },
+      {
+        "Text": "Skeleton",
+        "X": 200,
+        "Z": -13
+      },
+      {
+        "Text": "Warehouse 3",
+        "X": 390,
+        "Z": -94
+      },
+      {
+        "Text": "Depot",
+        "X": 472,
+        "Z": -67
+      },
+      {
+        "Text": "Warehouse 7",
+        "X": 555,
+        "Z": -118
+      },
+      {
+        "Text": "Military Checkpoint",
+        "X": 572,
+        "Z": 0
+      },
+      {
+        "Text": "Bus Station",
+        "X": 238,
+        "Z": 53
+      },
+      {
+        "Text": "Warehouse 4",
+        "X": 333,
+        "Z": -67
+      },
+      {
+        "Text": "Powerline Tower",
+        "X": 497,
+        "Z": 110
+      },
+      {
+        "Text": "Warehouse 17",
+        "X": 46,
+        "Z": -59
+      }
+    ]
+  },
+  {
+    "Id": "factory",
+    "Name": "Factory",
+    "Author": "Shebuka",
+    "AuthorLink": "https://github.com/the-hideout/tarkov-dev-svg-maps/",
+    "License": "CC BY-NC-SA 4.0",
+    "Rotation": 90,
+    "Bounds": [
+      [
+        77,
+        -64.5
+      ],
+      [
+        -65.5,
+        67.4
+      ]
+    ],
+    "Layers": [
+      {
+        "Id": "base",
+        "Name": "Poziom bazowy",
+        "Image": "maps/factory-base.png",
+        "Width": 2971,
+        "Height": 3210,
+        "Affine": [
+          1.3792364064695928e-15,
+          -22.52463987869598,
+          -22.526315789473685,
+          -1.3793390264080716e-15,
+          1518.160727824109,
+          1734.526315789474
+        ],
+        "Remote": false,
+        "TileTemplate": "",
+        "TileSize": 256,
+        "MaxTileZoom": 6,
+        "VectorImage": "vectors/factory-base.svg"
+      },
+      {
+        "Id": "Second_Floor",
+        "Name": "2nd Floor",
+        "Image": "maps/factory-Second_Floor.png",
+        "Width": 2971,
+        "Height": 3210,
+        "Affine": [
+          1.3792364064695928e-15,
+          -22.52463987869598,
+          -22.526315789473685,
+          -1.3793390264080716e-15,
+          1518.160727824109,
+          1734.526315789474
+        ],
+        "Remote": false,
+        "TileTemplate": "",
+        "TileSize": 256,
+        "MaxTileZoom": 6,
+        "VectorImage": "vectors/factory-Second_Floor.svg"
+      },
+      {
+        "Id": "Third_Floor",
+        "Name": "3rd Floor",
+        "Image": "maps/factory-Third_Floor.png",
+        "Width": 2971,
+        "Height": 3210,
+        "Affine": [
+          1.3792364064695928e-15,
+          -22.52463987869598,
+          -22.526315789473685,
+          -1.3793390264080716e-15,
+          1518.160727824109,
+          1734.526315789474
+        ],
+        "Remote": false,
+        "TileTemplate": "",
+        "TileSize": 256,
+        "MaxTileZoom": 6,
+        "VectorImage": "vectors/factory-Third_Floor.svg"
+      },
+      {
+        "Id": "Basement",
+        "Name": "Tunnels",
+        "Image": "maps/factory-Basement.png",
+        "Width": 2971,
+        "Height": 3210,
+        "Affine": [
+          1.3792364064695928e-15,
+          -22.52463987869598,
+          -22.526315789473685,
+          -1.3793390264080716e-15,
+          1518.160727824109,
+          1734.526315789474
+        ],
+        "Remote": false,
+        "TileTemplate": "",
+        "TileSize": 256,
+        "MaxTileZoom": 6,
+        "VectorImage": "vectors/factory-Basement.svg"
+      }
+    ],
+    "Labels": [
+      {
+        "Text": "Office Building",
+        "X": 21,
+        "Z": 39
+      },
+      {
+        "Text": "Main Office",
+        "X": 15.5,
+        "Z": 39
+      },
+      {
+        "Text": "Breach Room",
+        "X": 24.5,
+        "Z": 39
+      },
+      {
+        "Text": "Locked Office",
+        "X": 30.5,
+        "Z": 39
+      },
+      {
+        "Text": "North Stairs",
+        "X": 35,
+        "Z": 39
+      },
+      {
+        "Text": "South Stairs",
+        "X": 9,
+        "Z": 39
+      },
+      {
+        "Text": "Sky Bridge",
+        "X": 34,
+        "Z": 26
+      },
+      {
+        "Text": "Connector",
+        "X": 29.5,
+        "Z": 17
+      },
+      {
+        "Text": "Locker Rooms",
+        "X": 29,
+        "Z": 41
+      },
+      {
+        "Text": "Sinks",
+        "X": 15,
+        "Z": 41
+      },
+      {
+        "Text": "Hole",
+        "X": 20,
+        "Z": 42
+      },
+      {
+        "Text": "Platform",
+        "X": -3,
+        "Z": 37
+      },
+      {
+        "Text": "Servers",
+        "X": -21,
+        "Z": 27
+      },
+      {
+        "Text": "Med Tent",
+        "X": -18,
+        "Z": -29
+      },
+      {
+        "Text": "Silos",
+        "X": 4.5,
+        "Z": 10.5
+      },
+      {
+        "Text": "Heli Crash",
+        "X": 30,
+        "Z": -8.5
+      },
+      {
+        "Text": "Pit",
+        "X": -1,
+        "Z": 16
+      },
+      {
+        "Text": "Underground Stash",
+        "X": -2,
+        "Z": -24.5
+      },
+      {
+        "Text": "Scav Bunker",
+        "X": -20.5,
+        "Z": 23
+      },
+      {
+        "Text": "Blue Containers",
+        "X": -18,
+        "Z": 50
+      },
+      {
+        "Text": "Wood Room",
+        "X": -45.5,
+        "Z": 61
+      },
+      {
+        "Text": "Glass Hall",
+        "X": 68.25,
+        "Z": -20
+      },
+      {
+        "Text": "Boilers",
+        "X": 56,
+        "Z": 5
+      },
+      {
+        "Text": "Pumping Station",
+        "X": 41,
+        "Z": -11
+      },
+      {
+        "Text": "East Halls",
+        "X": 44,
+        "Z": -36
+      },
+      {
+        "Text": "Forklifts",
+        "X": 66,
+        "Z": -42
+      },
+      {
+        "Text": "Rafters",
+        "X": 18,
+        "Z": 4
+      }
+    ]
+  },
+  {
+    "Id": "ground-zero",
+    "Name": "Ground Zero",
+    "Author": "Shebuka",
+    "AuthorLink": "https://github.com/the-hideout/tarkov-dev-svg-maps/",
+    "License": "CC BY-NC-SA 4.0",
+    "Rotation": 180,
+    "Bounds": [
+      [
+        249,
+        -124
+      ],
+      [
+        -99,
+        364
+      ]
+    ],
+    "Layers": [
+      {
+        "Id": "base",
+        "Name": "Poziom bazowy",
+        "Image": "maps/ground-zero-base.png",
+        "Width": 2289,
+        "Height": 3210,
+        "Affine": [
+          -6.577586206896552,
+          -8.055219894391642e-16,
+          -8.055566035375007e-16,
+          6.577868852459016,
+          1637.8189655172416,
+          815.6557377049181
+        ],
+        "Remote": false,
+        "TileTemplate": "",
+        "TileSize": 256,
+        "MaxTileZoom": 6,
+        "VectorImage": "vectors/ground-zero-base.svg"
+      },
+      {
+        "Id": "Second_Floor",
+        "Name": "2nd Floor",
+        "Image": "maps/ground-zero-Second_Floor.png",
+        "Width": 2289,
+        "Height": 3210,
+        "Affine": [
+          -6.577586206896552,
+          -8.055219894391642e-16,
+          -8.055566035375007e-16,
+          6.577868852459016,
+          1637.8189655172416,
+          815.6557377049181
+        ],
+        "Remote": false,
+        "TileTemplate": "",
+        "TileSize": 256,
+        "MaxTileZoom": 6,
+        "VectorImage": "vectors/ground-zero-Second_Floor.svg"
+      },
+      {
+        "Id": "Third_Floor",
+        "Name": "3rd Floor",
+        "Image": "maps/ground-zero-Third_Floor.png",
+        "Width": 2289,
+        "Height": 3210,
+        "Affine": [
+          -6.577586206896552,
+          -8.055219894391642e-16,
+          -8.055566035375007e-16,
+          6.577868852459016,
+          1637.8189655172416,
+          815.6557377049181
+        ],
+        "Remote": false,
+        "TileTemplate": "",
+        "TileSize": 256,
+        "MaxTileZoom": 6,
+        "VectorImage": "vectors/ground-zero-Third_Floor.svg"
+      },
+      {
+        "Id": "Underground_Level",
+        "Name": "Garage",
+        "Image": "maps/ground-zero-Underground_Level.png",
+        "Width": 2289,
+        "Height": 3210,
+        "Affine": [
+          -6.577586206896552,
+          -8.055219894391642e-16,
+          -8.055566035375007e-16,
+          6.577868852459016,
+          1637.8189655172416,
+          815.6557377049181
+        ],
+        "Remote": false,
+        "TileTemplate": "",
+        "TileSize": 256,
+        "MaxTileZoom": 6,
+        "VectorImage": "vectors/ground-zero-Underground_Level.svg"
+      }
+    ],
+    "Labels": [
+      {
+        "Text": "TerraGroup",
+        "X": -50,
+        "Z": 0
+      },
+      {
+        "Text": "Skyside",
+        "X": 150,
+        "Z": 1
+      },
+      {
+        "Text": "Fusion",
+        "X": 141,
+        "Z": 142
+      },
+      {
+        "Text": "Empire",
+        "X": 14,
+        "Z": 201
+      },
+      {
+        "Text": "Capital Insight",
+        "X": 115,
+        "Z": 285
+      },
+      {
+        "Text": "Nakatani",
+        "X": 2,
+        "Z": 324
+      },
+      {
+        "Text": "Elemental Global",
+        "X": 80,
+        "Z": -118
+      },
+      {
+        "Text": "Oasis",
+        "X": 115,
+        "Z": 104
+      },
+      {
+        "Text": "ASAP Winery",
+        "X": 115,
+        "Z": 30
+      },
+      {
+        "Text": "Tarbank",
+        "X": 43,
+        "Z": 150
+      },
+      {
+        "Text": "GAGRIN Hotel",
+        "X": 58,
+        "Z": 234
+      },
+      {
+        "Text": "M Showroom",
+        "X": 97,
+        "Z": 223
+      },
+      {
+        "Text": "Science Office",
+        "X": -13,
+        "Z": 48
+      }
+    ]
+  },
+  {
+    "Id": "icebreaker",
+    "Name": "Icebreaker",
+    "Author": "TarkovBOT.eu",
+    "AuthorLink": "https://tarkovbot.eu/",
+    "License": "Pobrane do osobistego podglądu; prawa autorów",
+    "Rotation": 180,
+    "Bounds": [
+      [
+        77,
+        -64.5
+      ],
+      [
+        -65.5,
+        67.4
+      ]
+    ],
+    "Layers": [
+      {
+        "Id": "base",
+        "Name": "Infirmary",
+        "Image": "maps/icebreaker-base.png",
+        "Width": 1141,
+        "Height": 1848,
+        "Affine": [
+          -8.0,
+          -9.797174393178826e-16,
+          -1.7145055188062944e-15,
+          14.0,
+          617.0,
+          904.0
+        ],
+        "Remote": true,
+        "TileTemplate": "https://assets.tarkov.dev/maps/icebreaker/06_infirmary/{z}/{x}/{y}.png",
+        "TileSize": 256,
+        "MaxTileZoom": 5,
+        "TileZoom": 2,
+        "TileLeft": -117,
+        "TileTop": -540
+      },
+      {
+        "Id": "1",
+        "Name": "Helipad",
+        "Image": "maps/icebreaker-1.png",
+        "Width": 1141,
+        "Height": 1848,
+        "Affine": [
+          -8.0,
+          -9.797174393178826e-16,
+          -1.7145055188062944e-15,
+          14.0,
+          617.0,
+          904.0
+        ],
+        "Remote": true,
+        "TileTemplate": "https://assets.tarkov.dev/maps/icebreaker/07_helipad/{z}/{x}/{y}.png",
+        "TileSize": 256,
+        "MaxTileZoom": 5,
+        "TileZoom": 2,
+        "TileLeft": -117,
+        "TileTop": -540
+      },
+      {
+        "Id": "2",
+        "Name": "Gym/Canteen",
+        "Image": "maps/icebreaker-2.png",
+        "Width": 1141,
+        "Height": 1848,
+        "Affine": [
+          -8.0,
+          -9.797174393178826e-16,
+          -1.7145055188062944e-15,
+          14.0,
+          617.0,
+          904.0
+        ],
+        "Remote": true,
+        "TileTemplate": "https://assets.tarkov.dev/maps/icebreaker/08_gym-canteen/{z}/{x}/{y}.png",
+        "TileSize": 256,
+        "MaxTileZoom": 5,
+        "TileZoom": 2,
+        "TileLeft": -117,
+        "TileTop": -540
+      },
+      {
+        "Id": "3",
+        "Name": "Accommodation (lower)",
+        "Image": "maps/icebreaker-3.png",
+        "Width": 1141,
+        "Height": 1848,
+        "Affine": [
+          -8.0,
+          -9.797174393178826e-16,
+          -1.7145055188062944e-15,
+          14.0,
+          617.0,
+          904.0
+        ],
+        "Remote": true,
+        "TileTemplate": "https://assets.tarkov.dev/maps/icebreaker/09_accommodation_lower/{z}/{x}/{y}.png",
+        "TileSize": 256,
+        "MaxTileZoom": 5,
+        "TileZoom": 2,
+        "TileLeft": -117,
+        "TileTop": -540
+      },
+      {
+        "Id": "4",
+        "Name": "Accommodation (mid)",
+        "Image": "maps/icebreaker-4.png",
+        "Width": 1141,
+        "Height": 1848,
+        "Affine": [
+          -8.0,
+          -9.797174393178826e-16,
+          -1.7145055188062944e-15,
+          14.0,
+          617.0,
+          904.0
+        ],
+        "Remote": true,
+        "TileTemplate": "https://assets.tarkov.dev/maps/icebreaker/10_accommodation_mid/{z}/{x}/{y}.png",
+        "TileSize": 256,
+        "MaxTileZoom": 5,
+        "TileZoom": 2,
+        "TileLeft": -117,
+        "TileTop": -540
+      },
+      {
+        "Id": "5",
+        "Name": "Accommodation (upper)",
+        "Image": "maps/icebreaker-5.png",
+        "Width": 1141,
+        "Height": 1848,
+        "Affine": [
+          -8.0,
+          -9.797174393178826e-16,
+          -1.7145055188062944e-15,
+          14.0,
+          617.0,
+          904.0
+        ],
+        "Remote": true,
+        "TileTemplate": "https://assets.tarkov.dev/maps/icebreaker/11_accommodation_upper/{z}/{x}/{y}.png",
+        "TileSize": 256,
+        "MaxTileZoom": 5,
+        "TileZoom": 2,
+        "TileLeft": -117,
+        "TileTop": -540
+      },
+      {
+        "Id": "6",
+        "Name": "Officers' Deck",
+        "Image": "maps/icebreaker-6.png",
+        "Width": 1141,
+        "Height": 1848,
+        "Affine": [
+          -8.0,
+          -9.797174393178826e-16,
+          -1.7145055188062944e-15,
+          14.0,
+          617.0,
+          904.0
+        ],
+        "Remote": true,
+        "TileTemplate": "https://assets.tarkov.dev/maps/icebreaker/12_officers_deck/{z}/{x}/{y}.png",
+        "TileSize": 256,
+        "MaxTileZoom": 5,
+        "TileZoom": 2,
+        "TileLeft": -117,
+        "TileTop": -540
+      },
+      {
+        "Id": "7",
+        "Name": "Stairs (blocked)",
+        "Image": "maps/icebreaker-7.png",
+        "Width": 1141,
+        "Height": 1848,
+        "Affine": [
+          -8.0,
+          -9.797174393178826e-16,
+          -1.7145055188062944e-15,
+          14.0,
+          617.0,
+          904.0
+        ],
+        "Remote": true,
+        "TileTemplate": "https://assets.tarkov.dev/maps/icebreaker/13_stairs_blocked/{z}/{x}/{y}.png",
+        "TileSize": 256,
+        "MaxTileZoom": 5,
+        "TileZoom": 2,
+        "TileLeft": -117,
+        "TileTop": -540
+      },
+      {
+        "Id": "8",
+        "Name": "Bridge",
+        "Image": "maps/icebreaker-8.png",
+        "Width": 1141,
+        "Height": 1848,
+        "Affine": [
+          -8.0,
+          -9.797174393178826e-16,
+          -1.7145055188062944e-15,
+          14.0,
+          617.0,
+          904.0
+        ],
+        "Remote": true,
+        "TileTemplate": "https://assets.tarkov.dev/maps/icebreaker/14_bridge/{z}/{x}/{y}.png",
+        "TileSize": 256,
+        "MaxTileZoom": 5,
+        "TileZoom": 2,
+        "TileLeft": -117,
+        "TileTop": -540
+      },
+      {
+        "Id": "9",
+        "Name": "Bridge Roof",
+        "Image": "maps/icebreaker-9.png",
+        "Width": 1141,
+        "Height": 1848,
+        "Affine": [
+          -8.0,
+          -9.797174393178826e-16,
+          -1.7145055188062944e-15,
+          14.0,
+          617.0,
+          904.0
+        ],
+        "Remote": true,
+        "TileTemplate": "https://assets.tarkov.dev/maps/icebreaker/15_bridge_roof/{z}/{x}/{y}.png",
+        "TileSize": 256,
+        "MaxTileZoom": 5,
+        "TileZoom": 2,
+        "TileLeft": -117,
+        "TileTop": -540
+      },
+      {
+        "Id": "10",
+        "Name": "Control Room",
+        "Image": "maps/icebreaker-10.png",
+        "Width": 1141,
+        "Height": 1848,
+        "Affine": [
+          -8.0,
+          -9.797174393178826e-16,
+          -1.7145055188062944e-15,
+          14.0,
+          617.0,
+          904.0
+        ],
+        "Remote": true,
+        "TileTemplate": "https://assets.tarkov.dev/maps/icebreaker/00_control_room/{z}/{x}/{y}.png",
+        "TileSize": 256,
+        "MaxTileZoom": 5,
+        "TileZoom": 2,
+        "TileLeft": -117,
+        "TileTop": -540
+      },
+      {
+        "Id": "11",
+        "Name": "Engine Room",
+        "Image": "maps/icebreaker-11.png",
+        "Width": 1141,
+        "Height": 1848,
+        "Affine": [
+          -8.0,
+          -9.797174393178826e-16,
+          -1.7145055188062944e-15,
+          14.0,
+          617.0,
+          904.0
+        ],
+        "Remote": true,
+        "TileTemplate": "https://assets.tarkov.dev/maps/icebreaker/01_engine_room/{z}/{x}/{y}.png",
+        "TileSize": 256,
+        "MaxTileZoom": 5,
+        "TileZoom": 2,
+        "TileLeft": -117,
+        "TileTop": -540
+      },
+      {
+        "Id": "12",
+        "Name": "Engine Room (upper)",
+        "Image": "maps/icebreaker-12.png",
+        "Width": 1141,
+        "Height": 1848,
+        "Affine": [
+          -8.0,
+          -9.797174393178826e-16,
+          -1.7145055188062944e-15,
+          14.0,
+          617.0,
+          904.0
+        ],
+        "Remote": true,
+        "TileTemplate": "https://assets.tarkov.dev/maps/icebreaker/02_engine_room_upper/{z}/{x}/{y}.png",
+        "TileSize": 256,
+        "MaxTileZoom": 5,
+        "TileZoom": 2,
+        "TileLeft": -117,
+        "TileTop": -540
+      },
+      {
+        "Id": "13",
+        "Name": "Fuel Pumps (lower)",
+        "Image": "maps/icebreaker-13.png",
+        "Width": 1141,
+        "Height": 1848,
+        "Affine": [
+          -8.0,
+          -9.797174393178826e-16,
+          -1.7145055188062944e-15,
+          14.0,
+          617.0,
+          904.0
+        ],
+        "Remote": true,
+        "TileTemplate": "https://assets.tarkov.dev/maps/icebreaker/03_fuel_pumps_lower/{z}/{x}/{y}.png",
+        "TileSize": 256,
+        "MaxTileZoom": 5,
+        "TileZoom": 2,
+        "TileLeft": -117,
+        "TileTop": -540
+      },
+      {
+        "Id": "14",
+        "Name": "Fuel Pumps",
+        "Image": "maps/icebreaker-14.png",
+        "Width": 1141,
+        "Height": 1848,
+        "Affine": [
+          -8.0,
+          -9.797174393178826e-16,
+          -1.7145055188062944e-15,
+          14.0,
+          617.0,
+          904.0
+        ],
+        "Remote": true,
+        "TileTemplate": "https://assets.tarkov.dev/maps/icebreaker/04_fuel_pumps/{z}/{x}/{y}.png",
+        "TileSize": 256,
+        "MaxTileZoom": 5,
+        "TileZoom": 2,
+        "TileLeft": -117,
+        "TileTop": -540
+      },
+      {
+        "Id": "15",
+        "Name": "Storage/Security",
+        "Image": "maps/icebreaker-15.png",
+        "Width": 1141,
+        "Height": 1848,
+        "Affine": [
+          -8.0,
+          -9.797174393178826e-16,
+          -1.7145055188062944e-15,
+          14.0,
+          617.0,
+          904.0
+        ],
+        "Remote": true,
+        "TileTemplate": "https://assets.tarkov.dev/maps/icebreaker/05_storage_ecurity/{z}/{x}/{y}.png",
+        "TileSize": 256,
+        "MaxTileZoom": 5,
+        "TileZoom": 2,
+        "TileLeft": -117,
+        "TileTop": -540
+      }
+    ],
+    "Labels": []
+  },
+  {
+    "Id": "interchange",
+    "Name": "Interchange",
+    "Author": "Shebuka",
+    "AuthorLink": "https://github.com/the-hideout/tarkov-dev-svg-maps/",
+    "License": "CC BY-NC-SA 4.0",
+    "Rotation": 180,
+    "Bounds": [
+      [
+        598,
+        -442
+      ],
+      [
+        -433,
+        426
+      ]
+    ],
+    "Layers": [
+      {
+        "Id": "base",
+        "Name": "Poziom bazowy",
+        "Image": "maps/interchange-base.png",
+        "Width": 3210,
+        "Height": 2703,
+        "Affine": [
+          -3.113482056256062,
+          -3.812915834396706e-16,
+          -3.813617854948497e-16,
+          3.1140552995391704,
+          1861.8622696411248,
+          1376.4124423963135
+        ],
+        "Remote": false,
+        "TileTemplate": "",
+        "TileSize": 256,
+        "MaxTileZoom": 6,
+        "VectorImage": "vectors/interchange-base.svg"
+      },
+      {
+        "Id": "First_Floor",
+        "Name": "2nd Floor",
+        "Image": "maps/interchange-First_Floor.png",
+        "Width": 3210,
+        "Height": 2703,
+        "Affine": [
+          -3.113482056256062,
+          -3.812915834396706e-16,
+          -3.813617854948497e-16,
+          3.1140552995391704,
+          1861.8622696411248,
+          1376.4124423963135
+        ],
+        "Remote": false,
+        "TileTemplate": "",
+        "TileSize": 256,
+        "MaxTileZoom": 6,
+        "VectorImage": "vectors/interchange-First_Floor.svg"
+      },
+      {
+        "Id": "Second_Floor",
+        "Name": "3rd Floor",
+        "Image": "maps/interchange-Second_Floor.png",
+        "Width": 3210,
+        "Height": 2703,
+        "Affine": [
+          -3.113482056256062,
+          -3.812915834396706e-16,
+          -3.813617854948497e-16,
+          3.1140552995391704,
+          1861.8622696411248,
+          1376.4124423963135
+        ],
+        "Remote": false,
+        "TileTemplate": "",
+        "TileSize": 256,
+        "MaxTileZoom": 6,
+        "VectorImage": "vectors/interchange-Second_Floor.svg"
+      }
+    ],
+    "Labels": [
+      {
+        "Text": "Power Station",
+        "X": -186.4,
+        "Z": -318.7
+      },
+      {
+        "Text": "Go Kart",
+        "X": 155,
+        "Z": -253
+      },
+      {
+        "Text": "Four Camp",
+        "X": 158,
+        "Z": -78.5
+      },
+      {
+        "Text": "Cargo Containers",
+        "X": 68.2,
+        "Z": 312.9
+      },
+      {
+        "Text": "Wall Break",
+        "X": -260.2,
+        "Z": 123.8
+      },
+      {
+        "Text": "Ramps",
+        "X": -175.5,
+        "Z": 145.1
+      },
+      {
+        "Text": "Oli Tower",
+        "X": 202.3,
+        "Z": 219.4
+      },
+      {
+        "Text": "Idea Tower",
+        "X": 46.5,
+        "Z": -358.5
+      },
+      {
+        "Text": "Scav Camp",
+        "X": 263.2,
+        "Z": -11.1
+      },
+      {
+        "Text": "Highway Construction",
+        "X": 373.5,
+        "Z": -391.2
+      },
+      {
+        "Text": "Garage A",
+        "X": 33,
+        "Z": -222
+      },
+      {
+        "Text": "Garage B",
+        "X": 47,
+        "Z": -112
+      },
+      {
+        "Text": "Garage C",
+        "X": 0,
+        "Z": 47
+      },
+      {
+        "Text": "Garage D",
+        "X": 20,
+        "Z": 138
+      },
+      {
+        "Text": "IDEA",
+        "X": -34,
+        "Z": -235
+      },
+      {
+        "Text": "Goshan",
+        "X": -115,
+        "Z": -45
+      },
+      {
+        "Text": "OLI",
+        "X": -28,
+        "Z": 140
+      },
+      {
+        "Text": "Nortex",
+        "X": 87,
+        "Z": -165
+      },
+      {
+        "Text": "TRend",
+        "X": 60,
+        "Z": -152
+      },
+      {
+        "Text": "Mode7",
+        "X": 69.5,
+        "Z": -134
+      },
+      {
+        "Text": "TTS",
+        "X": 19,
+        "Z": -129
+      },
+      {
+        "Text": "Book Store",
+        "X": -38,
+        "Z": -129
+      },
+      {
+        "Text": "Dino Clothes",
+        "X": 91,
+        "Z": -119
+      },
+      {
+        "Text": "EMERCOM",
+        "X": 18,
+        "Z": -103
+      },
+      {
+        "Text": "Kostin",
+        "X": -28,
+        "Z": -103
+      },
+      {
+        "Text": "Bizarro",
+        "X": -65,
+        "Z": -103
+      },
+      {
+        "Text": "Spiel",
+        "X": 92,
+        "Z": -87
+      },
+      {
+        "Text": "Voyage",
+        "X": -18,
+        "Z": -87
+      },
+      {
+        "Text": "Viking",
+        "X": 57,
+        "Z": -66
+      },
+      {
+        "Text": "Mantis",
+        "X": 13,
+        "Z": -66
+      },
+      {
+        "Text": "German",
+        "X": -18,
+        "Z": -72
+      },
+      {
+        "Text": "The National",
+        "X": 57,
+        "Z": -32
+      },
+      {
+        "Text": "Brutal",
+        "X": 13,
+        "Z": -32
+      },
+      {
+        "Text": "Kiba",
+        "X": -18,
+        "Z": -25
+      },
+      {
+        "Text": "Pretty Lights",
+        "X": -34,
+        "Z": -20
+      },
+      {
+        "Text": "Telespot",
+        "X": 92,
+        "Z": -18
+      },
+      {
+        "Text": "Revis",
+        "X": 62,
+        "Z": -12
+      },
+      {
+        "Text": "ADIK",
+        "X": 19,
+        "Z": -6
+      },
+      {
+        "Text": "Generic",
+        "X": -28,
+        "Z": 0.5
+      },
+      {
+        "Text": "Top Brand",
+        "X": 92,
+        "Z": 15
+      },
+      {
+        "Text": "Sports",
+        "X": 61,
+        "Z": 15
+      },
+      {
+        "Text": "Yushka",
+        "X": 70,
+        "Z": 32
+      },
+      {
+        "Text": "Rasmussen",
+        "X": 19.5,
+        "Z": 26
+      },
+      {
+        "Text": "Avokado",
+        "X": -37,
+        "Z": 26
+      },
+      {
+        "Text": "Boots 4 Life",
+        "X": 91,
+        "Z": 55
+      },
+      {
+        "Text": "Texho",
+        "X": 61,
+        "Z": 50
+      },
+      {
+        "Text": "Dom",
+        "X": 6,
+        "Z": 49
+      },
+      {
+        "Text": "Father & Sons",
+        "X": 38,
+        "Z": -170
+      },
+      {
+        "Text": "Tarkovstar",
+        "X": 69,
+        "Z": -150
+      },
+      {
+        "Text": "Eastland",
+        "X": 26,
+        "Z": -149
+      },
+      {
+        "Text": "Arena",
+        "X": 71,
+        "Z": -130
+      },
+      {
+        "Text": "ТАРЗДРАВ",
+        "X": 54,
+        "Z": -128
+      },
+      {
+        "Text": "МЕБЕЛЬ МК",
+        "X": 20,
+        "Z": -128
+      },
+      {
+        "Text": "Intourist",
+        "X": 69,
+        "Z": -116
+      },
+      {
+        "Text": "Burger Spot",
+        "X": -27,
+        "Z": -103
+      },
+      {
+        "Text": "FCK",
+        "X": 70,
+        "Z": -94
+      },
+      {
+        "Text": "McDaniels",
+        "X": 70,
+        "Z": -87
+      },
+      {
+        "Text": "Tarducks",
+        "X": 64,
+        "Z": -69
+      },
+      {
+        "Text": "Coffee Joy",
+        "X": 43,
+        "Z": -69
+      },
+      {
+        "Text": "Jacob & Jacob",
+        "X": 15,
+        "Z": -74
+      },
+      {
+        "Text": "ПУШКИН",
+        "X": -34,
+        "Z": -79
+      },
+      {
+        "Text": "Sushi Huyushi",
+        "X": 64,
+        "Z": -34
+      },
+      {
+        "Text": "Underway",
+        "X": -17,
+        "Z": -32
+      },
+      {
+        "Text": "Burger House",
+        "X": 67,
+        "Z": -23.5
+      },
+      {
+        "Text": "Philly Cute",
+        "X": -34,
+        "Z": -24
+      },
+      {
+        "Text": "Shiccos",
+        "X": 67,
+        "Z": -16
+      },
+      {
+        "Text": "МУЗЕЙ ИСТОРИИ",
+        "X": 17,
+        "Z": 0
+      },
+      {
+        "Text": "Papillon",
+        "X": 92,
+        "Z": 17
+      },
+      {
+        "Text": "ЗАКРЫТО НА РЕМОНТ",
+        "X": 58,
+        "Z": 13
+      },
+      {
+        "Text": "НА-СВЯЗИ",
+        "X": 70,
+        "Z": 27
+      },
+      {
+        "Text": "СКОРО ОТКРЫТИЕ",
+        "X": 54,
+        "Z": 24
+      },
+      {
+        "Text": "Figaro",
+        "X": 19,
+        "Z": 26
+      },
+      {
+        "Text": "АПТЕКА",
+        "X": 71,
+        "Z": 47
+      },
+      {
+        "Text": "SARA",
+        "X": 53,
+        "Z": 47
+      },
+      {
+        "Text": "Urban Clothes",
+        "X": 26,
+        "Z": 46
+      },
+      {
+        "Text": "TECHLIGHT",
+        "X": 91,
+        "Z": 54
+      },
+      {
+        "Text": "Fashion Store",
+        "X": 39,
+        "Z": 67
+      }
+    ]
+  },
+  {
+    "Id": "lighthouse",
+    "Name": "Lighthouse",
+    "Author": "Shebuka",
+    "AuthorLink": "https://github.com/the-hideout/tarkov-dev-svg-maps/",
+    "License": "CC BY-NC-SA 4.0",
+    "Rotation": 180,
+    "Bounds": [
+      [
+        515,
+        -998
+      ],
+      [
+        -545,
+        725
+      ]
+    ],
+    "Layers": [
+      {
+        "Id": "base",
+        "Name": "Poziom bazowy",
+        "Image": "maps/lighthouse-base.png",
+        "Width": 1975,
+        "Height": 3210,
+        "Affine": [
+          -1.8632075471698109,
+          -2.2817711587887e-16,
+          -2.2815532357881624e-16,
+          1.8630295995356936,
+          959.5518867924528,
+          1859.3035403366223
+        ],
+        "Remote": false,
+        "TileTemplate": "",
+        "TileSize": 256,
+        "MaxTileZoom": 6,
+        "VectorImage": "vectors/lighthouse-base.svg"
+      }
+    ],
+    "Labels": [
+      {
+        "Text": "Train Yard",
+        "X": -30,
+        "Z": -882
+      },
+      {
+        "Text": "Drug Lab",
+        "X": -120,
+        "Z": -841
+      },
+      {
+        "Text": "Water Treatment",
+        "X": -65,
+        "Z": -600
+      },
+      {
+        "Text": "Plant 1",
+        "X": 40,
+        "Z": -618
+      },
+      {
+        "Text": "Plant 2",
+        "X": -97,
+        "Z": -737
+      },
+      {
+        "Text": "Plant 3",
+        "X": -189,
+        "Z": -665
+      },
+      {
+        "Text": "Pipes",
+        "X": -182,
+        "Z": -552
+      },
+      {
+        "Text": "Gunner Nest",
+        "X": 18,
+        "Z": -453
+      },
+      {
+        "Text": "Island",
+        "X": -177,
+        "Z": -356
+      },
+      {
+        "Text": "Cabins",
+        "X": -278,
+        "Z": -323
+      },
+      {
+        "Text": "Cottages",
+        "X": -162,
+        "Z": -225
+      },
+      {
+        "Text": "Convenience",
+        "X": -55,
+        "Z": -288
+      },
+      {
+        "Text": "Red Brick",
+        "X": -75,
+        "Z": -284
+      },
+      {
+        "Text": "Hillside",
+        "X": -151,
+        "Z": -243
+      },
+      {
+        "Text": "Boathouses",
+        "X": 125,
+        "Z": -153
+      },
+      {
+        "Text": "Dead Tree",
+        "X": 62,
+        "Z": -60
+      },
+      {
+        "Text": "Construction",
+        "X": 0,
+        "Z": -188
+      },
+      {
+        "Text": "Pikes Peak Resort",
+        "X": -107,
+        "Z": -53
+      },
+      {
+        "Text": "Grand Chalet",
+        "X": -133,
+        "Z": 100
+      },
+      {
+        "Text": "Tennis Court",
+        "X": -70,
+        "Z": 129
+      },
+      {
+        "Text": "Lightkeeper Island",
+        "X": 382,
+        "Z": 496
+      },
+      {
+        "Text": "Crash Site",
+        "X": -125,
+        "Z": 296
+      }
+    ]
+  },
+  {
+    "Id": "reserve",
+    "Name": "Reserve",
+    "Author": "Shebuka",
+    "AuthorLink": "https://github.com/the-hideout/tarkov-dev-svg-maps/",
+    "License": "CC BY-NC-SA 4.0",
+    "Rotation": 180,
+    "Bounds": [
+      [
+        289,
+        -274
+      ],
+      [
+        -303,
+        272
+      ]
+    ],
+    "Layers": [
+      {
+        "Id": "base",
+        "Name": "Poziom bazowy",
+        "Image": "maps/reserve-base.png",
+        "Width": 3210,
+        "Height": 2961,
+        "Affine": [
+          -5.4222972972972965,
+          -6.640399029160479e-16,
+          -6.641353795376029e-16,
+          5.423076923076922,
+          1567.043918918919,
+          1485.923076923077
+        ],
+        "Remote": false,
+        "TileTemplate": "",
+        "TileSize": 256,
+        "MaxTileZoom": 6,
+        "VectorImage": "vectors/reserve-base.svg"
+      },
+      {
+        "Id": "Bunkers",
+        "Name": "Bunkers",
+        "Image": "maps/reserve-Bunkers.png",
+        "Width": 3210,
+        "Height": 2961,
+        "Affine": [
+          -5.4222972972972965,
+          -6.640399029160479e-16,
+          -6.641353795376029e-16,
+          5.423076923076922,
+          1567.043918918919,
+          1485.923076923077
+        ],
+        "Remote": false,
+        "TileTemplate": "",
+        "TileSize": 256,
+        "MaxTileZoom": 6,
+        "VectorImage": "vectors/reserve-Bunkers.svg"
+      },
+      {
+        "Id": "tile-0",
+        "Name": "2nd Floor",
+        "Image": "maps/reserve-tile-0.png",
+        "Width": 1872,
+        "Height": 1698,
+        "Affine": [
+          -3.16,
+          -3.8698838853056364e-16,
+          -3.8698838853056364e-16,
+          3.16,
+          914.0,
+          926.2
+        ],
+        "Remote": true,
+        "TileTemplate": "https://assets.tarkov.dev/maps/reserve/2nd/{z}/{x}/{y}.png",
+        "TileSize": 256,
+        "MaxTileZoom": 6,
+        "TileZoom": 3,
+        "TileLeft": 62,
+        "TileTop": 175
+      },
+      {
+        "Id": "tile-1",
+        "Name": "3rd Floor",
+        "Image": "maps/reserve-tile-1.png",
+        "Width": 1872,
+        "Height": 1698,
+        "Affine": [
+          -3.16,
+          -3.8698838853056364e-16,
+          -3.8698838853056364e-16,
+          3.16,
+          914.0,
+          926.2
+        ],
+        "Remote": true,
+        "TileTemplate": "https://assets.tarkov.dev/maps/reserve/3rd/{z}/{x}/{y}.png",
+        "TileSize": 256,
+        "MaxTileZoom": 6,
+        "TileZoom": 3,
+        "TileLeft": 62,
+        "TileTop": 175
+      },
+      {
+        "Id": "tile-2",
+        "Name": "4th Floor",
+        "Image": "maps/reserve-tile-2.png",
+        "Width": 1872,
+        "Height": 1698,
+        "Affine": [
+          -3.16,
+          -3.8698838853056364e-16,
+          -3.8698838853056364e-16,
+          3.16,
+          914.0,
+          926.2
+        ],
+        "Remote": true,
+        "TileTemplate": "https://assets.tarkov.dev/maps/reserve/4th/{z}/{x}/{y}.png",
+        "TileSize": 256,
+        "MaxTileZoom": 6,
+        "TileZoom": 3,
+        "TileLeft": 62,
+        "TileTop": 175
+      },
+      {
+        "Id": "tile-3",
+        "Name": "5th Floor",
+        "Image": "maps/reserve-tile-3.png",
+        "Width": 1872,
+        "Height": 1698,
+        "Affine": [
+          -3.16,
+          -3.8698838853056364e-16,
+          -3.8698838853056364e-16,
+          3.16,
+          914.0,
+          926.2
+        ],
+        "Remote": true,
+        "TileTemplate": "https://assets.tarkov.dev/maps/reserve/5th/{z}/{x}/{y}.png",
+        "TileSize": 256,
+        "MaxTileZoom": 6,
+        "TileZoom": 3,
+        "TileLeft": 62,
+        "TileTop": 175
+      }
+    ],
+    "Labels": [
+      {
+        "Text": "K Buildings",
+        "X": 28,
+        "Z": -102
+      },
+      {
+        "Text": "White Queen",
+        "X": -25,
+        "Z": 180
+      },
+      {
+        "Text": "White Pawn",
+        "X": -104,
+        "Z": 93
+      },
+      {
+        "Text": "Black Bishop",
+        "X": -140,
+        "Z": -14.5
+      },
+      {
+        "Text": "White Bishop",
+        "X": -67,
+        "Z": -30
+      },
+      {
+        "Text": "White King",
+        "X": -49.5,
+        "Z": 15.5
+      },
+      {
+        "Text": "Black Knight",
+        "X": 14.5,
+        "Z": -10.8
+      },
+      {
+        "Text": "White Knight",
+        "X": 82.2,
+        "Z": -30.2
+      },
+      {
+        "Text": "White Rook",
+        "X": 149,
+        "Z": -124
+      },
+      {
+        "Text": "Train Station",
+        "X": 161,
+        "Z": -149
+      },
+      {
+        "Text": "Black Pawn",
+        "X": -165,
+        "Z": 57
+      },
+      {
+        "Text": "Barracks",
+        "X": 167,
+        "Z": -222
+      },
+      {
+        "Text": "E1 Bunkers",
+        "X": -220,
+        "Z": -13
+      },
+      {
+        "Text": "E2 Bunkers",
+        "X": 173,
+        "Z": -3
+      },
+      {
+        "Text": "д - Warehouse Bunkers",
+        "X": 80,
+        "Z": -167
+      },
+      {
+        "Text": "Garage",
+        "X": 96,
+        "Z": 30
+      },
+      {
+        "Text": "Mechanic",
+        "X": 55.5,
+        "Z": 60.6
+      },
+      {
+        "Text": "Gas Station",
+        "X": 29.7,
+        "Z": 29.5
+      },
+      {
+        "Text": "Shipping Yard",
+        "X": -31,
+        "Z": -150
+      },
+      {
+        "Text": "K1",
+        "X": -1,
+        "Z": -71
+      },
+      {
+        "Text": "K2",
+        "X": 66,
+        "Z": -90
+      },
+      {
+        "Text": "K3",
+        "X": -5.5,
+        "Z": -94
+      },
+      {
+        "Text": "K4",
+        "X": 60,
+        "Z": -112
+      },
+      {
+        "Text": "K5",
+        "X": -10.5,
+        "Z": -115
+      },
+      {
+        "Text": "K6",
+        "X": 54,
+        "Z": -132
+      },
+      {
+        "Text": "Dome",
+        "X": -8.5,
+        "Z": 175
+      },
+      {
+        "Text": "Tarmac",
+        "X": -120,
+        "Z": 37
+      }
+    ]
+  },
+  {
+    "Id": "shoreline",
+    "Name": "Shoreline",
+    "Author": "Shebuka",
+    "AuthorLink": "https://github.com/the-hideout/tarkov-dev-svg-maps/",
+    "License": "CC BY-NC-SA 4.0",
+    "Rotation": 180,
+    "Bounds": [
+      [
+        504,
+        -415
+      ],
+      [
+        -1056,
+        618
+      ]
+    ],
+    "Layers": [
+      {
+        "Id": "base",
+        "Name": "Poziom bazowy",
+        "Image": "maps/shoreline-base.png",
+        "Width": 3210,
+        "Height": 2126,
+        "Affine": [
+          -2.0576923076923075,
+          -2.519946298245515e-16,
+          -2.5204250677514736e-16,
+          2.058083252662149,
+          1037.076923076923,
+          854.1045498547918
+        ],
+        "Remote": false,
+        "TileTemplate": "",
+        "TileSize": 256,
+        "MaxTileZoom": 6,
+        "VectorImage": "vectors/shoreline-base.svg"
+      },
+      {
+        "Id": "Second_Floor",
+        "Name": "2nd Floor",
+        "Image": "maps/shoreline-Second_Floor.png",
+        "Width": 3210,
+        "Height": 2126,
+        "Affine": [
+          -2.0576923076923075,
+          -2.519946298245515e-16,
+          -2.5204250677514736e-16,
+          2.058083252662149,
+          1037.076923076923,
+          854.1045498547918
+        ],
+        "Remote": false,
+        "TileTemplate": "",
+        "TileSize": 256,
+        "MaxTileZoom": 6,
+        "VectorImage": "vectors/shoreline-Second_Floor.svg"
+      },
+      {
+        "Id": "Third_Floor",
+        "Name": "3rd Floor",
+        "Image": "maps/shoreline-Third_Floor.png",
+        "Width": 3210,
+        "Height": 2126,
+        "Affine": [
+          -2.0576923076923075,
+          -2.519946298245515e-16,
+          -2.5204250677514736e-16,
+          2.058083252662149,
+          1037.076923076923,
+          854.1045498547918
+        ],
+        "Remote": false,
+        "TileTemplate": "",
+        "TileSize": 256,
+        "MaxTileZoom": 6,
+        "VectorImage": "vectors/shoreline-Third_Floor.svg"
+      },
+      {
+        "Id": "Underground_Level",
+        "Name": "Underground",
+        "Image": "maps/shoreline-Underground_Level.png",
+        "Width": 3210,
+        "Height": 2126,
+        "Affine": [
+          -2.0576923076923075,
+          -2.519946298245515e-16,
+          -2.5204250677514736e-16,
+          2.058083252662149,
+          1037.076923076923,
+          854.1045498547918
+        ],
+        "Remote": false,
+        "TileTemplate": "",
+        "TileSize": 256,
+        "MaxTileZoom": 6,
+        "VectorImage": "vectors/shoreline-Underground_Level.svg"
+      }
+    ],
+    "Labels": [
+      {
+        "Text": "Resort",
+        "X": -258.2,
+        "Z": -71.2
+      },
+      {
+        "Text": "Power Station",
+        "X": -215.8,
+        "Z": 178.4
+      },
+      {
+        "Text": "Gas Station",
+        "X": -189.3,
+        "Z": 420
+      },
+      {
+        "Text": "Weather Station",
+        "X": -496,
+        "Z": 257
+      },
+      {
+        "Text": "Radio Tower",
+        "X": -708.9,
+        "Z": 93.91
+      },
+      {
+        "Text": "Swamp",
+        "X": 326,
+        "Z": -118.5
+      },
+      {
+        "Text": "Village",
+        "X": 418.4,
+        "Z": 118
+      },
+      {
+        "Text": "Cabins",
+        "X": 288,
+        "Z": 144
+      },
+      {
+        "Text": "Cottages",
+        "X": 128,
+        "Z": 93
+      },
+      {
+        "Text": "Tank Bridge",
+        "X": -355,
+        "Z": 188
+      },
+      {
+        "Text": "Pier",
+        "X": -338.6,
+        "Z": 525
+      },
+      {
+        "Text": "Scav Island",
+        "X": 216,
+        "Z": 424
+      },
+      {
+        "Text": "Bus Stop",
+        "X": -96,
+        "Z": -6
+      },
+      {
+        "Text": "Construction",
+        "X": 52,
+        "Z": 134
+      },
+      {
+        "Text": "Bunker",
+        "X": -153,
+        "Z": -290
+      },
+      {
+        "Text": "Crane",
+        "X": -625,
+        "Z": 484
+      },
+      {
+        "Text": "Scav Farm",
+        "X": -622,
+        "Z": -202
+      },
+      {
+        "Text": "West Wing",
+        "X": -171,
+        "Z": -83
+      },
+      {
+        "Text": "East Wing",
+        "X": -329,
+        "Z": -83
+      },
+      {
+        "Text": "Admin",
+        "X": -252,
+        "Z": -146
+      }
+    ]
+  },
+  {
+    "Id": "streets-of-tarkov",
+    "Name": "Streets of Tarkov",
+    "Author": "Shebuka",
+    "AuthorLink": "https://github.com/the-hideout/tarkov-dev-svg-maps/",
+    "License": "CC BY-NC-SA 4.0",
+    "Rotation": 180,
+    "Bounds": [
+      [
+        323,
+        -295
+      ],
+      [
+        -280,
+        532
+      ]
+    ],
+    "Layers": [
+      {
+        "Id": "base",
+        "Name": "Poziom bazowy",
+        "Image": "maps/streets-of-tarkov-base.png",
+        "Width": 2341,
+        "Height": 3210,
+        "Affine": [
+          -3.8822553897180754,
+          -4.754391636490802e-16,
+          -4.753465810475216e-16,
+          3.8814993954050787,
+          1253.9684908789386,
+          1145.0423216444985
+        ],
+        "Remote": false,
+        "TileTemplate": "",
+        "TileSize": 256,
+        "MaxTileZoom": 5,
+        "VectorImage": "vectors/streets-of-tarkov-base.svg"
+      },
+      {
+        "Id": "Second_Floor",
+        "Name": "2nd Floor",
+        "Image": "maps/streets-of-tarkov-Second_Floor.png",
+        "Width": 2341,
+        "Height": 3210,
+        "Affine": [
+          -3.8822553897180754,
+          -4.754391636490802e-16,
+          -4.753465810475216e-16,
+          3.8814993954050787,
+          1253.9684908789386,
+          1145.0423216444985
+        ],
+        "Remote": false,
+        "TileTemplate": "",
+        "TileSize": 256,
+        "MaxTileZoom": 5,
+        "VectorImage": "vectors/streets-of-tarkov-Second_Floor.svg"
+      },
+      {
+        "Id": "Third_Floor",
+        "Name": "3rd Floor",
+        "Image": "maps/streets-of-tarkov-Third_Floor.png",
+        "Width": 2341,
+        "Height": 3210,
+        "Affine": [
+          -3.8822553897180754,
+          -4.754391636490802e-16,
+          -4.753465810475216e-16,
+          3.8814993954050787,
+          1253.9684908789386,
+          1145.0423216444985
+        ],
+        "Remote": false,
+        "TileTemplate": "",
+        "TileSize": 256,
+        "MaxTileZoom": 5,
+        "VectorImage": "vectors/streets-of-tarkov-Third_Floor.svg"
+      },
+      {
+        "Id": "Fourth_Floor",
+        "Name": "4th Floor",
+        "Image": "maps/streets-of-tarkov-Fourth_Floor.png",
+        "Width": 2341,
+        "Height": 3210,
+        "Affine": [
+          -3.8822553897180754,
+          -4.754391636490802e-16,
+          -4.753465810475216e-16,
+          3.8814993954050787,
+          1253.9684908789386,
+          1145.0423216444985
+        ],
+        "Remote": false,
+        "TileTemplate": "",
+        "TileSize": 256,
+        "MaxTileZoom": 5,
+        "VectorImage": "vectors/streets-of-tarkov-Fourth_Floor.svg"
+      },
+      {
+        "Id": "Fifth_Floor",
+        "Name": "5th Floor",
+        "Image": "maps/streets-of-tarkov-Fifth_Floor.png",
+        "Width": 2341,
+        "Height": 3210,
+        "Affine": [
+          -3.8822553897180754,
+          -4.754391636490802e-16,
+          -4.753465810475216e-16,
+          3.8814993954050787,
+          1253.9684908789386,
+          1145.0423216444985
+        ],
+        "Remote": false,
+        "TileTemplate": "",
+        "TileSize": 256,
+        "MaxTileZoom": 5,
+        "VectorImage": "vectors/streets-of-tarkov-Fifth_Floor.svg"
+      },
+      {
+        "Id": "Underground_Level",
+        "Name": "Underground",
+        "Image": "maps/streets-of-tarkov-Underground_Level.png",
+        "Width": 2341,
+        "Height": 3210,
+        "Affine": [
+          -3.8822553897180754,
+          -4.754391636490802e-16,
+          -4.753465810475216e-16,
+          3.8814993954050787,
+          1253.9684908789386,
+          1145.0423216444985
+        ],
+        "Remote": false,
+        "TileTemplate": "",
+        "TileSize": 256,
+        "MaxTileZoom": 5,
+        "VectorImage": "vectors/streets-of-tarkov-Underground_Level.svg"
+      }
+    ],
+    "Labels": [
+      {
+        "Text": "Primorsky Ave.",
+        "X": 9,
+        "Z": 308
+      },
+      {
+        "Text": "Primorsky Ave.",
+        "X": 9,
+        "Z": 104
+      },
+      {
+        "Text": "Primorsky Ave.",
+        "X": 9,
+        "Z": -80
+      },
+      {
+        "Text": "Kilmov St.",
+        "X": 125,
+        "Z": 10
+      },
+      {
+        "Text": "Kilmov St.",
+        "X": -104,
+        "Z": 28
+      },
+      {
+        "Text": "Nikitskaya St.",
+        "X": -125,
+        "Z": 210
+      },
+      {
+        "Text": "Verhnyaya St.",
+        "X": -112,
+        "Z": 361
+      },
+      {
+        "Text": "Malevecha St.",
+        "X": -200,
+        "Z": 290
+      },
+      {
+        "Text": "Chekannaya St.",
+        "X": 111,
+        "Z": 251
+      },
+      {
+        "Text": "Nizhnyaya St.",
+        "X": -101,
+        "Z": 441
+      },
+      {
+        "Text": "Razvedchikov St.",
+        "X": 174,
+        "Z": 430
+      },
+      {
+        "Text": "Zmejskij Alley",
+        "X": 140,
+        "Z": 150
+      },
+      {
+        "Text": "Kamchatskaya St.",
+        "X": 232,
+        "Z": 100
+      },
+      {
+        "Text": "Kilmov Shopping Mall",
+        "X": -128,
+        "Z": -35
+      },
+      {
+        "Text": "Beluga",
+        "X": -45,
+        "Z": -52
+      },
+      {
+        "Text": "Cardinal Apartments",
+        "X": 99,
+        "Z": -71
+      },
+      {
+        "Text": "Construction",
+        "X": 230,
+        "Z": 295
+      },
+      {
+        "Text": "Lexos",
+        "X": 66,
+        "Z": 305
+      },
+      {
+        "Text": "Sparja Grocery",
+        "X": 140,
+        "Z": 300
+      },
+      {
+        "Text": "Cinema",
+        "X": -175,
+        "Z": 400
+      },
+      {
+        "Text": "Shestyorochka",
+        "X": -218,
+        "Z": 135
+      },
+      {
+        "Text": "Pinewood Hotel",
+        "X": -35,
+        "Z": 64
+      },
+      {
+        "Text": "Teppakot / Koener",
+        "X": 65,
+        "Z": 398
+      },
+      {
+        "Text": "Concordia",
+        "X": 140,
+        "Z": 362
+      },
+      {
+        "Text": "Cardinal Bank",
+        "X": 89,
+        "Z": -20
+      },
+      {
+        "Text": "LERM Expo",
+        "X": 239,
+        "Z": -60
+      },
+      {
+        "Text": "Sparja Express",
+        "X": -64,
+        "Z": 166
+      },
+      {
+        "Text": "Burger Spot",
+        "X": -30,
+        "Z": 138
+      },
+      {
+        "Text": "Post Office",
+        "X": 42,
+        "Z": 97
+      },
+      {
+        "Text": "Pharmacy 1",
+        "X": 42,
+        "Z": 160
+      },
+      {
+        "Text": "Office",
+        "X": -173,
+        "Z": 226
+      },
+      {
+        "Text": "Corner Restaurant",
+        "X": -197,
+        "Z": 340
+      },
+      {
+        "Text": "Pharmacy 2",
+        "X": -43,
+        "Z": 335
+      },
+      {
+        "Text": "Pharmacy 3",
+        "X": 90,
+        "Z": -277
+      },
+      {
+        "Text": "Tarbank",
+        "X": 67,
+        "Z": 230
+      },
+      {
+        "Text": "School",
+        "X": 211,
+        "Z": 129
+      },
+      {
+        "Text": "Vet Clinic",
+        "X": 222,
+        "Z": 173
+      },
+      {
+        "Text": "Hive",
+        "X": -212,
+        "Z": 300
+      },
+      {
+        "Text": "Family Market",
+        "X": -223,
+        "Z": 279
+      },
+      {
+        "Text": "Marked Hotel",
+        "X": -200,
+        "Z": 248
+      },
+      {
+        "Text": "South Hotel",
+        "X": -175,
+        "Z": 297
+      },
+      {
+        "Text": "Abandon Factory",
+        "X": -119,
+        "Z": 287
+      },
+      {
+        "Text": "Diner",
+        "X": -80,
+        "Z": 235
+      },
+      {
+        "Text": "Primorskij 49",
+        "X": -13,
+        "Z": 244
+      },
+      {
+        "Text": "Prestigio Cafe",
+        "X": 39,
+        "Z": 230
+      },
+      {
+        "Text": "Bilbo Coffee",
+        "X": -70,
+        "Z": 343
+      }
+    ]
+  },
+  {
+    "Id": "terminal",
+    "Name": "Terminal",
+    "Author": "Shebuka",
+    "AuthorLink": "https://github.com/the-hideout/tarkov-dev-svg-maps/",
+    "License": "CC BY-NC-SA 4.0",
+    "Rotation": 180,
+    "Bounds": [
+      [
+        463,
+        -580
+      ],
+      [
+        -433,
+        475
+      ]
+    ],
+    "Layers": [
+      {
+        "Id": "base",
+        "Name": "Poziom bazowy",
+        "Image": "maps/terminal-base.png",
+        "Width": 2726,
+        "Height": 3210,
+        "Affine": [
+          -3.0424107142857135,
+          -3.725878542941612e-16,
+          -3.7261765168369705e-16,
+          3.042654028436019,
+          1408.6361607142858,
+          1764.739336492891
+        ],
+        "Remote": false,
+        "TileTemplate": "",
+        "TileSize": 256,
+        "MaxTileZoom": 6,
+        "VectorImage": "vectors/terminal-base.svg"
+      }
+    ],
+    "Labels": []
+  },
+  {
+    "Id": "the-lab",
+    "Name": "The Lab / Dark",
+    "Author": "Tarkov.dev",
+    "AuthorLink": "https://tarkov.dev",
+    "License": "Pobrane do osobistego podglądu; prawa autorów",
+    "Rotation": 270,
+    "Bounds": [
+      [
+        -80,
+        -477
+      ],
+      [
+        -287,
+        -193
+      ]
+    ],
+    "Layers": [
+      {
+        "Id": "base",
+        "Name": "Poziom bazowy",
+        "Image": "maps/the-lab-base.png",
+        "Width": 2614,
+        "Height": 1906,
+        "Affine": [
+          -1.6900125828233471e-15,
+          9.2,
+          9.2,
+          1.6900125828233471e-15,
+          4389.2,
+          2641.2
+        ],
+        "Remote": true,
+        "TileTemplate": "https://assets.tarkov.dev/maps/labs_v4/1st/{z}/{x}/{y}.png",
+        "TileSize": 175,
+        "MaxTileZoom": 6,
+        "TileZoom": 4,
+        "TileLeft": 110,
+        "TileTop": 458
+      },
+      {
+        "Id": "0",
+        "Name": "Second Level",
+        "Image": "maps/the-lab-0.png",
+        "Width": 2614,
+        "Height": 1906,
+        "Affine": [
+          -1.6900125828233471e-15,
+          9.2,
+          9.2,
+          1.6900125828233471e-15,
+          4389.2,
+          2641.2
+        ],
+        "Remote": true,
+        "TileTemplate": "https://assets.tarkov.dev/maps/labs_v4/2nd/{z}/{x}/{y}.png",
+        "TileSize": 175,
+        "MaxTileZoom": 6,
+        "TileZoom": 4,
+        "TileLeft": 110,
+        "TileTop": 458
+      },
+      {
+        "Id": "1",
+        "Name": "Technical",
+        "Image": "maps/the-lab-1.png",
+        "Width": 2614,
+        "Height": 1906,
+        "Affine": [
+          -1.6900125828233471e-15,
+          9.2,
+          9.2,
+          1.6900125828233471e-15,
+          4389.2,
+          2641.2
+        ],
+        "Remote": true,
+        "TileTemplate": "https://assets.tarkov.dev/maps/labs_v4/technical/{z}/{x}/{y}.png",
+        "TileSize": 175,
+        "MaxTileZoom": 6,
+        "TileZoom": 4,
+        "TileLeft": 110,
+        "TileTop": 458
+      }
+    ],
+    "Labels": [
+      {
+        "Text": "Parking",
+        "X": -230,
+        "Z": -400
+      },
+      {
+        "Text": "Vestibules #1",
+        "X": -246,
+        "Z": -379
+      },
+      {
+        "Text": "Vestibules #2",
+        "X": -216,
+        "Z": -379
+      },
+      {
+        "Text": "Main Working Area",
+        "X": -172,
+        "Z": -342
+      },
+      {
+        "Text": "Negotiation Room",
+        "X": -148,
+        "Z": -398
+      },
+      {
+        "Text": "Infirmary Lvl 1",
+        "X": -130,
+        "Z": -398
+      },
+      {
+        "Text": "Test Room",
+        "X": -130,
+        "Z": -356
+      },
+      {
+        "Text": "Server Room",
+        "X": -125,
+        "Z": -308
+      },
+      {
+        "Text": "Warehouse Tunnels",
+        "X": -116,
+        "Z": -266
+      },
+      {
+        "Text": "Warehouse",
+        "X": -163,
+        "Z": -269
+      },
+      {
+        "Text": "Warehouse Gate",
+        "X": -170,
+        "Z": -248
+      },
+      {
+        "Text": "Lecture Hall",
+        "X": -207,
+        "Z": -305
+      },
+      {
+        "Text": "Recreation Area",
+        "X": -221,
+        "Z": -343
+      },
+      {
+        "Text": "Gym",
+        "X": -236,
+        "Z": -302
+      },
+      {
+        "Text": "Men's Locker Room",
+        "X": -241,
+        "Z": -280
+      },
+      {
+        "Text": "Women's Locker Room",
+        "X": -232,
+        "Z": -280
+      },
+      {
+        "Text": "Boiler Room",
+        "X": -259,
+        "Z": -366
+      },
+      {
+        "Text": "Security Barracks",
+        "X": -260,
+        "Z": -319
+      },
+      {
+        "Text": "Reception",
+        "X": -260,
+        "Z": -342
+      },
+      {
+        "Text": "Administrative Office",
+        "X": -260,
+        "Z": -364
+      },
+      {
+        "Text": "Security Office",
+        "X": -254,
+        "Z": -320
+      },
+      {
+        "Text": "Security #1",
+        "X": -244,
+        "Z": -378
+      },
+      {
+        "Text": "Security #2",
+        "X": -215,
+        "Z": -379
+      },
+      {
+        "Text": "Conference Room",
+        "X": -229,
+        "Z": -343
+      },
+      {
+        "Text": "Cafeteria",
+        "X": -219,
+        "Z": -302
+      },
+      {
+        "Text": "Offices #1",
+        "X": -189,
+        "Z": -401
+      },
+      {
+        "Text": "Offices #2",
+        "X": -149,
+        "Z": -401
+      },
+      {
+        "Text": "Infirmary Lvl 2",
+        "X": -130,
+        "Z": -401
+      },
+      {
+        "Text": "Sterile Laboratory",
+        "X": -130,
+        "Z": -361
+      },
+      {
+        "Text": "Control Room",
+        "X": -169,
+        "Z": -288
+      },
+      {
+        "Text": "Corridor To Building #2",
+        "X": -250,
+        "Z": -281
+      }
+    ]
+  },
+  {
+    "Id": "the-labyrinth",
+    "Name": "The Labyrinth",
+    "Author": "Tarkov.dev",
+    "AuthorLink": "https://tarkov.dev",
+    "License": "Pobrane do osobistego podglądu; prawa autorów",
+    "Rotation": 270,
+    "Bounds": [
+      [
+        -52,
+        -37
+      ],
+      [
+        53,
+        76
+      ]
+    ],
+    "Layers": [
+      {
+        "Id": "base",
+        "Name": "Poziom bazowy",
+        "Image": "maps/the-labyrinth-base.png",
+        "Width": 1913,
+        "Height": 1777,
+        "Affine": [
+          -3.1081535762359825e-15,
+          16.92,
+          16.92,
+          3.1081535762359825e-15,
+          627.0,
+          880.0
+        ],
+        "Remote": true,
+        "TileTemplate": "https://assets.tarkov.dev/maps/labyrinth/main/{z}/{x}/{y}.png",
+        "TileSize": 256,
+        "MaxTileZoom": 6,
+        "TileZoom": 3,
+        "TileLeft": 57,
+        "TileTop": 144
+      }
+    ],
+    "Labels": []
+  },
+  {
+    "Id": "woods",
+    "Name": "Woods",
+    "Author": "Shebuka",
+    "AuthorLink": "https://github.com/the-hideout/tarkov-dev-svg-maps/",
+    "License": "CC BY-NC-SA 4.0",
+    "Rotation": 180,
+    "Bounds": [
+      [
+        646,
+        -914
+      ],
+      [
+        -761,
+        442
+      ]
+    ],
+    "Layers": [
+      {
+        "Id": "base",
+        "Name": "Poziom bazowy",
+        "Image": "maps/woods-base.png",
+        "Width": 3210,
+        "Height": 3094,
+        "Affine": [
+          -2.2814498933901923,
+          -2.793970309355369e-16,
+          -2.7942899679660105e-16,
+          2.281710914454277,
+          1473.816631130064,
+          2085.4837758112094
+        ],
+        "Remote": false,
+        "TileTemplate": "",
+        "TileSize": 256,
+        "MaxTileZoom": 6,
+        "VectorImage": "vectors/woods-base.svg"
+      }
+    ],
+    "Labels": [
+      {
+        "Text": "Sawmill",
+        "X": 10,
+        "Z": -3
+      },
+      {
+        "Text": "Scav Town",
+        "X": -485,
+        "Z": -390
+      },
+      {
+        "Text": "Old Sawmill",
+        "X": -517,
+        "Z": -210
+      },
+      {
+        "Text": "Cultist Village",
+        "X": -80,
+        "Z": -680
+      },
+      {
+        "Text": "USEC Camp",
+        "X": 290,
+        "Z": -475
+      },
+      {
+        "Text": "Military Camp",
+        "X": -188,
+        "Z": 235
+      },
+      {
+        "Text": "Ponds",
+        "X": -5,
+        "Z": -515
+      },
+      {
+        "Text": "Crash Site",
+        "X": -252,
+        "Z": -37
+      },
+      {
+        "Text": "Checkpoint",
+        "X": 239,
+        "Z": -65
+      },
+      {
+        "Text": "Shack",
+        "X": 244,
+        "Z": 125
+      },
+      {
+        "Text": "Lumber",
+        "X": -16,
+        "Z": -122
+      },
+      {
+        "Text": "Cabins",
+        "X": -3,
+        "Z": -74
+      },
+      {
+        "Text": "Bus Stop",
+        "X": -234,
+        "Z": 357
+      },
+      {
+        "Text": "Jaeger's Camp",
+        "X": -327,
+        "Z": 19
+      },
+      {
+        "Text": "Sniper Rock",
+        "X": 85,
+        "Z": -147
+      },
+      {
+        "Text": "Convoy",
+        "X": 200,
+        "Z": -606
+      }
+    ]
+  }
+]
