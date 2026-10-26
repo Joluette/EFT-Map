@@ -1,0 +1,1 @@
+PASS: 107 high-resolution tile checks; fixtures retained: work/v3-tile-tests

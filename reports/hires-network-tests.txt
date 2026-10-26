@@ -1,0 +1,9 @@
+Real-network native-zoom tests; 13 maps / 55 level metadata; no game, no screenshots.
+the-lab/base: sourceZoom=6, baseZoom=4, decodedTiles=4, downloaded=4, bytes=1048576, contentSamples=6174, elapsed=0.86s
+the-labyrinth/base: sourceZoom=6, baseZoom=3, decodedTiles=4, downloaded=4, bytes=1048576, contentSamples=4464, elapsed=0.71s
+icebreaker/base: sourceZoom=5, baseZoom=2, decodedTiles=4, downloaded=4, bytes=1048576, contentSamples=5018, elapsed=0.72s
+customs/tile-2: sourceZoom=6, baseZoom=3, decodedTiles=4, downloaded=4, bytes=1048576, contentSamples=658, elapsed=0.73s
+reserve/tile-0: sourceZoom=6, baseZoom=3, decodedTiles=4, downloaded=4, bytes=1048576, contentSamples=5089, elapsed=0.71s
+Console process peak working set bytes: 43446272
+PASS: 161 checks; real source high-zoom tiles visible for all five tested map/layer combinations.
+Private test cache retained outside outputs: work/hires-network-cache

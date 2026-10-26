@@ -1,0 +1,1 @@
+PASS: 85 GUI checks; real WinForms message loop and control events, no injected OS input.

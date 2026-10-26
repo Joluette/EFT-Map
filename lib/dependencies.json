@@ -1,0 +1,30 @@
+{
+  "Package": "SharpVectors",
+  "Version": "1.8.5",
+  "Framework": "net48",
+  "Source": "https://api.nuget.org/v3-flatcontainer/sharpvectors/1.8.5/sharpvectors.1.8.5.nupkg",
+  "PackageSha256": "78F7DCAB0654E8EE7B4C5318F7F55FEF4B406C106D39278D09EFB286D179F530",
+  "License": "BSD-3-Clause; embedded Brotli and MiniIoC MIT notices preserved",
+  "Assemblies": [
+    {
+      "Name": "SharpVectors.Core.dll",
+      "Sha256": "F9B61648E55BC3F0CF11BF77091036C80BCE885A325F59EA4337936ACF855D4A"
+    },
+    {
+      "Name": "SharpVectors.Dom.dll",
+      "Sha256": "CAE6FF2AC62E96CAE1256F6702397FD52DAB5B70B88394F71BDFEAE9D2489E23"
+    },
+    {
+      "Name": "SharpVectors.Css.dll",
+      "Sha256": "B02B42A28C603672928B82A5F9F3026C3C4D2A74ED8540BE35E227C49F6C86C4"
+    },
+    {
+      "Name": "SharpVectors.Model.dll",
+      "Sha256": "1D87CD69F237AFB771FDDB360E9D9D898BEB57211F8DF6453706EC3C378AF718"
+    },
+    {
+      "Name": "SharpVectors.Rendering.Gdi.dll",
+      "Sha256": "6E8A39101B6686B37D15868EDDDC5FEB1F3EB2E4649C897FC57C5B7E85AEA0D6"
+    }
+  ]
+}

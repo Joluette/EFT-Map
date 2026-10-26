@@ -1,0 +1,2 @@
+Customs pixels: water=12964, trees=18018, buildings=13913, unexpected origin pixels=0
+PASS: 100 vector rendering checks; 30 SVG levels, relative-subpath and CSS regressions.

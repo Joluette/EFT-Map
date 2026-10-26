@@ -1,0 +1,56 @@
+Customs / Poziom bazowy 3210x1632
+Customs / 2nd Floor 3210x1632
+Customs / 3rd Floor 3210x1632
+Customs / Underground 3210x1632
+Customs / 4th Floor 2047x1041
+Factory / Poziom bazowy 2971x3210
+Factory / 2nd Floor 2971x3210
+Factory / 3rd Floor 2971x3210
+Factory / Tunnels 2971x3210
+Ground Zero / Poziom bazowy 2289x3210
+Ground Zero / 2nd Floor 2289x3210
+Ground Zero / 3rd Floor 2289x3210
+Ground Zero / Garage 2289x3210
+Icebreaker / Infirmary 1141x1848
+Icebreaker / Helipad 1141x1848
+Icebreaker / Gym/Canteen 1141x1848
+Icebreaker / Accommodation (lower) 1141x1848
+Icebreaker / Accommodation (mid) 1141x1848
+Icebreaker / Accommodation (upper) 1141x1848
+Icebreaker / Officers' Deck 1141x1848
+Icebreaker / Stairs (blocked) 1141x1848
+Icebreaker / Bridge 1141x1848
+Icebreaker / Bridge Roof 1141x1848
+Icebreaker / Control Room 1141x1848
+Icebreaker / Engine Room 1141x1848
+Icebreaker / Engine Room (upper) 1141x1848
+Icebreaker / Fuel Pumps (lower) 1141x1848
+Icebreaker / Fuel Pumps 1141x1848
+Icebreaker / Storage/Security 1141x1848
+Interchange / Poziom bazowy 3210x2703
+Interchange / 2nd Floor 3210x2703
+Interchange / 3rd Floor 3210x2703
+Lighthouse / Poziom bazowy 1975x3210
+Reserve / Poziom bazowy 3210x2961
+Reserve / Bunkers 3210x2961
+Reserve / 2nd Floor 1872x1698
+Reserve / 3rd Floor 1872x1698
+Reserve / 4th Floor 1872x1698
+Reserve / 5th Floor 1872x1698
+Shoreline / Poziom bazowy 3210x2126
+Shoreline / 2nd Floor 3210x2126
+Shoreline / 3rd Floor 3210x2126
+Shoreline / Underground 3210x2126
+Streets of Tarkov / Poziom bazowy 2341x3210
+Streets of Tarkov / 2nd Floor 2341x3210
+Streets of Tarkov / 3rd Floor 2341x3210
+Streets of Tarkov / 4th Floor 2341x3210
+Streets of Tarkov / 5th Floor 2341x3210
+Streets of Tarkov / Underground 2341x3210
+Terminal / Poziom bazowy 2726x3210
+The Lab / Dark / Poziom bazowy 2614x1906
+The Lab / Dark / Second Level 2614x1906
+The Lab / Dark / Technical 2614x1906
+The Labyrinth / Poziom bazowy 1913x1777
+Woods / Poziom bazowy 3210x3094
+PASS: 55 actual map images; dimensions and visible content.

@@ -1,0 +1,18 @@
+﻿param([string]$FixtureRoot = (Join-Path $env:TEMP ('EftPosition-tests-' + [Guid]::NewGuid().ToString('N'))))
+$ErrorActionPreference = 'Stop'
+Push-Location -LiteralPath $PSScriptRoot
+try {
+    & .\Build.ps1
+    & .\tests\EftPosition.Tests.exe $FixtureRoot | Tee-Object -FilePath 'reports\tests.txt'
+    if ($LASTEXITCODE -ne 0) { throw 'Testy rdzenia nie przeszły.' }
+    & .\tests\AutoNavigationTests.exe (Join-Path $PSScriptRoot 'assets') | Tee-Object -FilePath 'reports\navigation-tests.txt'
+    if ($LASTEXITCODE -ne 0) { throw 'Testy automatycznych pięter nie przeszły.' }
+    & .\tests\TileMapTests.exe (Join-Path $FixtureRoot 'tiles') | Tee-Object -FilePath 'reports\tile-tests.txt'
+    if ($LASTEXITCODE -ne 0) { throw 'Testy ostrych kafelków nie przeszły.' }
+    & .\EftPosition.VectorTests.exe (Join-Path $PSScriptRoot 'assets') (Join-Path $PSScriptRoot 'reports') | Tee-Object -FilePath 'reports\vector-tests.txt'
+    if ($LASTEXITCODE -ne 0) { throw 'Testy rysowania i długich linii nie przeszły.' }
+    & .\EftPosition.UITests.exe (Join-Path $FixtureRoot 'gui') (Join-Path $PSScriptRoot 'reports\preview.png') | Tee-Object -FilePath 'reports\gui-tests.txt'
+    if ($LASTEXITCODE -ne 0) { throw 'Testy okna nie przeszły.' }
+    & .\EftPosition.ExperienceTests.exe (Join-Path $FixtureRoot 'experience') (Join-Path $PSScriptRoot 'reports') | Tee-Object -FilePath 'reports\experience-tests.txt'
+    if ($LASTEXITCODE -ne 0) { throw 'Testy wnętrz i pełnego ekranu nie przeszły.' }
+} finally { Pop-Location }

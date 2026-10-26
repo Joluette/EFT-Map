@@ -1,0 +1,5 @@
+Parser: format, optional separators, culture, quaternion, invalid input
+Projection: independent corner/landmark fixtures, inverse, headings, bounds
+All maps: 13 catalog entries, independent rotation fixtures, SVG bounds, affine inverse, headings
+Watcher: startup scan, created, rename, invalid PNG, order, burst, recovery, dispose
+PASS: 5859 assertions. Fixtures retained: .\work\v3-core-fixtures\20261026-175430-282

@@ -1,0 +1,1 @@
+PASS: 47 automatic navigation checks.
