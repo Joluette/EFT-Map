@@ -2,7 +2,7 @@
 
 Mała apka do Tarkova, która pokazuje, gdzie jesteś na mapie. Wybierasz lokację, robisz screena w grze i pojawia się znacznik Twojej pozycji oraz kierunku patrzenia. Kolejny screen odświeża pozycję.
 
-Współrzędne są odczytywane z nazwy pliku. Program nie czyta pamięci ani logów gry i nie wciska za Ciebie żadnych klawiszy.
+Współrzędne są odczytywane z nazwy pliku. Program nie czyta pamięci ani logów gry.
 
 ![Ground Zero z zaznaczonymi questami — dane przykładowe](reports/preview-3.1.0.png)
 
