@@ -155,7 +155,7 @@ namespace EftPosition
                             form.SetFullScreen(true);Application.DoEvents();Check(!panel.Visible,"fullscreen hides filter controls");
                             using(Bitmap b=new Bitmap(canvas.Width,canvas.Height))canvas.DrawToBitmap(b,canvas.ClientRectangle);
                             Check(canvas.VisibleMarkerCount>0,"markers remain active in fullscreen");Save(form,Path.Combine(reports,"markers-fullscreen.png"));
-                            form.SetFullScreen(false);Find<Button>(panel,"Powrót do pozycji").PerformClick();Check(!panel.Visible,"return button restores position pane");
+                            form.SetFullScreen(false);Find<Button>(panel,"Zamknij panel questów").PerformClick();Check(!panel.Visible,"close button restores full-width map");
                             form.Close();
                         }
                         catch(Exception ex){failure=ex;driver.Stop();Console.WriteLine(ex);form.Close();}

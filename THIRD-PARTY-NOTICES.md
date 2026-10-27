@@ -70,3 +70,9 @@ Licencja: **BSD-3-Clause**, pełny oryginalny tekst wraz z informacjami o dołą
 Rasteryzację przeprowadzono pakietem `sharp`/libvips dostępnym w środowisku. Nie jest dystrybuowany ani potrzebny do działania aplikacji. Opcjonalne skrypty przygotowania grafiki wymagają jego osobnej instalacji. CLR, WinForms i System.Drawing pochodzą z zainstalowanego .NET Framework.
 
 Escape from Tarkov i nazwy lokacji należą do odpowiednich właścicieli, w tym Battlestate Games. To samodzielny podgląd własnej pozycji z pliku, nie nakładka radarowa ani odczyt informacji o innych graczach. Autorzy map, tarkov.dev i wydawca gry nie są przedstawiani jako sponsorzy ani podmioty zatwierdzające prototyp.
+
+## Tła interfejsu dodane w 3.2.0
+
+Pliki `assets/tarkov-background.jpg` oraz `assets/tarkov-cyberpunk-background.jpg` mają 1672×941 pikseli. To rekonstrukcje graficzne wygenerowane z użyciem AI na podstawie referencji dostarczonych przy tworzeniu projektu, nie oryginalne materiały 4K. Nie przedstawiamy ich jako oficjalnej grafiki Battlestate Games ani CD PROJEKT RED lub jako potwierdzenia współpracy marek. Nazwy i elementy rozpoznawalnych marek należą do odpowiednich właścicieli. Licencja GPL kodu aplikacji ani licencje map nie nadają dodatkowych praw do tych elementów.
+
+SHA-256: Tarkov `2ee58c3e30e865be6c2aa61f53bd332942589b8721e4de5ae63d66d18ec5fe7c`; Tarkov × Cyberpunk `170c1076a86b054a4ca22b24855f7fa67e068cc2b9c6b812f987f21fe6fbbf61`. Użytkownik może wybrać jednolity kolor lub zaimportować własne tło w ustawieniach.

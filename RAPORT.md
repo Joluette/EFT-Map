@@ -1,34 +1,29 @@
-# Weryfikacja implementacji wydania 3.1.0
+# Weryfikacja wydania 3.2.0
 
-27.10.2026. Windows x64 / .NET Framework 4.8. Oddzielne syntetyczne pliki, bez uruchamiania EFT. Pliki użytkownika nie są częścią raportu.
+27.10.2026. Windows x64 / .NET Framework 4.8. Testy uruchomiono na osobnych danych i cache, bez uruchamiania EFT i bez korzystania z rzeczywistych zrzutów użytkownika.
 
-| Zestaw | Wynik |
-|---|---:|
-| Parser, katalog, przeliczenia, obserwacja | 5922 PASS |
-| Automatyczna nawigacja i piętra | 47 PASS |
-| Znaczniki, wyszukiwanie i wybór wielu questów | 4173 PASS |
-| Folder, usuwanie, blokada, ponowienie, piętra, start, ikona | 42 PASS |
-| Interfejs | 137 PASS |
-| Wnętrza i pełny ekran | 111 PASS |
-| Płynny zoom i przesuwanie | 27 PASS |
+## Testy
 
-Test interfejsu pomijał trzy niepobrane obrazy internetowe w osobnym cache. Pomiar poniżej obejmował wszystkie 13 map z przygotowanego cache. Wcześniejszy audyt danych: 3486 zgodności z rekordami źródłowymi. W etapie usuwania nie zmieniano współrzędnych questów.
+Pełny przebieg lokalny: **13 zestawów, 11 611 sprawdzeń — PASS**. Lokalny EXE miał SHA-256 `8E318834C35F104908CF48B4BD751F04C159FAF8B996213C5E78746141CC14E2`.
 
-## Pamięć
+Pełne wyniki bieżącego uruchomienia są w `reports/3.2.0/tests.txt`. Obejmują parser, obserwację folderu, nawigację, kafelki, wektory, interfejs, markery, czyszczenie zrzutów, ustawienia, pasek tytułu, raster, języki oraz podpowiedzi.
 
-Rzeczywisty proces WinForms, 120,26 s, pełny ekran, wszystkie dostępne questy i warstwy, 13 map / 86 ukończonych wczytań, zoom i przesuwanie, 2000 poprawnych i 20 błędnych nazw PNG.
+Testy PL/EN sprawdzają zmianę w obie strony bez restartu, zapis i ponowne uruchomienie, menu ustawień, podpowiedzi, zachowanie filtrów, trybu danych, questów i wyglądu. Nazwy ekstraktów sprawdzono przy rozmiarach 80%, 100% i 150%, nakładających się punktach oraz zmianie kamery przed odrysowaniem. Osobno sprawdzono zdarzenie otwarcia natywnej podpowiedzi.
 
-- Systemowy szczyt working set: **148 316 160 B = 148,32 MB**.
-- Próbkowany szczyt working set drzewa: **137 162 752 B**.
-- Próbkowany szczyt Private Bytes: **121 516 032 B**.
-- Końcowy working set: **81 113 088 B**.
-- Jeden proces, bez wykrytych potomków, poprawna końcowa pozycja, wyjście 0.
-- Limit 400 000 000 B spełniono w tym przebiegu.
+Testy rastra porównują bufor widoku z pełnym odrysowaniem. Obejmują przezroczystość, przesuwanie, piramidę pomniejszeń, nowe kafelki, zmianę rozmiaru, przywracanie jakości po ruchu i zwalnianie zasobów. Testy paska tytułu obejmują przesuwanie, min/max, powrót, pełny ekran i motyw.
 
-Próbkowanie zewnętrzne około 250 ms, inwentaryzacja potomków przez CIM około 2 s, liczniki procesu i szczyt systemowy co 1 s. Bez wymuszania GC i przycinania working set. Pomiar używał `--demo`; usuwanie sprawdza osobny test normalnego trybu.
+Test GUI pomija niepobrane mapy Icebreaker, Labs i Labyrinth w swoim osobnym cache offline. Testy rastra korzystają z własnych obrazów i kafelków. Podglądy są obrazami odrysowanych kontrolek WinForms; nie mierzą prezentacji na fizycznym ekranie ani FPS gry.
 
-Zmierzony EXE przed dodaniem numeru wydania miał SHA-256 `1EEE4A03DDF3AA9FC5B8B1D010FC4EDFF7B0B58F9A94CAB2F90C0BB91A7F19BE`. Wydanie buduje się z tej implementacji z metadanymi wersji 3.1.0. Kompilacja na GitHubie daje osobny plik EXE; jego hash i rewizja źródeł są w `BUILD-INFO.json` paczki. Pomiar dotyczy lokalnego pliku wskazanego hashem; nie jest pomiarem identyczności binarnej CI ani wielogodzinnej sesji.
+## Wydajność i pamięć — wcześniejszy pomiar implementacji
 
-Wyniki: `reports/3.1.0`. Zanonimizowano ścieżki fixture, zachowując liczby. Podgląd pokazuje dane przykładowe z panelem questów. Starsze raporty w repozytorium dokumentują wersję 3.0.0.
+Przed dodaniem PL/EN przetestowano raster na lokalnym EXE `B221515DB76EB43FDCBD22F0E9E3C1B6E8E2004CCFDF1912BB5477BEB38404CA`. W kontrolce 1920×1080 przy zbliżeniu 6×, mapie 40% i syntetycznych detalach z dysku średni czas synchronicznego odrysowania podczas przesuwania wyniósł około 21–22 ms zamiast 172–184 ms, a podczas animowanego zoomu około 46–47 ms zamiast 160–167 ms. Jednorazowe odrysowanie w docelowej jakości po ruchu trwało w tym ciężkim scenariuszu około 131–146 ms.
 
-GitHub Actions ponownie kompiluje kod i sprawdza parser/obserwację, nawigację, kafelki, ustawienia/usuwanie/piętra oraz płynny widok. Paczki powstają po przejściu kontroli. Lokalny `Testuj.cmd` zawiera też pełne kontrole GUI i markerów.
+Minutowa próba tego samego wcześniejszego EXE, obejmująca 13 map i 40 wczytań, wykazała systemowy szczyt working set 165 117 952 B, jeden proces i brak potomków. To pomiar jednego komputera, z wcześniej pobranymi mapami. Nie jest gwarancją FPS, zużycia RAM ani działania przez wiele godzin.
+
+Nie powtarzano tego pomiaru dla języków ani pliku zbudowanego przez GitHub Actions. Dane te opisują wcześniejszy etap implementacji. Bieżący plik CI ma własny hash zapisany w `BUILD-INFO.json` w archiwum Windows.
+
+## Publikacja
+
+GitHub Actions buduje z przypiętej rewizji i sprawdza rdzeń, nawigację, kafelki, ustawienia/usuwanie, płynny widok, języki/podpowiedzi oraz raster. Po ich przejściu tworzy dwa archiwa i `SHA256SUMS.txt`. Lokalny `Testuj.cmd` uruchamia również pełne zestawy GUI, markerów, wyglądu i paska tytułu.
+
+W paczkach są jedynie raporty przejrzane do publikacji. Pochodzenie map, danych, bibliotek i teł opisano w `THIRD-PARTY-NOTICES.md`.

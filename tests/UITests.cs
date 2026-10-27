@@ -14,9 +14,9 @@ namespace EftPosition
         static int checks;
         static void Check(bool ok,string message) { checks++; if(!ok) throw new Exception(message); }
         static IEnumerable<Control> Descend(Control c)
-        { foreach(Control child in c.Controls) { yield return child; foreach(Control nested in Descend(child)) yield return nested; } }
+        { foreach(Control child in c.Controls) { yield return child; foreach(Control nested in Descend(child)) yield return nested; } MainForm form=c as MainForm;if(form!=null && form.SettingsWindow!=null)foreach(Control nested in Descend(form.SettingsWindow))yield return nested; }
         static Button Button(MainForm f,string text)
-        { foreach(Control c in Descend(f)) { Button b=c as Button; if(b!=null && b.Text==text) return b; } throw new Exception("Missing button "+text); }
+        { if(text=="Obserwuj" || text=="Zatrzymaj"){f.ShowSettings();((SettingsForm)f.SettingsWindow).ShowCapturePage();}foreach(Control c in Descend(f)) { Button b=c as Button; if(b!=null && b.Text==text) return b; } throw new Exception("Missing button "+text); }
         static float Field(MapCanvas c,string name)
         { return (float)typeof(MapCanvas).GetField(name,BindingFlags.NonPublic|BindingFlags.Instance).GetValue(c); }
         static void Mouse(MapCanvas c,string method,MouseEventArgs args)

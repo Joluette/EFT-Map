@@ -18,7 +18,7 @@ if ($LASTEXITCODE -ne 0) { throw 'Kompilacja testów nawigacji nie powiodła si�
 & $compiler /nologo /target:exe /platform:x64 /optimize+ /warn:4 /utf8output /codepage:65001 /out:tests\TileMapTests.exe /reference:System.Drawing.dll /reference:System.Web.Extensions.dll src\Core.cs src\Maps.cs src\TileMap.cs tests\TileMapTests.cs
 if ($LASTEXITCODE -ne 0) { throw 'Kompilacja testów kafelków nie powiodła się.' }
 Copy-Item -LiteralPath 'EftPosition.exe.config' -Destination 'EftPosition.UITests.exe.config' -Force
-& $compiler /nologo /target:exe /platform:x64 /optimize+ /warn:4 /utf8output /codepage:65001 /out:EftPosition.VectorTests.exe /reference:System.Drawing.dll $libraryRefs src\VectorMap.cs src\SvgPathCanonicalizer.cs tests\VectorMapTests.cs
+& $compiler /nologo /target:exe /platform:x64 /optimize+ /warn:4 /utf8output /codepage:65001 /out:EftPosition.VectorTests.exe /reference:System.Drawing.dll $libraryRefs src\VectorMap.cs src\MapViewport.cs src\SvgPathCanonicalizer.cs tests\VectorMapTests.cs
 if ($LASTEXITCODE -ne 0) { throw 'Kompilacja testów geometrii wektorowej nie powiodła się.' }
 Copy-Item -LiteralPath 'EftPosition.exe.config' -Destination 'EftPosition.VectorTests.exe.config' -Force
 if(Test-Path -LiteralPath 'tests\ExperienceTests.cs') {
@@ -37,5 +37,17 @@ Copy-Item -LiteralPath 'EftPosition.exe.config' -Destination 'EftPosition.Marker
 if ($LASTEXITCODE -ne 0) { throw 'Kompilacja testów ustawień i usuwania zrzutów nie powiodła się.' }
 Copy-Item -LiteralPath 'EftPosition.exe.config' -Destination 'EftPosition.PolishTests.exe.config' -Force
 Write-Host 'Gotowe: EftPosition.exe oraz testy.'
+& $compiler /nologo /target:exe /platform:x64 /optimize+ /warn:4 /utf8output /codepage:65001 /main:EftPosition.AppearanceTests /out:EftPosition.AppearanceTests.exe /win32manifest:src\app.manifest /reference:System.Windows.Forms.dll /reference:System.Drawing.dll /reference:System.Web.Extensions.dll $libraryRefs $sources tests\AppearanceTests.cs
+if ($LASTEXITCODE -ne 0) { throw 'Kompilacja testów wyglądu i ustawień nie powiodła się.' }
+Copy-Item -LiteralPath 'EftPosition.exe.config' -Destination 'EftPosition.AppearanceTests.exe.config' -Force
+& $compiler /nologo /target:exe /platform:x64 /optimize+ /warn:4 /utf8output /codepage:65001 /main:EftPosition.CaptionTests /out:EftPosition.CaptionTests.exe /win32manifest:src\app.manifest /reference:System.Windows.Forms.dll /reference:System.Drawing.dll /reference:System.Web.Extensions.dll $libraryRefs $sources tests\CaptionTests.cs
+if ($LASTEXITCODE -ne 0) { throw 'Kompilacja testów paska okna nie powiodła się.' }
+Copy-Item -LiteralPath 'EftPosition.exe.config' -Destination 'EftPosition.CaptionTests.exe.config' -Force
+& $compiler /nologo /target:exe /platform:x64 /optimize+ /warn:4 /utf8output /codepage:65001 /main:EftPosition.RasterTests /out:EftPosition.RasterTests.exe /win32manifest:src\app.manifest /reference:System.Windows.Forms.dll /reference:System.Drawing.dll /reference:System.Web.Extensions.dll $libraryRefs $sources tests\RasterTests.cs
+if ($LASTEXITCODE -ne 0) { throw 'Kompilacja testów map PNG nie powiodła się.' }
+Copy-Item -LiteralPath 'EftPosition.exe.config' -Destination 'EftPosition.RasterTests.exe.config' -Force
+& $compiler /nologo /target:exe /platform:x64 /optimize+ /warn:4 /utf8output /codepage:65001 /main:EftPosition.LanguageTests /out:EftPosition.LanguageTests.exe /win32manifest:src\app.manifest /reference:System.Windows.Forms.dll /reference:System.Drawing.dll /reference:System.Web.Extensions.dll $libraryRefs $sources tests\LanguageTests.cs
+if ($LASTEXITCODE -ne 0) { throw 'Kompilacja testów języka i podpowiedzi nie powiodła się.' }
+Copy-Item -LiteralPath 'EftPosition.exe.config' -Destination 'EftPosition.LanguageTests.exe.config' -Force
 } finally { Pop-Location }
 

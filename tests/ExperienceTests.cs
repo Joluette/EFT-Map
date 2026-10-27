@@ -29,6 +29,7 @@ namespace EftPosition
         {
             foreach(Control child in c.Controls)
             { yield return child;foreach(Control inner in Descendants(child)) yield return inner; }
+            MainForm main=c as MainForm;if(main!=null && main.SettingsWindow!=null)foreach(Control child in Descendants(main.SettingsWindow))yield return child;
         }
         static float Field(string name)
         {
@@ -180,7 +181,7 @@ namespace EftPosition
             Near(windowScreen.Width,monitor.Width,2,"fullscreen reaches monitor width");
             Near(windowScreen.Height,monitor.Height,2,"fullscreen reaches monitor height");
             foreach(Control control in Descendants(form))
-                if(control is Button || control is TextBox || control is ComboBox || control is CheckBox || control is Label)
+                if((control is Button || control is TextBox || control is ComboBox || control is CheckBox || control is Label) && control.AccessibleName!="Questy na pełnym ekranie" && control.AccessibleName!="Ustawienia na pełnym ekranie" && control.AccessibleName!="Wyjdź z pełnego ekranu")
                     Check(!control.Visible,"fullscreen hides UI control: "+control.GetType().Name+" "+control.Text);
             Near(Field("scale"),savedScale,.001,"entering fullscreen preserves zoom");
             MapPoint fullCenter=CenterWorld();
@@ -204,6 +205,7 @@ namespace EftPosition
             Check(AutoBox().Visible,"controls return after fullscreen");
             Update(200,1,150,"base");
             Check(Field("scale")>fit*1.5,"base-floor building is focused before watcher restart");
+            form.ShowSettings();((SettingsForm)form.SettingsWindow).ShowCapturePage();
             foreach(Control c in Descendants(form)) if(c is Button && c.Text=="Zatrzymaj") ((Button)c).PerformClick();
             string outside=WritePosition(300,1,220);
             foreach(Control c in Descendants(form)) if(c is Button && c.Text=="Obserwuj") ((Button)c).PerformClick();

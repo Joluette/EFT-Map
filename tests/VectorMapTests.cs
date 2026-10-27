@@ -65,6 +65,7 @@ static class VectorMapTests
             }
             Check(maps==30,"all thirty vector levels checked");
             foreach(string name in new[]{"customs-base.svg","streets-of-tarkov-base.svg","woods-base.svg"})
+            foreach(int opacity in new[]{100,96,65,40,0})
             {
                 string path=Path.Combine(assets,"vectors",name);
                 XmlDocument xml=new XmlDocument();xml.XmlResolver=null;xml.Load(path);
@@ -75,23 +76,56 @@ static class VectorMapTests
                 using(Bitmap reference=new Bitmap(960,600)) using(Graphics rg=Graphics.FromImage(reference))
                 {
                     float scale=.8f,x=-110.25f,y=-205.5f;
-                    moved.Draw(g,image.Size,scale,x,y);
+                    moved.Draw(g,image.Size,scale,x,y,opacity);
                     foreach(Point delta in new[]{new Point(37,19),new Point(-61,0),new Point(0,-43),new Point(32,51),new Point(400,200),new Point(900,0),new Point(-950,-580)})
                     {
                         x+=delta.X;y+=delta.Y;
                         g.Clear(Color.Magenta);rg.Clear(Color.Magenta);
-                        moved.Draw(g,image.Size,scale,x,y);
-                        fresh.Draw(rg,reference.Size,scale*.99f,x,y);
-                        rg.Clear(Color.Magenta);fresh.Draw(rg,reference.Size,scale,x,y);
-                        SamePixels(image,reference,"integer pan matches full redraw: "+name);
+                        moved.Draw(g,image.Size,scale,x,y,opacity);
+                        fresh.Draw(rg,reference.Size,scale*.99f,x,y,opacity);
+                        rg.Clear(Color.Magenta);fresh.Draw(rg,reference.Size,scale,x,y,opacity);
+                        SamePixels(image,reference,"integer pan matches full redraw at opacity "+opacity+": "+name);
                     }
                     Check(moved.ReusedPanCount==7,"all integer pans reuse old pixels: "+name);
                     Check(moved.CacheBytes==2L*960*600*4,"pan buffers are limited to two viewport bitmaps: "+name);
+                    int renders=moved.RenderCount;
+                    moved.Draw(g,image.Size,scale,x,y,opacity);Check(moved.RenderCount==renders,"unchanged translucent viewport reuses its cache");
+                    int changedOpacity=opacity==40?96:40;
+                    g.Clear(Color.Magenta);rg.Clear(Color.Magenta);
+                    moved.Draw(g,image.Size,scale,x,y,changedOpacity);
+                    fresh.Draw(rg,reference.Size,scale*.99f,x,y,changedOpacity);
+                    rg.Clear(Color.Magenta);fresh.Draw(rg,reference.Size,scale,x,y,changedOpacity);
+                    SamePixels(image,reference,"changing opacity at a fixed camera refreshes every pixel");
+                    Check(moved.ReusedPanCount==7,"opacity changes never reuse previously faded pixels");
                     moved.Draw(g,image.Size,1.1f,x+.5f,y+.25f);
                     Check(moved.ReusedPanCount==7,"zoom/fractional movement is redrawn accurately: "+name);
                     using(Bitmap smaller=new Bitmap(320,200)) using(Graphics sg=Graphics.FromImage(smaller))
                     {moved.Draw(sg,smaller.Size,scale,x,y);Check(moved.CacheBytes==320L*200*4,"resize releases both old viewport buffers: "+name);}
                     moved.Dispose();Check(moved.CacheBytes==0,"both buffers released on disposal: "+name);
+                }
+            }
+            // Compare the composed result against a single opacity pass over a
+            // complete map. Markers/background are deliberately outside it.
+            using(VectorMap map=new VectorMap(Path.Combine(assets,"vectors","ground-zero-base.svg"),720,1010))
+            using(Bitmap source=new Bitmap(720,480,PixelFormat.Format32bppPArgb))
+            using(Bitmap actual=new Bitmap(720,480))
+            using(Bitmap expected=new Bitmap(720,480))
+            using(Graphics sg=Graphics.FromImage(source))
+            using(Graphics ag=Graphics.FromImage(actual))
+            using(Graphics eg=Graphics.FromImage(expected))
+            using(ImageAttributes alpha=new ImageAttributes())
+            {
+                foreach(int opacity in new[]{40,65,96,100})
+                {
+                    sg.Clear(Color.Transparent);map.Draw(sg,source.Size,.75f,210.25f,-25.5f);
+                    var matrix=new ColorMatrix();matrix.Matrix33=opacity/100f;alpha.SetColorMatrix(matrix);
+                    eg.Clear(Color.FromArgb(31,72,113));ag.Clear(Color.FromArgb(31,72,113));
+                    eg.DrawImage(source,new Rectangle(Point.Empty,source.Size),0,0,source.Width,source.Height,GraphicsUnit.Pixel,alpha);
+                    map.Draw(ag,actual.Size,.75f,210.25f,-25.5f,opacity);
+                    int different=0;
+                    for(int y=0;y<actual.Height;y+=3)for(int x=0;x<actual.Width;x+=3)
+                    {Color a=actual.GetPixel(x,y),b=expected.GetPixel(x,y);if(Math.Abs(a.R-b.R)>2 || Math.Abs(a.G-b.G)>2 || Math.Abs(a.B-b.B)>2)different++;}
+                    Check(different==0,"premultiplied opacity preserves colors and transparent edges at "+opacity+"% (different="+different+")");
                 }
             }
             using(VectorMap map=new VectorMap(Path.Combine(assets,"vectors","customs-base.svg"),3210,1632))

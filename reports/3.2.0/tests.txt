@@ -1,0 +1,56 @@
+EFT Position 3.2.0 — local release verification
+Windows x64 / .NET Framework 4.8
+Isolated synthetic fixtures and cache; EFT was not running.
+Local EXE SHA-256: 8E318834C35F104908CF48B4BD751F04C159FAF8B996213C5E78746141CC14E2
+
+tests.txt
+Parser: format, optional separators, culture, quaternion, invalid input
+Projection: independent corner/landmark fixtures, inverse, headings, bounds
+All maps: 13 catalog entries, independent rotation fixtures, SVG bounds, affine inverse, headings
+Watcher: startup scan, created, rename, invalid PNG, order, burst, recovery, dispose
+PASS: 5922 assertions. Fixtures retained in isolated test directories.
+
+navigation-tests.txt
+PASS: 47 automatic navigation checks.
+
+tile-tests.txt
+PASS: 107 high-resolution tile checks; Fixtures retained in isolated test directories.
+
+vector-tests.txt
+Customs pixels: water=12908, trees=17965, buildings=13858, unexpected origin pixels=0
+PASS: 329 vector rendering checks; 30 SVG levels, relative-subpath and CSS regressions.
+
+gui-tests.txt
+SKIP uncached online map in offline GUI test: icebreaker
+SKIP uncached online map in offline GUI test: the-lab
+SKIP uncached online map in offline GUI test: the-labyrinth
+PASS: 139 GUI checks; real WinForms message loop and control events, no injected OS input.
+
+experience-tests.txt
+preview-v3-zoom.png: map detail colors=507, edge transitions=13529
+preview-v3-fullscreen.png: map detail colors=986, edge transitions=32547
+PASS: 103 v3 experience checks; automatic indoor focus, floors, vector zoom, fullscreen/Escape/F11.
+
+smooth-view-tests.txt
+PASS: 27 smooth interaction checks; intermediate frames, cursor anchor, wheel deltas, cancellation and drag.
+
+marker-tests.txt
+PASS: 4213 marker checks; map-scoped search, multiple selection, filters, saved choices, hover names and fullscreen.
+
+polish-tests.txt
+PASS: 42 checks: persistent folder, exclusive-handle cleanup, retries, opt-out, floor dimming and icon.
+
+appearance-tests.txt
+PASS: 50 appearance checks: compact shell, settings, backgrounds, opacity, fullscreen recovery, rounded dropdowns and saved choices.
+
+caption-tests.txt
+PASS: 31 caption checks: theme pixels, settings, hit testing, resize edges, minimize/maximize/restore, fullscreen, close and restart.
+
+raster-tests.txt
+PASS: 562 raster checks: mip bounds, calibrated coordinates, alpha, pan reuse, full redraw parity, tile arrivals, quality restoration, resize and disposal.
+
+language-tests.txt
+PASS: 39 language and extract-hover checks.
+
+TOTAL: 13 suites, 11611 assertions/checks, PASS.
+CI rebuilds the application; its binary hash is recorded separately in BUILD-INFO.json.

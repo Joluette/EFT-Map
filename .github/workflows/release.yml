@@ -43,6 +43,16 @@ jobs:
           if($LASTEXITCODE -ne 0){throw 'Settings and cleanup tests failed'}
           ./EftPosition.SmoothViewTests.exe ./assets
           if($LASTEXITCODE -ne 0){throw 'Smooth view tests failed'}
+      - name: Check languages and extract tooltips
+        run: |
+          $ErrorActionPreference='Stop'
+          ./EftPosition.LanguageTests.exe (Join-Path $env:RUNNER_TEMP 'eft-language') (Join-Path $env:RUNNER_TEMP 'eft-language-images')
+          if($LASTEXITCODE -ne 0){throw 'Language and extract tooltip tests failed'}
+      - name: Check PNG viewport and tile rendering
+        run: |
+          $ErrorActionPreference='Stop'
+          ./EftPosition.RasterTests.exe (Join-Path $env:RUNNER_TEMP 'eft-raster') (Join-Path $env:RUNNER_TEMP 'eft-raster-images')
+          if($LASTEXITCODE -ne 0){throw 'Raster viewport tests failed'}
       - name: Package clean runtime and source archives
         run: ./tools/Package-Release.ps1
       - name: Publish version and checksums

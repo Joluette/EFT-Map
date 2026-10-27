@@ -28,13 +28,13 @@ namespace EftPosition
                     else if(args[i]=="--cache-dir" && i+1<args.Length) cache=args[++i];
                     else if(args[i]=="--preview" && i+1<args.Length) preview=args[++i];
                     else if(args[i]=="--demo") demo=true;
-                    else throw new ArgumentException("Nieznany lub niepełny parametr: "+args[i]);
+                    else throw new ArgumentException(UiText.T("Nieznany lub niepełny parametr: ")+args[i]);
                 }
                 using(MainForm form=new MainForm(folder,telemetry,seconds,exercise,demo,preview,cache,cycle,fullscreen,map)) Application.Run(form);
             }
             catch(Exception ex)
             {
-                MessageBox.Show("Nie udało się uruchomić aplikacji.\n"+ex.Message,"EFT Position",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                MessageBox.Show(UiText.T("Nie udało się uruchomić aplikacji.\n")+UiText.Error(ex.Message),"EFT Position",MessageBoxButtons.OK,MessageBoxIcon.Error);
                 Environment.ExitCode=1;
             }
         }

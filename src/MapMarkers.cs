@@ -56,7 +56,7 @@ namespace EftPosition
             catch(Exception ex)
             {
                 if(!(ex is IOException) && !(ex is UnauthorizedAccessException) && !(ex is ArgumentException) && !(ex is InvalidOperationException)) throw;
-                return new MarkerCatalog {Maps=new MarkerMap[0],Error="Brak danych znaczników. Sprawdź assets/markers.json."};
+                return new MarkerCatalog {Maps=new MarkerMap[0],Error=UiText.T("Brak danych znaczników. Sprawdź assets/markers.json.")};
             }
         }
         static void ValidateName(string name) {if(String.IsNullOrWhiteSpace(name) || name.Length>512)throw new InvalidDataException();}

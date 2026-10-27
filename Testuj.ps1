@@ -21,4 +21,12 @@ try {
     if ($LASTEXITCODE -ne 0) { throw 'Testy znaczników i filtrów nie przeszły.' }
     & .\EftPosition.PolishTests.exe (Join-Path $FixtureRoot 'polish') (Join-Path $PSScriptRoot 'reports\polish') | Tee-Object -FilePath 'reports\polish-tests.txt'
     if ($LASTEXITCODE -ne 0) { throw 'Testy ustawień, usuwania zrzutów i pięter nie przeszły.' }
+    & .\EftPosition.AppearanceTests.exe (Join-Path $FixtureRoot 'appearance') (Join-Path $PSScriptRoot 'reports\appearance') | Tee-Object -FilePath 'reports\appearance-tests.txt'
+    if ($LASTEXITCODE -ne 0) { throw 'Testy wyglądu i personalizacji nie przeszły.' }
+    & .\EftPosition.CaptionTests.exe (Join-Path $FixtureRoot 'caption') (Join-Path $PSScriptRoot 'reports\caption') | Tee-Object -FilePath 'reports\caption-tests.txt'
+    if ($LASTEXITCODE -ne 0) { throw 'Testy paska okna nie przeszły.' }
+    & .\EftPosition.RasterTests.exe (Join-Path $FixtureRoot 'raster') (Join-Path $PSScriptRoot 'reports\raster') | Tee-Object -FilePath 'reports\raster-tests.txt'
+    if ($LASTEXITCODE -ne 0) { throw 'Testy map PNG nie przeszły.' }
+    & .\EftPosition.LanguageTests.exe (Join-Path $FixtureRoot 'language') (Join-Path $PSScriptRoot 'reports\language') | Tee-Object -FilePath 'reports\language-tests.txt'
+    if ($LASTEXITCODE -ne 0) { throw 'Testy języka i nazw ekstraktów nie przeszły.' }
 } finally { Pop-Location }

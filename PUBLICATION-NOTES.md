@@ -1,7 +1,9 @@
-# Publikacja 3.1.0
+# Publikacja 3.2.0
 
-Kod, biblioteki, mapy i lokalizacje są dołączone z licencjami i atrybucją. Nie dołączono ustawień folderu, osobistego cache, rzeczywistych screenshotów, surowej diagnostyki użytkownika ani obrazów z jego ścieżką. W wybranych raportach ścieżki fixture zastąpiono ogólnymi nazwami, zachowując liczby pomiarów.
+Kod oraz zasoby pochodzą z lokalnie sprawdzonej implementacji 3.2.0. Dołączono licencje map i bibliotek oraz informacje o pochodzeniu nowych teł. Paczki nie zawierają preferencji, prywatnego cache, rzeczywistych zrzutów ani lokalnych raportów ze ścieżkami użytkownika.
 
-Zmiana VERSION na main uruchamia release.yml: budowanie i testy Windows, paczki programu i kodu oraz nowe wydanie prototypowe z sumami SHA-256. Istniejące wydania nie są nadpisywane. Workflow używa krótkotrwałego tokenu własnego zadania GitHub Actions; repozytorium nie przechowuje prywatnego klucza ani osobistego tokenu.
+`Package-Release.ps1` kopiuje z raportów wyłącznie przejrzany katalog odpowiadający `VERSION`. Pliki EXE z katalogów źródłowych są usuwane przed utworzeniem archiwum kodu. `BUILD-INFO.json` w paczce Windows wskazuje hash programu i rewizję źródeł.
 
-BUILD-INFO.json w paczce Windows zawiera hash EXE i rewizję źródeł. Raport pamięci wskazuje osobno hash wcześniej zmierzonej implementacji. Metadane wersji nie zmieniają działania programu. Starsze publiczne raporty pozostają w historii repozytorium.
+Zmiana `VERSION` na `main` uruchamia zatwierdzony workflow: budowanie, testy, pakowanie i nowe wydanie testowe. Istniejące wydania nie są nadpisywane. Do dotychczasowych kontroli dodano języki/podpowiedzi oraz raster. Workflow korzysta z krótkotrwałego tokenu GitHub Actions z prawem zapisu zawartości, bez osobistego tokenu w repozytorium.
+
+Wyniki dawnych pomiarów wydajności i pamięci nie są przypisywane binarnemu plikowi utworzonemu na GitHubie. Nowe paczki i ich sumy powstają w tym samym przebiegu automatyzacji.

@@ -11,6 +11,10 @@ work/
 *.part
 EftPosition.*Tests.exe.config
 EftPosition.RenderBenchmark.exe.config
+EftPosition.CanvasBenchmark.exe.config
+EftPosition.FullscreenBenchmark.exe.config
+EftPosition.RasterBenchmark.exe.config
+EftPosition.RasterWindowBenchmark.exe.config
 reports/preview.png
 reports/preview-v3-zoom.png
 

@@ -8,6 +8,7 @@ using System.Drawing.Imaging;
 using System.Xml;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Runtime.InteropServices;
 using SharpVectors.Dom.Svg;
 using SharpVectors.Renderers;
 using SharpVectors.Renderers.Gdi;
@@ -21,19 +22,13 @@ namespace EftPosition
         SvgDocument document;
         GdiSvgWindow window;
         GdiGraphicsRenderer renderer;
-        Bitmap viewportCache;
-        Bitmap panCache;
+        readonly MapViewport viewportCache;
         Metafile drawing;
         readonly int logicalWidth,logicalHeight;
-        float cachedScale,cachedX,cachedY;
-        bool cacheValid;
-        int renderCount;
-        int reusedPanCount;
-
         public VectorMap(string path,int width,int height)
         {
             if(width<=0 || height<=0) throw new ArgumentOutOfRangeException("width");
-            logicalWidth=width; logicalHeight=height;
+            logicalWidth=width; logicalHeight=height;viewportCache=new MapViewport(PaintDrawing);
             renderer=new GdiGraphicsRenderer(true);
             window=new GdiSvgWindow(width,height,renderer);
             renderer.Window=window;
@@ -55,10 +50,9 @@ namespace EftPosition
             }
             catch { Dispose(); throw; }
         }
-        public int RenderCount { get { return renderCount; } }
-        public int ReusedPanCount { get { return reusedPanCount; } }
-        public long CacheBytes { get { return BitmapBytes(viewportCache)+BitmapBytes(panCache); } }
-        static long BitmapBytes(Bitmap image) { return image==null?0:(long)image.Width*image.Height*4; }
+        public int RenderCount {get{return viewportCache.RenderCount;}}
+        public int ReusedPanCount {get{return viewportCache.ReusedPanCount;}}
+        public long CacheBytes {get{return viewportCache.CacheBytes;}}
         void PrepareDrawing()
         {
             if(drawing!=null) return;
@@ -85,8 +79,9 @@ namespace EftPosition
             }
             catch { drawing.Dispose(); drawing=null; throw; }
         }
-        void PaintDrawing(Graphics target,float scale,float x,float y)
+        void PaintDrawing(Graphics target,Size viewport,float scale,float x,float y)
         {
+            PrepareDrawing();
             target.SmoothingMode=SmoothingMode.AntiAlias;
             target.PixelOffsetMode=PixelOffsetMode.HighQuality;
             target.TranslateTransform(x,y);
@@ -135,49 +130,12 @@ namespace EftPosition
         }
 
         public void Draw(Graphics graphics,Size viewport,float scale,float offsetX,float offsetY)
+        {Draw(graphics,viewport,scale,offsetX,offsetY,100);}
+        public void Draw(Graphics graphics,Size viewport,float scale,float offsetX,float offsetY,int opacity)
         {
-            if(document==null) throw new ObjectDisposedException("VectorMap");
-            if(viewport.Width<=0 || viewport.Height<=0) return;
-            if(Double.IsNaN(scale) || Double.IsInfinity(scale) || scale<=0) throw new ArgumentOutOfRangeException("scale");
-            bool changed=viewportCache==null || viewportCache.Width!=viewport.Width || viewportCache.Height!=viewport.Height;
-            if(changed)
-            {
-                if(viewportCache!=null) { viewportCache.Dispose(); viewportCache=null; }
-                if(panCache!=null) { panCache.Dispose(); panCache=null; }
-                viewportCache=new Bitmap(viewport.Width,viewport.Height,PixelFormat.Format32bppPArgb);
-                cacheValid=false;
-            }
-            if(!cacheValid || scale!=cachedScale || offsetX!=cachedX || offsetY!=cachedY)
-            {
-                PrepareDrawing();
-                float moveX=offsetX-cachedX,moveY=offsetY-cachedY;
-                int dx=(int)Math.Round(moveX),dy=(int)Math.Round(moveY);
-                bool reuse=cacheValid && scale==cachedScale && Math.Abs(moveX-dx)<.001f && Math.Abs(moveY-dy)<.001f &&
-                    Math.Abs(dx)<viewport.Width && Math.Abs(dy)<viewport.Height;
-                if(reuse)
-                {
-                    if(panCache==null) panCache=new Bitmap(viewport.Width,viewport.Height,PixelFormat.Format32bppPArgb);
-                    using(Graphics target=Graphics.FromImage(panCache))
-                    using(Region exposed=new Region(new Rectangle(Point.Empty,viewport)))
-                    {
-                        target.Clear(Color.Transparent);
-                        target.CompositingMode=CompositingMode.SourceCopy;
-                        target.DrawImageUnscaled(viewportCache,dx,dy);
-                        target.CompositingMode=CompositingMode.SourceOver;
-                        exposed.Exclude(new Rectangle(dx,dy,viewport.Width,viewport.Height));
-                        target.SetClip(exposed,CombineMode.Replace);
-                        PaintDrawing(target,scale,offsetX,offsetY);
-                    }
-                    Bitmap old=viewportCache;viewportCache=panCache;panCache=old;
-                    reusedPanCount++;
-                }
-                else using(Graphics target=Graphics.FromImage(viewportCache))
-                { target.Clear(Color.Transparent); PaintDrawing(target,scale,offsetX,offsetY); }
-                cachedScale=scale; cachedX=offsetX; cachedY=offsetY; cacheValid=true; renderCount++;
-            }
-            graphics.DrawImageUnscaled(viewportCache,0,0);
+            if(document==null)throw new ObjectDisposedException("VectorMap");
+            viewportCache.Draw(graphics,viewport,scale,offsetX,offsetY,opacity);
         }
-
         // All returned rectangles are calibrated logical map pixels, independent
         // of the current viewport/zoom; empty/non-rendered groups return Empty.
         public RectangleF GetElementBounds(string id)
@@ -222,10 +180,8 @@ namespace EftPosition
         }
         public void Dispose()
         {
-            cacheValid=false;
+            viewportCache.Dispose();
             if(drawing!=null) { drawing.Dispose(); drawing=null; }
-            if(viewportCache!=null) { viewportCache.Dispose(); viewportCache=null; }
-            if(panCache!=null) { panCache.Dispose(); panCache=null; }
             if(renderer!=null) { renderer.Dispose(); renderer=null; }
             if(window!=null) { window.Document=null; window=null; }
             if(document!=null) { document.RemoveAll(); document=null; }

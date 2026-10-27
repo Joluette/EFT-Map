@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
 using System.Net;
@@ -16,6 +17,7 @@ namespace EftPosition
     public sealed class TileMap : IDisposable
     {
         public const long CacheLimitBytes = 24L * 1024 * 1024;
+
         const int CacheLimitEntries = 96;
         const int PendingLimit = 64;
         readonly object gate = new object();
@@ -32,6 +34,10 @@ namespace EftPosition
         HttpWebRequest activeRequest;
         bool disposed;
         long bytes, clock, downloads;
+
+
+
+
         sealed class Entry { public Bitmap Image; public long Bytes, Used; }
         sealed class Request
         {
@@ -44,6 +50,7 @@ namespace EftPosition
         public int CacheCount { get { lock(gate) return cache.Count; } }
         public int PendingCount { get { lock(gate) return pending.Count; } }
         public long DownloadCount { get { lock(gate) return downloads; } }
+
 
         public TileMap(MapLayer selectedLayer, string cacheDirectory, Action changed)
         {
@@ -113,6 +120,8 @@ namespace EftPosition
         // Call after painting the existing base PNG. Missing/unavailable detail never hides that fallback.
         // The callback is invoked on the worker; root should just set a dirty flag and invalidate on its UI timer.
         public void Draw(Graphics graphics, Rectangle client, float scale, float offsetX, float offsetY)
+        {Draw(graphics,client,scale,offsetX,offsetY,false);}
+        public void Draw(Graphics graphics, Rectangle client, float scale, float offsetX, float offsetY,bool preview)
         {
             if(scale <= 1 || Single.IsNaN(scale) || Single.IsInfinity(scale)) { ClearPending(); return; }
             int zoom=ChooseZoom(layer,scale);
@@ -136,7 +145,7 @@ namespace EftPosition
                 {
                     graphics.SetClip(client,CombineMode.Intersect);
                     graphics.SetClip(new RectangleF(offsetX,offsetY,layer.Width*scale,layer.Height*scale),CombineMode.Intersect);
-                    graphics.InterpolationMode=InterpolationMode.HighQualityBicubic;
+                    graphics.InterpolationMode=preview?InterpolationMode.NearestNeighbor:InterpolationMode.HighQualityBilinear;
                     graphics.PixelOffsetMode=PixelOffsetMode.HighQuality;
                     foreach(Request request in visible)
                     {
@@ -144,8 +153,6 @@ namespace EftPosition
                         if(cache.TryGetValue(request.Key,out item))
                         {
                             item.Used=++clock;
-                            RectangleF target=Destination(layer,request.Z,request.X,request.Y,scale,offsetX,offsetY);
-                            graphics.DrawImage(item.Image,target);
                         }
                         else if(pending.Count<PendingLimit && inFlight!=request.Key)
                         {
@@ -154,6 +161,8 @@ namespace EftPosition
                             { pending.Enqueue(request); queued=true; }
                         }
                     }
+                    foreach(Request request in visible)
+                    {Entry item;if(cache.TryGetValue(request.Key,out item))graphics.DrawImage(item.Image,Destination(layer,request.Z,request.X,request.Y,scale,offsetX,offsetY));}
                 }
                 finally { graphics.Restore(old); }
             }
@@ -234,7 +243,9 @@ namespace EftPosition
             {
                 if(source.Width<1 || source.Height<1 || source.Width>1024 || source.Height>1024)
                     throw new InvalidDataException("Niepoprawny kafelek mapy.");
-                return new Bitmap(source);
+                Bitmap result=new Bitmap(source.Width,source.Height,PixelFormat.Format32bppPArgb);
+                try{using(Graphics g=Graphics.FromImage(result)){g.CompositingMode=CompositingMode.SourceCopy;g.DrawImageUnscaled(source,0,0);}return result;}
+                catch{result.Dispose();throw;}
             }
         }
 
@@ -325,6 +336,7 @@ namespace EftPosition
                 pending.Clear(); wanted.Clear(); failures.Clear();
                 foreach(Entry entry in cache.Values) entry.Image.Dispose();
                 cache.Clear(); bytes=0;
+
             }
             if(abort!=null) try { abort.Abort(); } catch(WebException) { }
             Signal();

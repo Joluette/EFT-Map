@@ -21,7 +21,7 @@ namespace EftPosition
         static IEnumerable<Control> Controls(Control parent)
         {foreach(Control c in parent.Controls){yield return c;foreach(Control nested in Controls(c))yield return nested;}}
         static T Find<T>(Control parent,string name) where T:Control
-        {return Controls(parent).OfType<T>().Single(c=>c.AccessibleName==name);}
+        {MainForm f=parent as MainForm;if(f!=null && (name=="Ścieżka folderu zrzutów" || name=="Usuwaj zrzut po odczycie")){f.ShowSettings();((SettingsForm)f.SettingsWindow).ShowCapturePage();return Find<T>(f.SettingsWindow,name);}return Controls(parent).OfType<T>().Single(c=>c.AccessibleName==name);}
         static Snapshot Write(string folder,int counter)
         {
             string name="2026-10-27[12-34]_200.00, 2.30, 150.00_0.0, 0.70711, 0.0, 0.70711_16.60 ("+counter+").png";
