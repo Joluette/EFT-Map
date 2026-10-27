@@ -1,0 +1,2 @@
+PASS: 4173 marker checks; map-scoped search, multiple selection, filters, saved choices, hover names and fullscreen.
+

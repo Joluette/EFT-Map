@@ -5,6 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
     <OutputType>WinExe</OutputType><RootNamespace>EftPosition</RootNamespace><AssemblyName>EftPosition</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion><PlatformTarget>x64</PlatformTarget>
+    <ApplicationIcon>assets\app.ico</ApplicationIcon>
     <OutputPath>bin\$(Configuration)\</OutputPath><Optimize>true</Optimize><ApplicationManifest>src\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
@@ -13,6 +14,9 @@
     <Compile Include="src\Maps.cs"/><Compile Include="src\MapAssets.cs"/>
     <Compile Include="src\AutoNavigation.cs"/><Compile Include="src\VectorMap.cs"/><Compile Include="src\TileMap.cs"/>
     <Compile Include="src\SvgPathCanonicalizer.cs"/>
+    <Compile Include="src\UiTheme.cs"/>
+    <Compile Include="src\MapMarkers.cs"/><Compile Include="src\MarkerPanel.cs"/>
+    <Compile Include="src\AssemblyInfo.cs"/><Compile Include="src\AppPreferences.cs"/><Compile Include="src\ScreenshotCleaner.cs"/><Compile Include="src\MarkerArtwork.cs"/>
     <Reference Include="SharpVectors.Core"><HintPath>lib\SharpVectors.Core.dll</HintPath></Reference>
     <Reference Include="SharpVectors.Dom"><HintPath>lib\SharpVectors.Dom.dll</HintPath></Reference>
     <Reference Include="SharpVectors.Css"><HintPath>lib\SharpVectors.Css.dll</HintPath></Reference>
@@ -23,6 +27,10 @@
     <Content Include="assets\maps\*.png"><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
     <Content Include="assets\vectors\*.svg"><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
     <Content Include="assets\maps.upstream.json"><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+    <Content Include="assets\markers.json"><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+    <Content Include="assets\markers.source.json"><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+    <Content Include="assets\app.ico"><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
 </Project>
+

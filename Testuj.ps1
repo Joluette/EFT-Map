@@ -15,4 +15,10 @@ try {
     if ($LASTEXITCODE -ne 0) { throw 'Testy okna nie przeszły.' }
     & .\EftPosition.ExperienceTests.exe (Join-Path $FixtureRoot 'experience') (Join-Path $PSScriptRoot 'reports') | Tee-Object -FilePath 'reports\experience-tests.txt'
     if ($LASTEXITCODE -ne 0) { throw 'Testy wnętrz i pełnego ekranu nie przeszły.' }
+    & .\EftPosition.SmoothViewTests.exe (Join-Path $PSScriptRoot 'assets') | Tee-Object -FilePath 'reports\smooth-view-tests.txt'
+    if ($LASTEXITCODE -ne 0) { throw 'Testy płynnego przybliżania i przesuwania nie przeszły.' }
+    & .\EftPosition.MarkerTests.exe (Join-Path $PSScriptRoot 'assets') (Join-Path $FixtureRoot 'markers') (Join-Path $PSScriptRoot 'reports\markers') | Tee-Object -FilePath 'reports\marker-tests.txt'
+    if ($LASTEXITCODE -ne 0) { throw 'Testy znaczników i filtrów nie przeszły.' }
+    & .\EftPosition.PolishTests.exe (Join-Path $FixtureRoot 'polish') (Join-Path $PSScriptRoot 'reports\polish') | Tee-Object -FilePath 'reports\polish-tests.txt'
+    if ($LASTEXITCODE -ne 0) { throw 'Testy ustawień, usuwania zrzutów i pięter nie przeszły.' }
 } finally { Pop-Location }

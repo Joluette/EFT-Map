@@ -1,0 +1,2 @@
+PASS: 27 smooth interaction checks; intermediate frames, cursor anchor, wheel deltas, cancellation and drag.
+

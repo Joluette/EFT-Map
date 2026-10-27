@@ -1,0 +1,4 @@
+preview-v3-zoom.png: map detail colors=227, edge transitions=1836
+preview-v3-fullscreen.png: map detail colors=456, edge transitions=5926
+PASS: 111 v3 experience checks; automatic indoor focus, floors, vector zoom, fullscreen/Escape/F11.
+

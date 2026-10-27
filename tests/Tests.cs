@@ -54,6 +54,19 @@ static class Tests
         Near(p.Yaw,45,0.01,"pitched yaw keeps heading");
         p=Parse(Name(0,0,0,"0.70711, 0.0, 0.0, 0.70711",0));
         Check(!p.HasHeading,"vertical look has no horizontal direction");
+        // Regression: real game screenshots may append _16.60 before (counter).
+        // Non-capturing metadata must not move the counter's capture group.
+        string extended=Name(84.53,24.14,211.53,"-0.00027, -0.99904, 0.00617, -0.04332",37);
+        Position legacy=Parse(extended);
+        foreach(string suffix in new[]{"16.60","16.32","16.29","16.17","16.16","16.14","16","16.600","-0.50"})
+        {
+            p=Parse(extended.Replace(" (37)","_"+suffix+" (37)"));
+            Near(p.X,84.53,1e-10,"extended filename X");Near(p.Y,24.14,1e-10,"extended filename Y");Near(p.Z,211.53,1e-10,"extended filename Z");
+            Near(p.Yaw,legacy.Yaw,1e-10,"metadata does not change heading");
+            Check(p.Counter==37 && p.NameTime==legacy.NameTime,"metadata does not replace counter or timestamp");
+        }
+        foreach(string suffix in new[]{"NaN","Infinity","word","16,60","16.60_extra","16.60_16.61","","16.60.1"})
+        { Position ignored;Check(!ScreenshotParser.TryParse(extended.Replace(" (37)","_"+suffix+" (37)"),out ignored),"reject malformed trailing metadata"); }
         string good=Name(0,0,0,"0.0, 0.0, 0.0, 1.0",0);
         string[] invalid={null,"","screen.png","junk"+good,good+".exe",good.Replace(".png",".jpg"),
             good.Replace("2026-10-26","2026-02-30"),good.Replace("12-34","25-99"),good.Replace("0.00, 0.00, 0.00","0,00, 0,00, 0,00"),
@@ -96,12 +109,12 @@ static class Tests
         Console.WriteLine("Watcher: startup scan, created, rename, invalid PNG, order, burst, recovery, dispose");
         string folder=Path.Combine(root,"watch"); Directory.CreateDirectory(folder);
         DateTime t=DateTime.UtcNow.AddDays(-1);
-        Write(folder,Name(10,0),t); Write(folder,"invalid.png",t.AddHours(1)); Write(folder,Name(20,1),t.AddMinutes(1));
+        Write(folder,Name(10,0),t); Write(folder,"invalid.png",t.AddHours(1)); Write(folder,Name(20,1).Replace(" (1)","_16.60 (1)"),t.AddMinutes(1));
         Directory.CreateDirectory(Path.Combine(folder,Name(99,8)));
         using(FolderMonitor m=new FolderMonitor(folder))
         {
             WaitUntil(delegate { return m.Latest!=null && m.Latest.Position.X==20; },"startup latest valid (invalid newest skipped)",5000);
-            Write(folder,Name(30,2),null);
+            Write(folder,Name(30,2).Replace(" (2)","_16.75 (2)"),null);
             WaitUntil(delegate { return m.Latest.Position.X==30; },"Created event",5000);
             Thread.Sleep(50); long accepted=m.Accepted;
             m.RequestRescan(); Thread.Sleep(200);
@@ -116,7 +129,7 @@ static class Tests
             WaitUntil(delegate { return m.Latest.Position.X==50; },"rename to PNG",5000);
             for(int i=0;i<2000;i++) Write(folder,Name(100+(i%400),100+i),null);
             Thread.Sleep(200);
-            string sentinel=Name(612.34,1,-10,"0.0, 0.70711, 0.0, 0.70711",9999);
+            string sentinel=Name(612.34,1,-10,"0.0, 0.70711, 0.0, 0.70711",9999).Replace(" (9999)","_17.00 (9999)");
             Write(folder,sentinel,null);
             m.RequestRescan();
             WaitUntil(delegate { return m.Latest.Position.FileName==sentinel; },"2000-file burst retains newest",10000);

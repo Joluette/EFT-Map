@@ -27,13 +27,32 @@ namespace EftPosition
             while(!predicate() && DateTime.UtcNow<until) { Application.DoEvents(); Thread.Sleep(10); }
             Check(predicate(),message);
         }
+        static void CheckLayout(MainForm form,MapCanvas map,string preview)
+        {
+            foreach(Control c in Descend(form))
+            {
+                if(c is ComboBox && c.Visible)
+                {
+                    Check(c.Visible && c.Width>120 && c.Height>=24,"selector has usable size: "+c.AccessibleName);
+                    Check(c.Parent.ClientRectangle.Contains(c.Bounds),"selector fits its field: "+c.AccessibleName);
+                    Rectangle screen=c.RectangleToScreen(c.ClientRectangle);
+                    for(Control ancestor=c.Parent;ancestor!=null;ancestor=ancestor.Parent)
+                        Check(ancestor.RectangleToScreen(ancestor.ClientRectangle).Contains(screen),"selector is not clipped by an ancestor: "+c.AccessibleName);
+                }
+                if((c is Button || c is CheckBox) && c.Visible)
+                    Check(c.Visible && c.Parent.ClientRectangle.Contains(c.Bounds),"action remains fully visible: "+c.Text);
+                Panel p=c as Panel;
+                if(p!=null && p.Dock==DockStyle.Left) Check(!p.VerticalScroll.Visible && !p.HorizontalScroll.Visible,"sidebar fits without scrolling");
+            }
+            using(Bitmap image=new Bitmap(form.Width,form.Height)) {form.DrawToBitmap(image,new Rectangle(Point.Empty,image.Size));image.Save(preview);}
+        }
         [STAThread]
         static int Main(string[] args)
         {
             Application.EnableVisualStyles(); Application.SetCompatibleTextRenderingDefault(false);
             string fixtures=Path.GetFullPath(args[0]), preview=Path.GetFullPath(args[1]);
             Directory.CreateDirectory(fixtures);
-            using(File.Create(Path.Combine(fixtures,"2026-10-26[12-34]_200.00, 2.30, 150.00_0.0, 0.70711, 0.0, 0.70711 (0).png"))) { }
+            using(File.Create(Path.Combine(fixtures,"2026-10-26[12-34]_200.00, 2.30, 150.00_0.0, 0.70711, 0.0, 0.70711_16.60 (0).png"))) { }
             Exception failure=null;
             string cache=args.Length>2?Path.GetFullPath(args[2]):Path.Combine(fixtures,"cache");
             using(MainForm form=new MainForm(fixtures,null,0,false,true,null,cache))
@@ -54,8 +73,8 @@ namespace EftPosition
                         map.FitMap();
                         Check(map.Position.X==200 && map.Position.Z==150,"marker receives watched position");
                         float initial=Field(map,"scale");
-                        Button(form,"+").PerformClick(); Check(Field(map,"scale")>initial,"zoom-in button");
-                        Button(form,"−").PerformClick(); Check(Math.Abs(Field(map,"scale")-initial)<.001,"zoom-out button");
+                        Button(form,"+").PerformClick(); WaitFor(delegate{return !map.IsAnimating;},"zoom-in finishes"); Check(Field(map,"scale")>initial,"zoom-in button");
+                        Button(form,"−").PerformClick(); WaitFor(delegate{return !map.IsAnimating;},"zoom-out finishes"); Check(Math.Abs(Field(map,"scale")-initial)<.001,"zoom-out button");
                         float before=Field(map,"offsetX");
                         Mouse(map,"OnMouseDown",new MouseEventArgs(MouseButtons.Left,1,250,250,0));
                         Mouse(map,"OnMouseMove",new MouseEventArgs(MouseButtons.Left,0,310,280,0));
@@ -63,6 +82,7 @@ namespace EftPosition
                         Check(Math.Abs(Field(map,"offsetX")-before-60)<.01,"drag moves map by expected pixels");
                         float preWheel=Field(map,"scale");
                         Mouse(map,"OnMouseWheel",new MouseEventArgs(MouseButtons.None,0,300,250,120));
+                        WaitFor(delegate{return !map.IsAnimating;},"wheel zoom finishes");
                         Check(Field(map,"scale")>preWheel,"wheel zoom");
                         Button(form,"Do znacznika").PerformClick();
                         MapPoint p=CustomsMap.Project(200,150);
@@ -74,9 +94,13 @@ namespace EftPosition
                             if(c is CheckBox && c.AccessibleName=="Śledź pozycję") { ((CheckBox)c).Checked=true; Check(map.Follow,"follow toggle"); ((CheckBox)c).Checked=false; }
                             if(c is Label && c.Text=="DANE PRZYKŁADOWE") Check(c.Right<=c.Parent.ClientSize.Width,"demo badge stays inside header");
                         }
-                        form.ClientSize=new Size(950,650); Application.DoEvents();
+                        form.Size=form.MinimumSize; Application.DoEvents();
                         Check(map.Width>500 && map.Height>400,"minimum-size layout leaves map visible");
+                        map.FitMap();
+                        CheckLayout(form,map,Path.Combine(Path.GetDirectoryName(preview),"preview-ui-minimum.png"));
                         form.ClientSize=new Size(1250,760); Application.DoEvents();
+                        map.FitMap();
+                        CheckLayout(form,map,Path.Combine(Path.GetDirectoryName(preview),"preview-ui-default.png"));
                         ComboBox mapMenu=null,levels=null;
                         foreach(Control c in Descend(form)) if(c is ComboBox)
                         { if(c.AccessibleName=="Wybór mapy") mapMenu=(ComboBox)c; else if(c.AccessibleName=="Wybór piętra") levels=(ComboBox)c; }
@@ -107,8 +131,18 @@ namespace EftPosition
                         for(int i=0;i<25;i++) mapMenu.SelectedIndex=i%mapMenu.Items.Count;
                         for(int i=0;i<mapMenu.Items.Count;i++) if(((MapDefinition)mapMenu.Items[i]).Id=="customs") { mapMenu.SelectedIndex=i; break; }
                         WaitFor(delegate { return map.Definition!=null && map.Definition.Id=="customs"; },"rapid changes finish on last map");
+                        foreach(Control c in Descend(form)) if(c is CheckBox && c.AccessibleName=="Automatyczne wnętrza") ((CheckBox)c).Checked=true;
+                        map.FitMap();
                         using(Bitmap image=new Bitmap(form.Width,form.Height)) { form.DrawToBitmap(image,new Rectangle(0,0,form.Width,form.Height)); image.Save(preview); }
+                        Check(!Button(form,"Obserwuj").Enabled && Button(form,"Zatrzymaj").Enabled,"watch actions show running state");
                         Button(form,"Zatrzymaj").PerformClick(); Check(map.Position!=null,"stop keeps last marker");
+                        Check(Button(form,"Obserwuj").Enabled && !Button(form,"Zatrzymaj").Enabled,"watch actions show paused state");
+                        foreach(Control c in Descend(form)) if(c is TextBox && c.AccessibleName=="Ścieżka folderu zrzutów")
+                        {
+                            string previous=c.Text;c.Text="";
+                            Check(!Button(form,"Obserwuj").Enabled,"empty folder cannot start observation");
+                            c.Text=previous;Check(Button(form,"Obserwuj").Enabled,"entering folder re-enables observation");
+                        }
                         Button(form,"Obserwuj").PerformClick();
                         Check(map.Position==null,"new watcher clears previous marker until fresh scan");
                         Console.WriteLine("PASS: "+checks+" GUI checks; real WinForms message loop and control events, no injected OS input.");

@@ -26,7 +26,9 @@ namespace EftPosition
         static readonly Regex Pattern = new Regex(
             @"\A([0-9]{4}-[0-9]{2}-[0-9]{2}\[[0-9]{2}-[0-9]{2}\])_?" +
             P + ", " + P + ", " + P + "_?" + Q + ", " + Q + ", " + Q + ", " + Q +
-            @" \(([0-9]+)\)\.png\z", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase,
+            // Some game screenshots add a numeric field after the quaternion.
+            // It is not a coordinate, rotation component or screenshot counter.
+            @"(?:_-?[0-9]+(?:\.[0-9]{1,5})?)? \(([0-9]+)\)\.png\z", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase,
             TimeSpan.FromMilliseconds(100));
 
         public static bool TryParse(string name, out Position result)

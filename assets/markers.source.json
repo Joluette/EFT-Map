@@ -1,0 +1,525 @@
+{
+  "Version": 1,
+  "RetrievedUtc": "2026-10-27T03:59:22.013Z",
+  "Documentation": "https://tarkov.dev/api",
+  "MarkerFileSha256": "BFEB45A051276385BCE50F08C24B6CC184DD676EE5E16616F08C151B49F90A01",
+  "Sources": [
+    {
+      "Url": "https://json.tarkov.dev/regular/maps",
+      "Sha256": "b9bce6bcbb00454552434bda4edcd1207d6bafc208a596e46659c1a34b9f0626",
+      "Bytes": 8844614
+    },
+    {
+      "Url": "https://json.tarkov.dev/regular/tasks",
+      "Sha256": "72530a3f133aa246f6c90ca1b74221151e2d49f7cce20ab9a22a2ee94e6db677",
+      "Bytes": 2114206
+    },
+    {
+      "Url": "https://json.tarkov.dev/regular/maps_en",
+      "Sha256": "ba7de84f83da7b3bc014ba35b9b6ecdf2a1860ec2d4a9e39c6b7bf837fc1f3bf",
+      "Bytes": 23365
+    },
+    {
+      "Url": "https://json.tarkov.dev/regular/tasks_en",
+      "Sha256": "1d8fac06a91c32c5e85f248634b2fc11fa32088dbe4b79e4207de147aff5cbea",
+      "Bytes": 252140
+    },
+    {
+      "Url": "https://json.tarkov.dev/regular/tasks_pl",
+      "Sha256": "ccafb4bb64f70d86eb93960b7b94693ad7288079b72317582ee23115828bff69",
+      "Bytes": 265597
+    },
+    {
+      "Url": "https://json.tarkov.dev/pve/maps",
+      "Sha256": "06a5f784b393c17532e5414c735bf2c0d808a459ef998eca9a0f61c3ad22895f",
+      "Bytes": 8882219
+    },
+    {
+      "Url": "https://json.tarkov.dev/pve/tasks",
+      "Sha256": "d2e34273ca427f6aa2f53b7e28c24b434352139edd257235a2f597908431a9de",
+      "Bytes": 2099874
+    },
+    {
+      "Url": "https://json.tarkov.dev/pve/maps_en",
+      "Sha256": "743ab98262de18678653a06a6f871f1b06ce657f7ac07668459e82e91556b1a1",
+      "Bytes": 23952
+    },
+    {
+      "Url": "https://json.tarkov.dev/pve/tasks_en",
+      "Sha256": "8ccb3ffc8969238ad6db6fa3a1652fafbbbd50e7eb2ecb8416ca20628a0da04e",
+      "Bytes": 259873
+    },
+    {
+      "Url": "https://json.tarkov.dev/pve/tasks_pl",
+      "Sha256": "e549518d5c7e169a08f47e26cfee97c6e791cb575ae33e3b7231906f81d8da0d",
+      "Bytes": 273477
+    },
+    {
+      "Url": "https://json.tarkov.dev/pvp-season/maps",
+      "Sha256": "10b4dbf1b657d17750f8c81d1dfab125d8007b9a531a57b13ab6cf2807635ce6",
+      "Bytes": 9018962
+    },
+    {
+      "Url": "https://json.tarkov.dev/pvp-season/tasks",
+      "Sha256": "7a8bad90a78cab626f2ff229df973d0098c1932f582b2fa08a9baea3784f6c92",
+      "Bytes": 1853605
+    },
+    {
+      "Url": "https://json.tarkov.dev/pvp-season/maps_en",
+      "Sha256": "3b511597310c7583ba57d1a92931bbb91b925b2718ab0b910fd3a4a91f3f437c",
+      "Bytes": 23988
+    },
+    {
+      "Url": "https://json.tarkov.dev/pvp-season/tasks_en",
+      "Sha256": "8ccb3ffc8969238ad6db6fa3a1652fafbbbd50e7eb2ecb8416ca20628a0da04e",
+      "Bytes": 259873
+    },
+    {
+      "Url": "https://json.tarkov.dev/pvp-season/tasks_pl",
+      "Sha256": "e549518d5c7e169a08f47e26cfee97c6e791cb575ae33e3b7231906f81d8da0d",
+      "Bytes": 273477
+    }
+  ],
+  "Coverage": [
+    {
+      "mode": "regular",
+      "map": "customs",
+      "extracts": 24,
+      "quests": 45,
+      "points": 141,
+      "factions": [
+        "scav",
+        "shared",
+        "pmc"
+      ]
+    },
+    {
+      "mode": "regular",
+      "map": "factory",
+      "extracts": 10,
+      "quests": 23,
+      "points": 61,
+      "factions": [
+        "scav",
+        "pmc"
+      ]
+    },
+    {
+      "mode": "regular",
+      "map": "ground-zero",
+      "extracts": 6,
+      "quests": 13,
+      "points": 42,
+      "factions": [
+        "shared",
+        "pmc"
+      ]
+    },
+    {
+      "mode": "regular",
+      "map": "icebreaker",
+      "extracts": 1,
+      "quests": 1,
+      "points": 3,
+      "factions": [
+        "pmc"
+      ]
+    },
+    {
+      "mode": "regular",
+      "map": "interchange",
+      "extracts": 7,
+      "quests": 16,
+      "points": 47,
+      "factions": [
+        "pmc",
+        "scav",
+        "shared"
+      ]
+    },
+    {
+      "mode": "regular",
+      "map": "lighthouse",
+      "extracts": 11,
+      "quests": 28,
+      "points": 53,
+      "factions": [
+        "shared",
+        "scav",
+        "pmc"
+      ]
+    },
+    {
+      "mode": "regular",
+      "map": "reserve",
+      "extracts": 11,
+      "quests": 27,
+      "points": 67,
+      "factions": [
+        "shared",
+        "scav",
+        "pmc"
+      ]
+    },
+    {
+      "mode": "regular",
+      "map": "shoreline",
+      "extracts": 18,
+      "quests": 43,
+      "points": 95,
+      "factions": [
+        "scav",
+        "pmc",
+        "shared"
+      ]
+    },
+    {
+      "mode": "regular",
+      "map": "streets-of-tarkov",
+      "extracts": 19,
+      "quests": 46,
+      "points": 141,
+      "factions": [
+        "scav",
+        "pmc",
+        "shared"
+      ]
+    },
+    {
+      "mode": "regular",
+      "map": "terminal",
+      "extracts": 0,
+      "quests": 0,
+      "points": 0,
+      "factions": []
+    },
+    {
+      "mode": "regular",
+      "map": "the-lab",
+      "extracts": 7,
+      "quests": 5,
+      "points": 18,
+      "factions": [
+        "shared",
+        "pmc"
+      ]
+    },
+    {
+      "mode": "regular",
+      "map": "the-labyrinth",
+      "extracts": 2,
+      "quests": 5,
+      "points": 17,
+      "factions": [
+        "pmc"
+      ]
+    },
+    {
+      "mode": "regular",
+      "map": "woods",
+      "extracts": 19,
+      "quests": 38,
+      "points": 72,
+      "factions": [
+        "scav",
+        "pmc",
+        "shared"
+      ]
+    },
+    {
+      "mode": "pve",
+      "map": "customs",
+      "extracts": 24,
+      "quests": 46,
+      "points": 142,
+      "factions": [
+        "scav",
+        "shared",
+        "pmc"
+      ]
+    },
+    {
+      "mode": "pve",
+      "map": "factory",
+      "extracts": 10,
+      "quests": 23,
+      "points": 61,
+      "factions": [
+        "scav",
+        "pmc"
+      ]
+    },
+    {
+      "mode": "pve",
+      "map": "ground-zero",
+      "extracts": 6,
+      "quests": 13,
+      "points": 42,
+      "factions": [
+        "shared",
+        "pmc"
+      ]
+    },
+    {
+      "mode": "pve",
+      "map": "icebreaker",
+      "extracts": 1,
+      "quests": 1,
+      "points": 3,
+      "factions": [
+        "pmc"
+      ]
+    },
+    {
+      "mode": "pve",
+      "map": "interchange",
+      "extracts": 7,
+      "quests": 16,
+      "points": 47,
+      "factions": [
+        "pmc",
+        "scav",
+        "shared"
+      ]
+    },
+    {
+      "mode": "pve",
+      "map": "lighthouse",
+      "extracts": 11,
+      "quests": 28,
+      "points": 55,
+      "factions": [
+        "shared",
+        "scav",
+        "pmc"
+      ]
+    },
+    {
+      "mode": "pve",
+      "map": "reserve",
+      "extracts": 11,
+      "quests": 27,
+      "points": 67,
+      "factions": [
+        "shared",
+        "scav",
+        "pmc"
+      ]
+    },
+    {
+      "mode": "pve",
+      "map": "shoreline",
+      "extracts": 18,
+      "quests": 43,
+      "points": 95,
+      "factions": [
+        "scav",
+        "pmc",
+        "shared"
+      ]
+    },
+    {
+      "mode": "pve",
+      "map": "streets-of-tarkov",
+      "extracts": 19,
+      "quests": 46,
+      "points": 141,
+      "factions": [
+        "scav",
+        "pmc",
+        "shared"
+      ]
+    },
+    {
+      "mode": "pve",
+      "map": "terminal",
+      "extracts": 0,
+      "quests": 0,
+      "points": 0,
+      "factions": []
+    },
+    {
+      "mode": "pve",
+      "map": "the-lab",
+      "extracts": 7,
+      "quests": 5,
+      "points": 18,
+      "factions": [
+        "shared",
+        "pmc"
+      ]
+    },
+    {
+      "mode": "pve",
+      "map": "the-labyrinth",
+      "extracts": 2,
+      "quests": 5,
+      "points": 17,
+      "factions": [
+        "pmc"
+      ]
+    },
+    {
+      "mode": "pve",
+      "map": "woods",
+      "extracts": 19,
+      "quests": 38,
+      "points": 72,
+      "factions": [
+        "scav",
+        "pmc",
+        "shared"
+      ]
+    },
+    {
+      "mode": "pvp-season",
+      "map": "customs",
+      "extracts": 24,
+      "quests": 38,
+      "points": 119,
+      "factions": [
+        "scav",
+        "shared",
+        "pmc"
+      ]
+    },
+    {
+      "mode": "pvp-season",
+      "map": "factory",
+      "extracts": 10,
+      "quests": 23,
+      "points": 61,
+      "factions": [
+        "scav",
+        "pmc"
+      ]
+    },
+    {
+      "mode": "pvp-season",
+      "map": "ground-zero",
+      "extracts": 6,
+      "quests": 12,
+      "points": 41,
+      "factions": [
+        "shared",
+        "pmc"
+      ]
+    },
+    {
+      "mode": "pvp-season",
+      "map": "icebreaker",
+      "extracts": 1,
+      "quests": 1,
+      "points": 3,
+      "factions": [
+        "pmc"
+      ]
+    },
+    {
+      "mode": "pvp-season",
+      "map": "interchange",
+      "extracts": 7,
+      "quests": 16,
+      "points": 47,
+      "factions": [
+        "pmc",
+        "scav",
+        "shared"
+      ]
+    },
+    {
+      "mode": "pvp-season",
+      "map": "lighthouse",
+      "extracts": 11,
+      "quests": 25,
+      "points": 45,
+      "factions": [
+        "shared",
+        "scav",
+        "pmc"
+      ]
+    },
+    {
+      "mode": "pvp-season",
+      "map": "reserve",
+      "extracts": 11,
+      "quests": 25,
+      "points": 65,
+      "factions": [
+        "shared",
+        "scav",
+        "pmc"
+      ]
+    },
+    {
+      "mode": "pvp-season",
+      "map": "shoreline",
+      "extracts": 18,
+      "quests": 43,
+      "points": 95,
+      "factions": [
+        "scav",
+        "pmc",
+        "shared"
+      ]
+    },
+    {
+      "mode": "pvp-season",
+      "map": "streets-of-tarkov",
+      "extracts": 19,
+      "quests": 45,
+      "points": 135,
+      "factions": [
+        "scav",
+        "pmc",
+        "shared"
+      ]
+    },
+    {
+      "mode": "pvp-season",
+      "map": "terminal",
+      "extracts": 0,
+      "quests": 0,
+      "points": 0,
+      "factions": []
+    },
+    {
+      "mode": "pvp-season",
+      "map": "the-lab",
+      "extracts": 7,
+      "quests": 5,
+      "points": 18,
+      "factions": [
+        "shared",
+        "pmc"
+      ]
+    },
+    {
+      "mode": "pvp-season",
+      "map": "the-labyrinth",
+      "extracts": 2,
+      "quests": 5,
+      "points": 17,
+      "factions": [
+        "pmc"
+      ]
+    },
+    {
+      "mode": "pvp-season",
+      "map": "woods",
+      "extracts": 19,
+      "quests": 36,
+      "points": 63,
+      "factions": [
+        "scav",
+        "pmc",
+        "shared"
+      ]
+    }
+  ],
+  "Discarded": {
+    "outsideBounds": 9,
+    "noMap": 0,
+    "invalidPosition": 3
+  }
+}

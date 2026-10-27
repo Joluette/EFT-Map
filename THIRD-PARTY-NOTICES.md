@@ -14,6 +14,14 @@ Kod prototypu udostępniono na **GPL-3.0-only**, pełny tekst w `LICENSE.txt`. �
 
 ## Dane i kalibracja wszystkich map
 
+### Znaczniki questów i ekstraktów — migawka z 27.10.2026
+
+Dodatkowa nakładka korzysta z publicznego [JSON API tarkov.dev](https://tarkov.dev/api), utrzymywanego przez społeczność tarkov.dev. Pobrano dane `maps`, `tasks` i słowniki nazw z `https://json.tarkov.dev` dla `regular`, `pve` i `pvp-season`. Oficjalna dokumentacja udostępnia API do budowania własnych narzędzi; wskazuje dane pochodzące m.in. z Tarkov Changes, Escape from Tarkov Wiki, TarkovTracker/tarkovdata i sieci skanerów. Nie przypisujemy licencji kodu witryny do wszystkich źródłowych danych lub grafik.
+
+`assets/markers.json` zawiera zredukowane nazwy i współrzędne potrzebne aplikacji, bez opisów zadań, nagród czy obrazów. `assets/markers.source.json` zapisuje adresy źródłowe, datę pobrania, sumy SHA-256 i pokrycie map. Narzędzia `Prepare-Markers.cjs` i `Audit-Markers.cjs` przygotowują dane i sprawdzają ich powiązanie z pobranymi rekordami źródłowymi. Wyszukiwarka działa lokalnie i nie wysyła zapytań użytkownika ani zrzutów do API.
+
+### Kalibracja map i metadane pięter
+
 Projekt **the-hideout/tarkov-dev**, Copyright (c) 2019 **Oskar Risberg** i współtwórcy. Rewizja `ec44177bd3c21aa2b33938153acd0a96dbd939aa`:
 
 - [maps.json](https://github.com/the-hideout/tarkov-dev/blob/ec44177bd3c21aa2b33938153acd0a96dbd939aa/src/data/maps.json): granice, obroty, transformacje, opisy, autorzy, piętra i publiczne adresy kafelków.

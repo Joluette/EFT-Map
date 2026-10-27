@@ -3,6 +3,8 @@ using System;
 using System.Drawing;
 using System.IO;
 using System.Xml;
+using System.Drawing.Imaging;
+using System.Runtime.InteropServices;
 using EftPosition;
 
 static class VectorMapTests
@@ -14,6 +16,25 @@ static class VectorMapTests
         int total=0;
         for(int y=0;y<image.Height;y++) for(int x=0;x<image.Width;x++) if(image.GetPixel(x,y).ToArgb()==color.ToArgb()) total++;
         return total;
+    }
+    static void SamePixels(Bitmap a,Bitmap b,string message)
+    {
+        Rectangle area=new Rectangle(0,0,a.Width,a.Height);
+        BitmapData first=a.LockBits(area,ImageLockMode.ReadOnly,PixelFormat.Format32bppArgb);
+        BitmapData second=b.LockBits(area,ImageLockMode.ReadOnly,PixelFormat.Format32bppArgb);
+        int different=0;
+        try
+        {
+            int[] left=new int[a.Width],right=new int[a.Width];
+            for(int y=0;y<a.Height;y++)
+            {
+                Marshal.Copy(IntPtr.Add(first.Scan0,y*first.Stride),left,0,left.Length);
+                Marshal.Copy(IntPtr.Add(second.Scan0,y*second.Stride),right,0,right.Length);
+                for(int x=0;x<left.Length;x++) if(left[x]!=right[x]) different++;
+            }
+        }
+        finally {a.UnlockBits(first);b.UnlockBits(second);}
+        Check(different<100,message+" (different pixels="+different+")");
     }
     [STAThread]
     static int Main(string[] args)
@@ -43,6 +64,36 @@ static class VectorMapTests
                 maps++;
             }
             Check(maps==30,"all thirty vector levels checked");
+            foreach(string name in new[]{"customs-base.svg","streets-of-tarkov-base.svg","woods-base.svg"})
+            {
+                string path=Path.Combine(assets,"vectors",name);
+                XmlDocument xml=new XmlDocument();xml.XmlResolver=null;xml.Load(path);
+                int width=Int32.Parse(xml.DocumentElement.GetAttribute("width")),height=Int32.Parse(xml.DocumentElement.GetAttribute("height"));
+                using(VectorMap moved=new VectorMap(path,width,height))
+                using(VectorMap fresh=new VectorMap(path,width,height))
+                using(Bitmap image=new Bitmap(960,600)) using(Graphics g=Graphics.FromImage(image))
+                using(Bitmap reference=new Bitmap(960,600)) using(Graphics rg=Graphics.FromImage(reference))
+                {
+                    float scale=.8f,x=-110.25f,y=-205.5f;
+                    moved.Draw(g,image.Size,scale,x,y);
+                    foreach(Point delta in new[]{new Point(37,19),new Point(-61,0),new Point(0,-43),new Point(32,51),new Point(400,200),new Point(900,0),new Point(-950,-580)})
+                    {
+                        x+=delta.X;y+=delta.Y;
+                        g.Clear(Color.Magenta);rg.Clear(Color.Magenta);
+                        moved.Draw(g,image.Size,scale,x,y);
+                        fresh.Draw(rg,reference.Size,scale*.99f,x,y);
+                        rg.Clear(Color.Magenta);fresh.Draw(rg,reference.Size,scale,x,y);
+                        SamePixels(image,reference,"integer pan matches full redraw: "+name);
+                    }
+                    Check(moved.ReusedPanCount==7,"all integer pans reuse old pixels: "+name);
+                    Check(moved.CacheBytes==2L*960*600*4,"pan buffers are limited to two viewport bitmaps: "+name);
+                    moved.Draw(g,image.Size,1.1f,x+.5f,y+.25f);
+                    Check(moved.ReusedPanCount==7,"zoom/fractional movement is redrawn accurately: "+name);
+                    using(Bitmap smaller=new Bitmap(320,200)) using(Graphics sg=Graphics.FromImage(smaller))
+                    {moved.Draw(sg,smaller.Size,scale,x,y);Check(moved.CacheBytes==320L*200*4,"resize releases both old viewport buffers: "+name);}
+                    moved.Dispose();Check(moved.CacheBytes==0,"both buffers released on disposal: "+name);
+                }
+            }
             using(VectorMap map=new VectorMap(Path.Combine(assets,"vectors","customs-base.svg"),3210,1632))
             using(Bitmap bitmap=new Bitmap(1070,544)) using(Graphics g=Graphics.FromImage(bitmap))
             {

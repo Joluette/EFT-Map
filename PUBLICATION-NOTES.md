@@ -1,11 +1,7 @@
-# Publiczne wydanie do GitHub — 27.10.2026
+# Publikacja 3.1.0
 
-Paczka pochodzi z EFT-Position-Windows-v3.zip.
+Kod, biblioteki, mapy i lokalizacje są dołączone z licencjami i atrybucją. Nie dołączono ustawień folderu, osobistego cache, rzeczywistych screenshotów, surowej diagnostyki użytkownika ani obrazów z jego ścieżką. W wybranych raportach ścieżki fixture zastąpiono ogólnymi nazwami, zachowując liczby pomiarów.
 
-- Zanonimizowano lokalne ścieżki katalogów w reports/hires-network-tests.txt, reports/tile-tests.txt i reports/memory-summary.json. Zastępują je względne ścieżki work/…
-- Dla prywatności pominięto reports/preview.png i reports/preview-v3-zoom.png, ponieważ interfejs na tych podglądach zawierał lokalną ścieżkę użytkownika.
+Zmiana VERSION na main uruchamia release.yml: budowanie i testy Windows, paczki programu i kodu oraz nowe wydanie prototypowe z sumami SHA-256. Istniejące wydania nie są nadpisywane. Workflow używa krótkotrwałego tokenu własnego zadania GitHub Actions; repozytorium nie przechowuje prywatnego klucza ani osobistego tokenu.
 
-Plik EftPosition.exe, wyniki i metoda pomiaru pamięci oraz pozostałe pliki są bez zmian. Nie wykonywano nowego pomiaru RAM. Zachowano kod źródłowy, biblioteki, licencje i informacje o autorach. Nie dołączono pobranych plików cache.
-
-SHA-256 niezmienionego EXE:
-670BA750E157E85551FEF4E1C4FD91FFD015D47D9B62E8E138B70BAFF1CF9598
+BUILD-INFO.json w paczce Windows zawiera hash EXE i rewizję źródeł. Raport pamięci wskazuje osobno hash wcześniej zmierzonej implementacji. Metadane wersji nie zmieniają działania programu. Starsze publiczne raporty pozostają w historii repozytorium.

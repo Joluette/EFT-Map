@@ -1,0 +1,5 @@
+SKIP uncached online map in offline GUI test: icebreaker
+SKIP uncached online map in offline GUI test: the-lab
+SKIP uncached online map in offline GUI test: the-labyrinth
+PASS: 137 GUI checks; real WinForms message loop and control events, no injected OS input.
+

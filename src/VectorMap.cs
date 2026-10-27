@@ -14,18 +14,21 @@ using SharpVectors.Renderers.Gdi;
 
 namespace EftPosition
 {
-    // Retains one small SVG DOM and only one screen-sized raster cache. Zooming
-    // redraws curves at the current pixel scale, never magnifies an old map PNG.
+    // Records SVG geometry once as native vector commands. Zooms replay curves
+    // at screen resolution; integer pans reuse pixels and repaint exposed strips.
     public sealed class VectorMap : IDisposable
     {
         SvgDocument document;
         GdiSvgWindow window;
         GdiGraphicsRenderer renderer;
         Bitmap viewportCache;
+        Bitmap panCache;
+        Metafile drawing;
         readonly int logicalWidth,logicalHeight;
         float cachedScale,cachedX,cachedY;
         bool cacheValid;
         int renderCount;
+        int reusedPanCount;
 
         public VectorMap(string path,int width,int height)
         {
@@ -53,7 +56,45 @@ namespace EftPosition
             catch { Dispose(); throw; }
         }
         public int RenderCount { get { return renderCount; } }
-        public long CacheBytes { get { return viewportCache==null?0:(long)viewportCache.Width*viewportCache.Height*4; } }
+        public int ReusedPanCount { get { return reusedPanCount; } }
+        public long CacheBytes { get { return BitmapBytes(viewportCache)+BitmapBytes(panCache); } }
+        static long BitmapBytes(Bitmap image) { return image==null?0:(long)image.Width*image.Height*4; }
+        void PrepareDrawing()
+        {
+            if(drawing!=null) return;
+            using(Bitmap reference=new Bitmap(1,1))
+            using(Graphics graphics=Graphics.FromImage(reference))
+            {
+                IntPtr hdc=graphics.GetHdc();
+                try { drawing=new Metafile(hdc,new Rectangle(0,0,logicalWidth,logicalHeight),MetafileFrameUnit.Pixel,EmfType.EmfPlusOnly); }
+                finally { graphics.ReleaseHdc(hdc); }
+            }
+            try
+            {
+                using(GdiGraphics target=GdiGraphics.Create(drawing,true))
+                {
+                    renderer.GdiGraphics=target;
+                    try
+                    {
+                        target.Graphics.SmoothingMode=SmoothingMode.AntiAlias;
+                        target.Graphics.PixelOffsetMode=PixelOffsetMode.HighQuality;
+                        renderer.Render(document);
+                    }
+                    finally { renderer.GdiGraphics=null; }
+                }
+            }
+            catch { drawing.Dispose(); drawing=null; throw; }
+        }
+        void PaintDrawing(Graphics target,float scale,float x,float y)
+        {
+            target.SmoothingMode=SmoothingMode.AntiAlias;
+            target.PixelOffsetMode=PixelOffsetMode.HighQuality;
+            target.TranslateTransform(x,y);
+            target.ScaleTransform(scale,scale);
+            using(Brush background=new SolidBrush(Color.FromArgb(24,39,43)))
+                target.FillRectangle(background,0,0,logicalWidth,logicalHeight);
+            target.DrawImage(drawing,new Rectangle(0,0,logicalWidth,logicalHeight),0,0,logicalWidth,logicalHeight,GraphicsUnit.Pixel);
+        }
         // The native renderer has an inheritance defect for stylesheet classes.
         // Keep class names for building discovery, but materialize declarations
         // only on their original element; child inheritance must stay intact.
@@ -102,28 +143,36 @@ namespace EftPosition
             if(changed)
             {
                 if(viewportCache!=null) { viewportCache.Dispose(); viewportCache=null; }
+                if(panCache!=null) { panCache.Dispose(); panCache=null; }
                 viewportCache=new Bitmap(viewport.Width,viewport.Height,PixelFormat.Format32bppPArgb);
                 cacheValid=false;
             }
             if(!cacheValid || scale!=cachedScale || offsetX!=cachedX || offsetY!=cachedY)
             {
-                // No renderer-owned huge bitmap or hit-testing surface is created.
-                using(GdiGraphics target=GdiGraphics.Create(viewportCache,true))
+                PrepareDrawing();
+                float moveX=offsetX-cachedX,moveY=offsetY-cachedY;
+                int dx=(int)Math.Round(moveX),dy=(int)Math.Round(moveY);
+                bool reuse=cacheValid && scale==cachedScale && Math.Abs(moveX-dx)<.001f && Math.Abs(moveY-dy)<.001f &&
+                    Math.Abs(dx)<viewport.Width && Math.Abs(dy)<viewport.Height;
+                if(reuse)
                 {
-                    renderer.GdiGraphics=target;
-                    try
+                    if(panCache==null) panCache=new Bitmap(viewport.Width,viewport.Height,PixelFormat.Format32bppPArgb);
+                    using(Graphics target=Graphics.FromImage(panCache))
+                    using(Region exposed=new Region(new Rectangle(Point.Empty,viewport)))
                     {
                         target.Clear(Color.Transparent);
-                        target.Graphics.SmoothingMode=SmoothingMode.AntiAlias;
-                        target.Graphics.PixelOffsetMode=PixelOffsetMode.HighQuality;
-                        target.Graphics.TranslateTransform(offsetX,offsetY);
-                        target.Graphics.ScaleTransform(scale,scale);
-                        using(Brush background=new SolidBrush(Color.FromArgb(24,39,43)))
-                            target.Graphics.FillRectangle(background,0,0,logicalWidth,logicalHeight);
-                        renderer.Render(document);
+                        target.CompositingMode=CompositingMode.SourceCopy;
+                        target.DrawImageUnscaled(viewportCache,dx,dy);
+                        target.CompositingMode=CompositingMode.SourceOver;
+                        exposed.Exclude(new Rectangle(dx,dy,viewport.Width,viewport.Height));
+                        target.SetClip(exposed,CombineMode.Replace);
+                        PaintDrawing(target,scale,offsetX,offsetY);
                     }
-                    finally { renderer.GdiGraphics=null; }
+                    Bitmap old=viewportCache;viewportCache=panCache;panCache=old;
+                    reusedPanCount++;
                 }
+                else using(Graphics target=Graphics.FromImage(viewportCache))
+                { target.Clear(Color.Transparent); PaintDrawing(target,scale,offsetX,offsetY); }
                 cachedScale=scale; cachedX=offsetX; cachedY=offsetY; cacheValid=true; renderCount++;
             }
             graphics.DrawImageUnscaled(viewportCache,0,0);
@@ -174,7 +223,9 @@ namespace EftPosition
         public void Dispose()
         {
             cacheValid=false;
+            if(drawing!=null) { drawing.Dispose(); drawing=null; }
             if(viewportCache!=null) { viewportCache.Dispose(); viewportCache=null; }
+            if(panCache!=null) { panCache.Dispose(); panCache=null; }
             if(renderer!=null) { renderer.Dispose(); renderer=null; }
             if(window!=null) { window.Document=null; window=null; }
             if(document!=null) { document.RemoveAll(); document=null; }

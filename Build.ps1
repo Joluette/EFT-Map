@@ -1,11 +1,11 @@
-﻿$ErrorActionPreference = 'Stop'
+$ErrorActionPreference = 'Stop'
 Push-Location -LiteralPath $PSScriptRoot
 try {
 $compiler = Join-Path $env:WINDIR 'Microsoft.NET\Framework64\v4.0.30319\csc.exe'
 if (!(Test-Path -LiteralPath $compiler)) { throw 'Potrzebny jest Windows x64 z .NET Framework 4.8.' }
 $sources = @(Get-ChildItem -LiteralPath 'src' -Filter '*.cs' | ForEach-Object FullName)
 $libraryRefs=@(Get-ChildItem -LiteralPath 'lib' -Filter '*.dll' | ForEach-Object { '/reference:'+ $_.FullName })
-& $compiler /nologo /target:winexe /platform:x64 /optimize+ /warn:4 /utf8output /codepage:65001 /out:EftPosition.exe /win32manifest:src\app.manifest /reference:System.Windows.Forms.dll /reference:System.Drawing.dll /reference:System.Web.Extensions.dll $libraryRefs $sources
+& $compiler /nologo /target:winexe /platform:x64 /optimize+ /warn:4 /utf8output /codepage:65001 /out:EftPosition.exe /win32icon:assets\app.ico /win32manifest:src\app.manifest /reference:System.Windows.Forms.dll /reference:System.Drawing.dll /reference:System.Web.Extensions.dll $libraryRefs $sources
 if ($LASTEXITCODE -ne 0) { throw 'Kompilacja aplikacji nie powiodła się.' }
 & $compiler /nologo /target:exe /platform:x64 /optimize+ /warn:4 /utf8output /codepage:65001 /out:tests\EftPosition.Tests.exe /reference:System.Web.Extensions.dll src\Core.cs src\FolderMonitor.cs src\Maps.cs tests\Tests.cs
 if ($LASTEXITCODE -ne 0) { throw 'Kompilacja testów nie powiodła się.' }
@@ -26,5 +26,16 @@ if(Test-Path -LiteralPath 'tests\ExperienceTests.cs') {
   if ($LASTEXITCODE -ne 0) { throw 'Kompilacja testów nowych funkcji nie powiodła się.' }
   Copy-Item -LiteralPath 'EftPosition.exe.config' -Destination 'EftPosition.ExperienceTests.exe.config' -Force
 }
-Write-Host 'Gotowe: EftPosition.exe oraz tests\EftPosition.Tests.exe'
+& $compiler /nologo /target:exe /platform:x64 /optimize+ /warn:4 /utf8output /codepage:65001 /main:EftPosition.SmoothViewTests /out:EftPosition.SmoothViewTests.exe /win32manifest:src\app.manifest /reference:System.Windows.Forms.dll /reference:System.Drawing.dll /reference:System.Web.Extensions.dll $libraryRefs $sources tests\SmoothViewTests.cs
+if ($LASTEXITCODE -ne 0) { throw 'Kompilacja testów płynności nie powiodła się.' }
+Copy-Item -LiteralPath 'EftPosition.exe.config' -Destination 'EftPosition.SmoothViewTests.exe.config' -Force
+& $compiler /nologo /target:exe /platform:x64 /optimize+ /warn:4 /utf8output /codepage:65001 /main:EftPosition.MarkerTests /out:EftPosition.MarkerTests.exe /win32manifest:src\app.manifest /reference:System.Windows.Forms.dll /reference:System.Drawing.dll /reference:System.Web.Extensions.dll $libraryRefs $sources tests\MarkerTests.cs
+if ($LASTEXITCODE -ne 0) { throw 'Kompilacja testów znaczników nie powiodła się.' }
+Copy-Item -LiteralPath 'EftPosition.exe.config' -Destination 'EftPosition.MarkerTests.exe.config' -Force
+
+& $compiler /nologo /target:exe /platform:x64 /optimize+ /warn:4 /utf8output /codepage:65001 /main:EftPosition.PolishTests /out:EftPosition.PolishTests.exe /win32manifest:src\app.manifest /reference:System.Windows.Forms.dll /reference:System.Drawing.dll /reference:System.Web.Extensions.dll $libraryRefs $sources tests\PolishTests.cs
+if ($LASTEXITCODE -ne 0) { throw 'Kompilacja testów ustawień i usuwania zrzutów nie powiodła się.' }
+Copy-Item -LiteralPath 'EftPosition.exe.config' -Destination 'EftPosition.PolishTests.exe.config' -Force
+Write-Host 'Gotowe: EftPosition.exe oraz testy.'
 } finally { Pop-Location }
+

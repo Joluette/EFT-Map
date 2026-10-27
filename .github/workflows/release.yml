@@ -1,0 +1,58 @@
+name: Build, check and publish Windows release
+
+on:
+  push:
+    branches: [main]
+    paths: [VERSION]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: windows-2025
+    timeout-minutes: 20
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - name: Check out release source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Build application and tests
+        run: ./Build.ps1
+      - name: Check parser, monitoring, navigation and tiles
+        run: |
+          $ErrorActionPreference='Stop'
+          ./tests/EftPosition.Tests.exe (Join-Path $env:RUNNER_TEMP 'eft-core')
+          if($LASTEXITCODE -ne 0){throw 'Core tests failed'}
+          ./tests/AutoNavigationTests.exe ./assets
+          if($LASTEXITCODE -ne 0){throw 'Navigation tests failed'}
+          ./tests/TileMapTests.exe (Join-Path $env:RUNNER_TEMP 'eft-tiles')
+          if($LASTEXITCODE -ne 0){throw 'Tile tests failed'}
+      - name: Check screenshot cleanup, settings, floors and smooth view
+        run: |
+          $ErrorActionPreference='Stop'
+          ./EftPosition.PolishTests.exe (Join-Path $env:RUNNER_TEMP 'eft-settings') (Join-Path $env:RUNNER_TEMP 'eft-ui-images')
+          if($LASTEXITCODE -ne 0){throw 'Settings and cleanup tests failed'}
+          ./EftPosition.SmoothViewTests.exe ./assets
+          if($LASTEXITCODE -ne 0){throw 'Smooth view tests failed'}
+      - name: Package clean runtime and source archives
+        run: ./tools/Package-Release.ps1
+      - name: Publish version and checksums
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          $ErrorActionPreference='Stop'
+          $version=(Get-Content ./VERSION -Raw).Trim()
+          gh release view $version --json tagName 2>$null
+          if($LASTEXITCODE -eq 0){Write-Output "Release $version already exists; no files replaced.";exit 0}
+          gh release create $version "artifacts/EFT-Position-Windows-$version.zip" "artifacts/EFT-Map-kod-zrodlowy-$version.zip" artifacts/SHA256SUMS.txt --target $env:GITHUB_SHA --title "EFT Position $version" --notes-file RELEASE-NOTES.md --prerelease
+          if($LASTEXITCODE -ne 0){throw 'Release publication failed'}

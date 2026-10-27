@@ -219,6 +219,15 @@ namespace EftPosition
             return candidate.Order>current.Order;
         }
 
+        // Stateless classification for quest locations; never changes player hysteresis.
+        public string LevelAt(double x,double y,double z)
+        {
+            Position p=new Position("",DateTime.MinValue,x,y,z,0,false,0);
+            if(!map.Layers[0].Contains(p))return null;
+            Band best=null;
+            foreach(Band b in bands)if(b.Applies(p,0,0) && Better(b,best))best=b;
+            return best==null?"base":best.LayerId;
+        }
         public NavigationDecision Update(Position position,string currentLayerId)
         {
             if(position==null) throw new ArgumentNullException("position");

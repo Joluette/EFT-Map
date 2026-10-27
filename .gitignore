@@ -1,0 +1,17 @@
+# Pliki tworzone podczas budowania lub działania aplikacji
+cache/
+bin/
+obj/
+.vs/
+work/
+*.exe
+*.pdb
+*.user
+*.suo
+*.part
+EftPosition.*Tests.exe.config
+EftPosition.RenderBenchmark.exe.config
+reports/preview.png
+reports/preview-v3-zoom.png
+
+artifacts/
