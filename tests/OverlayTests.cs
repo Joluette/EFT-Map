@@ -71,6 +71,7 @@ namespace EftPosition
             Application.EnableVisualStyles();Application.SetCompatibleTextRenderingDefault(false);
             try
             {
+                bool desktop=args.Length<3 || args[2]!="--noninteractive";
                 string root=Path.GetFullPath(args[0]),reports=Path.GetFullPath(args[1]);Directory.CreateDirectory(root);Directory.CreateDirectory(reports);Preferences(root);Raster(root);
                 string cache=Path.Combine(root,"cache"),shots=Path.Combine(root,"screenshots");Directory.CreateDirectory(shots);
                 var prefs=new AppPreferences {ScreenshotFolder=shots,DeleteScreenshots=false,Language="pl",Theme="night",BackgroundMode="plain",MapOpacity=69,MarkerSize=80,OverlayEnabled=true};
@@ -89,9 +90,11 @@ namespace EftPosition
                     Check(SendMessage(overlay.Handle,0x21,IntPtr.Zero,IntPtr.Zero).ToInt32()==3,"minimap refuses keyboard activation");
                     game.Show();game.Activate();Pump(80);IntPtr foreground=GetForegroundWindow();
                     f.ToggleOverlay();Check(!overlay.Visible,"show/hide action hides minimap");f.ToggleOverlay();Pump(80);
-                    Check(GetForegroundWindow()==foreground,"showing overlay leaves the current foreground window unchanged");
+                    if(desktop)Check(GetForegroundWindow()==foreground,"showing overlay leaves the current foreground window unchanged");
+                    else Console.WriteLine("SKIP foreground presentation assertion: noninteractive CI desktop. Native no-activate styles and messages are still checked.");
                     Point hit=overlay.PointToScreen(new Point(overlay.Width/2,overlay.Height/2));
-                    Check(WindowFromPoint(new NativePoint(hit))!=overlay.Handle,"Windows hit testing reaches the window behind the locked overlay");
+                    if(desktop)Check(WindowFromPoint(new NativePoint(hit))!=overlay.Handle,"Windows hit testing reaches the window behind the locked overlay");
+                    else Console.WriteLine("SKIP desktop point hit test: noninteractive CI desktop. HTTRANSPARENT is still checked.");
                     game.Hide();f.Activate();
                     Save(overlay,Path.Combine(reports,"minimap-pl.png"));int initialPaints=overlay.SnapshotCount;long bytes=overlay.CacheBytes;
                     for(int i=0;i<10;i++)using(var b=new Bitmap(overlay.Width,overlay.Height))overlay.DrawToBitmap(b,new Rectangle(Point.Empty,b.Size));
@@ -102,7 +105,8 @@ namespace EftPosition
                     Check(vector.RenderCount==renderCount && scale==Field<float>(source,"scale") && x==Field<float>(source,"offsetX") && y==Field<float>(source,"offsetY"),"SVG minimap leaves the main viewport cache and camera unchanged");
                     f.WindowState=FormWindowState.Minimized;Pump(80);Check(overlay.Visible,"ownerless overlay stays visible while the main app is minimized");f.WindowState=FormWindowState.Normal;
                     f.ToggleOverlayEditing();Check(overlay.IsEditing && (GetWindowLong(overlay.Handle,-20)&0x20)==0 && Math.Abs(overlay.Opacity-1)<.001,"positioning mode accepts mouse interaction and restores full visibility");
-                    hit=overlay.PointToScreen(new Point(overlay.Width/2,overlay.Height/2));Check(WindowFromPoint(new NativePoint(hit))==overlay.Handle,"positioning mode receives Windows hit tests");
+                    hit=overlay.PointToScreen(new Point(overlay.Width/2,overlay.Height/2));if(desktop)Check(WindowFromPoint(new NativePoint(hit))==overlay.Handle,"positioning mode receives Windows hit tests");
+                    else Console.WriteLine("SKIP positioning desktop point hit test: noninteractive CI desktop. Input styles and drag/resize events are still checked.");
                     Rectangle before=overlay.Bounds;
                     Mouse(overlay,"OnMouseDown",new MouseEventArgs(MouseButtons.Left,1,70,20,0));Mouse(overlay,"OnMouseMove",new MouseEventArgs(MouseButtons.Left,0,30,50,0));Mouse(overlay,"OnMouseUp",new MouseEventArgs(MouseButtons.Left,1,30,50,0));
                     var saved=AppPreferences.Load(file);Check(saved.OverlayCustomPosition && saved.OverlayX==overlay.Left && saved.OverlayY==overlay.Top && overlay.Bounds!=before,"dragging stores custom screen coordinates");

@@ -1,0 +1,4 @@
+SKIP foreground presentation assertion: noninteractive CI desktop. Native no-activate styles and messages are still checked.
+SKIP desktop point hit test: noninteractive CI desktop. HTTRANSPARENT is still checked.
+SKIP positioning desktop point hit test: noninteractive CI desktop. Input styles and drag/resize events are still checked.
+PASS: 99 overlay checks: shared rendering, settings, placement, Windows styles, click-through, activation, hotkeys, minimizing, persistence and disposal.

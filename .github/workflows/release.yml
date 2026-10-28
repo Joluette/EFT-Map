@@ -3,7 +3,7 @@ name: Build, check and publish Windows release
 on:
   push:
     branches: [main]
-    paths: [VERSION]
+    paths: [VERSION, '.github/workflows/release.yml']
   workflow_dispatch:
 
 permissions:
@@ -56,7 +56,7 @@ jobs:
       - name: Check minimap, global shortcuts and automatic map selection
         run: |
           $ErrorActionPreference='Stop'
-          ./EftPosition.OverlayTests.exe (Join-Path $env:RUNNER_TEMP 'eft-overlay') (Join-Path $env:RUNNER_TEMP 'eft-overlay-images')
+          ./EftPosition.OverlayTests.exe (Join-Path $env:RUNNER_TEMP 'eft-overlay') (Join-Path $env:RUNNER_TEMP 'eft-overlay-images') --noninteractive
           if($LASTEXITCODE -ne 0){throw 'Overlay tests failed'}
           ./EftPosition.MapDetectionTests.exe (Join-Path $env:RUNNER_TEMP 'eft-map-detection') (Join-Path $env:RUNNER_TEMP 'eft-map-detection-images')
           if($LASTEXITCODE -ne 0){throw 'Map detection tests failed'}
