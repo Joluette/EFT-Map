@@ -1,0 +1,43 @@
+{
+  "name": "Suggest an improvement",
+  "description": "Share an idea that would make EFT Position more useful.",
+  "title": "[Idea]: ",
+  "body": [
+    {
+      "type": "markdown",
+      "attributes": {
+        "value": "English and Polish suggestions are welcome. A simple explanation of the problem is enough."
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "need",
+      "attributes": {
+        "label": "What would you like to make easier?",
+        "description": "Describe the situation or problem."
+      },
+      "validations": {
+        "required": true
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "idea",
+      "attributes": {
+        "label": "Your idea",
+        "description": "How would you like it to work?"
+      },
+      "validations": {
+        "required": true
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "extra",
+      "attributes": {
+        "label": "Examples or alternatives (optional)",
+        "description": "Add a sketch, screenshot, or another approach if it helps."
+      }
+    }
+  ]
+}

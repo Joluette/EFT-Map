@@ -91,6 +91,10 @@ Coordinates and heading come from screenshot filenames. Automatic map selection 
 
 When updating, close the app and extract the new package while **keeping your existing `cache` folder**. It contains settings, quest choices and downloaded maps. Automatic map selection and the minimap can be enabled in settings after upgrading; older preferences keep their existing choices.
 
+### Community and support
+
+Found a bug or have an idea? Use the [issue forms](https://github.com/Joluette/EFT-Map/issues/new/choose). Reports in English and Polish are welcome. See [contributing](CONTRIBUTING.md), our [code of conduct](CODE_OF_CONDUCT.md), [accessibility notes](ACCESSIBILITY.md), and the [security reporting policy](SECURITY.md).
+
 ### Build and verification
 
 Download **EFT-Map-kod-zrodlowy-3.3.2.zip** or use this repository. **Zbuduj.cmd** builds the C#/WinForms application; **Testuj.cmd** runs the tests. The .NET Framework compiler and bundled `lib` libraries are sufficient. Some UI checks need a Windows desktop session.
@@ -141,3 +145,8 @@ Program ma 13 map i 55 poziomów, automatyczne piętra/wnętrza, questy, ekstrak
 **Usuwanie rozpoznanego zrzutu po pokazaniu pozycji jest domyślnie włączone.** Możesz je wyłączyć w ustawieniach zrzutów. Aplikacja nie czyści całego archiwum. Przy aktualizacji zachowaj swój folder **cache**, aby utrzymać ustawienia, questy i pobrane mapy.
 
 Wymagane: Windows x64 i .NET Framework 4.8. **Przyklad.cmd** pokazuje dane przykładowe, **Zbuduj.cmd** buduje kod, a **Testuj.cmd** uruchamia testy. Powyżej są podglądy interfejsu z danymi przykładowymi oraz dostarczony przez autora zrzut z gry. [Patch notes](RELEASE-NOTES.md) są najpierw po angielsku, z polskim podsumowaniem.
+
+
+### Zgłoszenia i współpraca
+
+Błędy i pomysły możesz zgłaszać [po polsku lub angielsku](https://github.com/Joluette/EFT-Map/issues/new/choose). Zasady i instrukcje: [Contributing](CONTRIBUTING.md), [Code of conduct](CODE_OF_CONDUCT.md), [dostępność](ACCESSIBILITY.md), [zgłoszenia bezpieczeństwa](SECURITY.md).

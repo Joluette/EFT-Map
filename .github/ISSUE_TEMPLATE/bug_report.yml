@@ -1,0 +1,62 @@
+{
+  "name": "Report a bug",
+  "description": "Tell us what is not working in EFT Position.",
+  "title": "[Bug]: ",
+  "body": [
+    {
+      "type": "markdown",
+      "attributes": {
+        "value": "English and Polish reports are welcome. For suspected vulnerabilities, follow [SECURITY.md](https://github.com/Joluette/EFT-Map/blob/main/SECURITY.md) instead of posting details publicly."
+      }
+    },
+    {
+      "type": "input",
+      "id": "version",
+      "attributes": {
+        "label": "EFT Position version",
+        "placeholder": "For example: 3.3.2"
+      },
+      "validations": {
+        "required": true
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "problem",
+      "attributes": {
+        "label": "What happened?",
+        "description": "Describe the problem and what you expected."
+      },
+      "validations": {
+        "required": true
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "steps",
+      "attributes": {
+        "label": "How can we reproduce it?",
+        "placeholder": "1. Open...\n2. Select...\n3. Take a screenshot..."
+      },
+      "validations": {
+        "required": true
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "environment",
+      "attributes": {
+        "label": "Setup (optional)",
+        "description": "Useful details: Windows version, EFT map/mode, app language, main window or minimap, and whether automatic map selection was enabled."
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "attachments",
+      "attributes": {
+        "label": "Screenshots or short log excerpts (optional)",
+        "description": "Remove usernames, full local paths, account/session identifiers and tokens. Do not upload whole game logs."
+      }
+    }
+  ]
+}

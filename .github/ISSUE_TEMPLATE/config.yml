@@ -1,0 +1,15 @@
+{
+  "blank_issues_enabled": true,
+  "contact_links": [
+    {
+      "name": "Setup and controls",
+      "url": "https://github.com/Joluette/EFT-Map#english",
+      "about": "Read the setup guide, controls and icon legend."
+    },
+    {
+      "name": "Security reporting",
+      "url": "https://github.com/Joluette/EFT-Map/blob/main/SECURITY.md",
+      "about": "Read this before sharing a suspected vulnerability."
+    }
+  ]
+}
