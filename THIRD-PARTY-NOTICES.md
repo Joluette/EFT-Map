@@ -1,3 +1,9 @@
+# Release 3.3.2 documentation images
+
+The gameplay capture was supplied by the project author; a notification containing a private path was redacted using imagegen. UI previews use synthetic demo data. Map artwork remains credited to Shebuka under CC BY-NC-SA 4.0, game artwork belongs to Battlestate Games and the respective rights holders. See [image credits](docs/images/README.md). The banner uses original code-drawn typography and contours.
+
+---
+
 # Źródła i licencje — EFT Position 3
 
 Sprawdzono 26.10.2026. Kalibracja jest przypięta do podanych rewizji. Aplikacja pobiera brakujące obrazy i dokładniejsze kafelki widocznego fragmentu trzech map oraz dodatkowych pięter Customs i Reserve. Dziesięć map bazowych jest dołączonych jako SVG.

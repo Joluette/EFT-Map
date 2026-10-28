@@ -1,40 +1,53 @@
-# EFT Position 3.2.0
+# EFT Position 3.3.2 — Minimap & automatic map switching
 
-Nowy wygląd, wybór polskiego lub angielskiego i płynniejsze duże mapy. Wydanie testowe dla Windows x64 / .NET Framework 4.8.
+A borderless minimap and automatic map selection are now available in the public release. This update includes the local 3.3.0–3.3.2 work and the Interchange detection fix confirmed during a user's raid.
 
-- **Polski i angielski:** Ustawienia → Wygląd → Język / Language. Zmiana działa od razu i zostaje zapisana na następne uruchomienie.
-- **Nazwy ekstraktów po najechaniu:** zatrzymaj kursor nad ikoną PMC lub Scav, aby zobaczyć nazwę. Nakładające się punkty pokazują wszystkie nazwy.
-- **Więcej miejsca na mapę:** kompaktowy nagłówek, wysuwany panel questów, oddzielne okno ustawień i małe przyciski w pełnym ekranie.
-- **Personalizacja:** motywy Tarkov, Noc i Las, własny akcent, tło z pliku lub dołączona grafika, przyciemnienie, krycie mapy i całego okna, zaokrąglone krawędzie, rozmiar znaczników i opcjonalny pasek pozycji.
-- **Pasek tytułu zgodny z motywem**, z zachowaniem przesuwania, zmiany rozmiaru, maksymalizacji i powrotu z pełnego ekranu.
-- **Płynniejsze przesuwanie i przybliżanie PNG**, w tym Labs, Labiryntu i Icebreakera. Podczas ruchu działa szybki podgląd, po zatrzymaniu wraca docelowa jakość. Wspólny bufor widoku obsługuje też SVG i przezroczystość.
-- Zachowane funkcje 3.1: 13 map i 55 poziomów, automatyczne wnętrza, ekstrakty, wybór wielu questów, wyszukiwanie po polsku i angielsku, zapamiętywanie folderu oraz opcjonalne usuwanie rozpoznanego zrzutu po pokazaniu pozycji.
+![EFT Position 3.3.2 overview](https://raw.githubusercontent.com/Joluette/EFT-Map/3.3.2/docs/images/hero.svg)
 
-## Pobieranie i aktualizacja
+![Minimap during gameplay — private path redacted](https://raw.githubusercontent.com/Joluette/EFT-Map/3.3.2/docs/images/gameplay-minimap.webp)
 
-Pobierz **EFT-Position-Windows-3.2.0.zip**, rozpakuj cały folder i uruchom **EftPosition.exe** lub **Uruchom.cmd**. Zachowaj `assets`, `lib` i `EftPosition.exe.config`. Do uruchomienia nie potrzeba Visual Studio, Node ani Pythona. **Przyklad.cmd** pokazuje dane przykładowe bez uruchamiania EFT.
+## Added
 
-Przy aktualizacji zamknij aplikację i zachowaj swój folder `cache`: zawiera ustawienia, wybrane questy i pobrane mapy. Paczka wydania nie zawiera osobistego cache. Starsze preferencje są wczytywane z polskim interfejsem, bez zmiany folderu i opcji zrzutów.
+- **Borderless minimap:** a compact, always-on-top map that stays visible when the main window is minimized. Mouse clicks pass through while it is locked.
+- **Placement and appearance controls:** choose a monitor, corner or custom position, size, zoom and transparency. Drag or resize in positioning mode, then press **✓** to lock.
+- **Automatic map selection from local EFT logs**, with installation discovery for BSG and Steam and a manual folder picker.
+- **F8** to show or hide the minimap. **Ctrl+Alt+M** remains an alternative; **Ctrl+Alt+Shift+M** controls positioning mode.
+- Shortcut availability in settings, registration retries, and protection against opening two normal instances with the same cache.
+- Polish and English text for the new controls.
+- An illustrated [icon legend](https://github.com/Joluette/EFT-Map/tree/3.3.2#icon-legend) in English and Polish, covering player/heading, quests, extracts and older positions.
 
-**EFT-Map-kod-zrodlowy-3.2.0.zip** zawiera kod oraz narzędzia budowania. Sumy obu archiwów są w **SHA256SUMS.txt**. Wcześniejsze wydania pozostają dostępne.
+## Fixed
 
-## Skróty
+- **Customs staying selected when entering Interchange.** The game's scene is named **Shopping_Mall**, so the detector now maps that name to Interchange.
+- Scene aliases for **Factory day/night**, **Reserve** (`Rezerv_Base`) and **Streets of Tarkov** (`city`).
+- Duplicate minimap toggles when both the Windows hotkey message and fallback key-state reader observe the same press.
+- Screenshot display acknowledgement when the main window is minimized: a visible minimap can display the position before optional cleanup. An undisplayed screenshot is retained.
+- Positions from an earlier raid are cleared when a newer map-load event arrives.
 
-- **Ctrl+,** — ustawienia.
-- **Ctrl+F** — questy i filtry.
-- **F11** — pełny ekran / powrót; **Esc** — powrót z pełnego ekranu.
-- **F10** — przywrócenie pełnej widoczności okna.
+## Enable the new features
 
-## Zakres i sprawdzenie
+1. **Settings → Window & map:** enable automatic map switching and detect or select the game's Logs folder.
+2. **Settings → Minimap:** enable the overlay and choose its placement.
+3. Run EFT in **borderless/windowed mode**. Use **F8** to show or hide the minimap and take an in-game screenshot to update your position.
 
-Pozycja pochodzi z nazwy ostatniego zrzutu zapisanego przez EFT. Mapę wybierasz ręcznie. Aplikacja nie śledzi ruchu pomiędzy zrzutami, nie czyta pamięci ani logów gry. Część map wymaga internetu przy pierwszym wczytaniu. Questy i ekstrakty korzystają z dołączonych danych; dostępność wyjścia w rajdzie sprawdzaj w grze.
+**Map selection comes from logs. Position and heading come from screenshot filenames. There is no movement tracking between screenshots.**
 
-Pełny lokalny zestaw testów wydania opisano w **RAPORT.md**. Testy korzystają z osobnych folderów i cache. GitHub Actions buduje własny EXE, przeprowadza kontrole i dopiero potem tworzy paczki oraz wydanie. Jego hash i rewizja są w `BUILD-INFO.json`.
+## Download / update
 
-Tła Tarkov i Tarkov × Cyberpunk (HD) są rekonstrukcjami wygenerowanymi z użyciem AI na podstawie referencji. Nie są oficjalnymi materiałami ani potwierdzoną współpracą marek. Źródła i prawa do grafik oraz map opisano w **THIRD-PARTY-NOTICES.md**.
+Download **EFT-Position-Windows-3.3.2.zip**, extract the complete folder and run **EftPosition.exe**. Windows x64 / .NET Framework 4.8 is required.
 
-## English
+Close the old app first and **keep your existing `cache` folder** when updating. New features are enabled in settings; existing screenshot, appearance and quest preferences are preserved. Screenshot deletion after display remains optional and is enabled by default.
 
-The interface is now available in Polish and English. Open **Settings → Appearance → Język / Language → English (EN)**. The selection applies immediately and is remembered. Hover a PMC or Scav extract icon to see its name.
+Source: **EFT-Map-kod-zrodlowy-3.3.2.zip**. Archive hashes: **SHA256SUMS.txt**. The Windows archive includes `BUILD-INFO.json`.
 
-This release also adds the compact interface, appearance settings, a themed title bar and smoother PNG map navigation. Download **EFT-Position-Windows-3.2.0.zip**, extract the entire folder and run **EftPosition.exe**. Keep your existing `cache` folder when updating. Position updates after each new screenshot saved by the game.
+See [the illustrated README](https://github.com/Joluette/EFT-Map/tree/3.3.2#readme) for previews and controls and [validation details](https://github.com/Joluette/EFT-Map/blob/3.3.2/RAPORT.md). Artwork by **Shebuka**, CC BY-NC-SA 4.0; data from tarkov.dev. The interface previews show sample data. The README also includes a gameplay capture supplied by the project author.
+
+---
+
+## Polski
+
+Nowości względem publicznej 3.2: **minimapa nad grą**, automatyczny wybór mapy z logów, **F8** do pokazywania/ukrywania oraz ustawienia monitora, położenia, rozmiaru, zoomu i przezroczystości.
+
+Naprawiono przejście **Customs → Interchange** oraz nazwy scen Factory, Reserve i Streets. Poprawka Interchange została potwierdzona w grze. Pozycja nadal odświeża się po screenshocie.
+
+Nowe opcje włączysz w **Ustawienia → Okno i mapa** oraz **Ustawienia → Minimapa**. Używaj trybu bez ramek. Przy aktualizacji zachowaj folder **cache**.

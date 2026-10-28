@@ -12,6 +12,22 @@ namespace EftPosition
         public static string Language { get; set; }
         static readonly Dictionary<string,string> english=new Dictionary<string,string>(StringComparer.Ordinal)
         {
+            {"aktywny","active"}, {"zajęty / niedostępny","in use / unavailable"},
+            {"Automatycznie przełączaj mapę z logów gry","Automatically switch maps from game logs"},
+            {"Automatyczna mapa","Automatic map selection"}, {"Folder logów gry","Game logs folder"},
+            {"Nazwa mapy pochodzi z lokalnych logów EFT.\nPozycję nadal aktualizuje nowy zrzut ekranu.","The map name comes from local EFT logs.\nPosition still updates with each new screenshot."},
+            {"Wykryj folder","Detect folder"}, {"Wykryj folder logów","Detect game logs folder"}, {"Wybierz folder logów","Choose game logs folder"},
+            {"Wybierz folder Logs lub katalog instalacji EFT","Choose the Logs folder or EFT installation folder"},
+            {"Nie znaleziono logów. Wybierz folder Logs w katalogu gry.","Logs not found. Choose the Logs folder inside the game installation."},
+            {"Automatyczne przełączanie mapy jest wyłączone.","Automatic map switching is disabled."},
+            {"Logi gry są wyłączone w trybie demonstracyjnym.","Game logs are disabled in demo mode."},
+            {"Logi chwilowo niedostępne. Ponawiam odczyt.","Logs temporarily unavailable. Retrying."},
+            {"Obserwuję logi. Oczekiwanie na załadowanie mapy.","Watching logs. Waiting for a map to load."},
+            {"Mapa wykryta z logów: ","Map detected from logs: "},
+            {"Dopasuj piętro i widok po zrzucie. Automatyczną mapę włączysz w ustawieniach.","Adjust level and view after a screenshot. Enable automatic map selection in settings."},
+            {"Oczekiwanie na mapę i pozycję","Waiting for map and position"},
+            {"Ctrl+Alt+M lub F8 — pokaż / ukryj\nCtrl+Alt+Shift+M — ustawianie\nW trybie ustawiania przeciągnij okno lub jego prawy dolny róg.","Ctrl+Alt+M or F8 — show / hide\nCtrl+Alt+Shift+M — positioning\nIn positioning mode, drag the window or its bottom right corner."},
+            {"Aplikacja już działa. Użyj Ctrl+Alt+M lub F8, aby przełączyć minimapę.","The app is already running. Use Ctrl+Alt+M or F8 to toggle the minimap."},
             {"EFT Position · 13 map","EFT Position · 13 maps"},
             {" · DANE PRZYKŁADOWE"," · SAMPLE DATA"}, {"DANE PRZYKŁADOWE","SAMPLE DATA"},
             {"Questy i filtry","Quests & filters"}, {"Filtry mapy i questy","Map filters and quests"},
@@ -127,7 +143,24 @@ namespace EftPosition
             {"Nieprawidłowa liczba w geometrii SVG.","Invalid number in SVG geometry."},
             {"Nieprawidłowy wykładnik SVG.","Invalid SVG exponent."}, {"Nieprawidłowa współrzędna SVG.","Invalid SVG coordinate."},
             {"Nieprawidłowa flaga łuku SVG.","Invalid SVG arc flag."}, {"Brak polecenia ścieżki SVG.","Missing SVG path command."},
-            {"Nieobsługiwane polecenie SVG: ","Unsupported SVG command: "}
+            {"Nieobsługiwane polecenie SVG: ","Unsupported SVG command: "},
+            {"Minimapa","Minimap"}, {"Minimapa nad grą","In-game minimap"}, {"Ustawienia minimapy","Minimap settings"},
+            {"Pokaż minimapę nad grą","Show minimap above the game"}, {"Włącz minimapę","Enable minimap"},
+            {"Do gry w oknie bez ramek. Kliknięcia przechodzą do gry.\nPozycja zmienia się po nowym zrzucie.\nMinimapa działa też po zminimalizowaniu aplikacji.","For borderless mode. Clicks pass through to the game.\nPosition updates after a new screenshot.\nThe minimap also works while the app is minimized."},
+            {"Monitor głównego okna","Main window's monitor"}, {"Monitor minimapy","Minimap monitor"},
+            {"Położenie minimapy","Minimap placement"}, {"Lewy górny","Top left"}, {"Prawy górny","Top right"},
+            {"Lewy dolny","Bottom left"}, {"Prawy dolny","Bottom right"}, {"Własne położenie","Custom position"},
+            {"Rozmiar minimapy","Minimap size"}, {"Przybliżenie minimapy","Minimap zoom"},
+            {"Przezroczystość minimapy","Minimap transparency"}, {"Ustaw minimapę","Position minimap"},
+            {"Zablokuj minimapę","Lock minimap"}, {"Ustaw położenie minimapy","Adjust minimap placement"},
+            {"Ctrl+Alt+M — pokaż / ukryj\nCtrl+Alt+Shift+M — ustawianie\nW trybie ustawiania przeciągnij okno lub jego prawy dolny róg.","Ctrl+Alt+M — show / hide\nCtrl+Alt+Shift+M — positioning\nIn positioning mode, drag the window or its bottom right corner."},
+            {"Skróty globalne są aktywne.","Global shortcuts are active."},
+            {"Skrót jest zajęty przez inny program. Użyj przycisków w ustawieniach.","A shortcut is in use by another app. Use the settings buttons."},
+            {"Skróty globalne są wyłączone w trybie demonstracyjnym.","Global shortcuts are disabled in demo mode."},
+            {"Brak pozycji.\nZrób zrzut w grze.","No position.\nTake an in-game screenshot."},
+            {"Poza obszarem mapy.\nWybierz właściwą mapę.","Outside the map area.\nSelect the correct map."},
+            {"Oczekiwanie na zrzut","Waiting for a screenshot"},
+            {"Ostatnia pozycja ze zrzutu","Last screenshot position"}, {"USTAWIANIE · przeciągnij","POSITIONING · drag"}
         };
         static readonly Dictionary<string,string> polish=Reverse();
         static Dictionary<string,string> Reverse()

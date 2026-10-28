@@ -1,0 +1,56 @@
+EFT Position 3.3.2 — local validation, 2026-10-28
+Windows x64 / .NET Framework 4.8
+Executable SHA-256: 3BFEF80FD7B150569C61F4C5314F7651191DC92FBED1D0F5EAD6F9C39E1DF08A
+15 suites / 11799 checks passed. See skips below.
+All fixtures and caches were isolated from the real screenshot folder.
+
+[tests.txt]
+PASS: 5922 assertions.
+
+[navigation-tests.txt]
+PASS: 47 automatic navigation checks.
+
+[tile-tests.txt]
+PASS: 107 high-resolution tile checks;
+
+[vector-tests.txt]
+PASS: 329 vector rendering checks; 30 SVG levels, relative-subpath and CSS regressions.
+
+[gui-tests.txt]
+SKIP uncached online map in offline GUI test: icebreaker
+SKIP uncached online map in offline GUI test: the-lab
+SKIP uncached online map in offline GUI test: the-labyrinth
+PASS: 139 GUI checks; real WinForms message loop and control events, no injected OS input.
+
+[experience-tests.txt]
+PASS: 103 v3 experience checks; automatic indoor focus, floors, vector zoom, fullscreen/Escape/F11.
+
+[smooth-view-tests.txt]
+PASS: 27 smooth interaction checks; intermediate frames, cursor anchor, wheel deltas, cancellation and drag.
+
+[marker-tests.txt]
+PASS: 4213 marker checks; map-scoped search, multiple selection, filters, saved choices, hover names and fullscreen.
+
+[polish-tests.txt]
+PASS: 42 checks: persistent folder, exclusive-handle cleanup, retries, opt-out, floor dimming and icon.
+
+[appearance-tests.txt]
+PASS: 50 appearance checks: compact shell, settings, backgrounds, opacity, fullscreen recovery, rounded dropdowns and saved choices.
+
+[caption-tests.txt]
+PASS: 31 caption checks: theme pixels, settings, hit testing, resize edges, minimize/maximize/restore, fullscreen, close and restart.
+
+[raster-tests.txt]
+PASS: 562 raster checks: mip bounds, calibrated coordinates, alpha, pan reuse, full redraw parity, tile arrivals, quality restoration, resize and disposal.
+
+[language-tests.txt]
+PASS: 39 language and extract-hover checks.
+
+[overlay-tests.txt]
+SKIP native visibility chord: all visibility shortcuts are already registered; checking the settings action instead.
+SKIP native positioning chord: shortcut is already registered; checking the settings action instead.
+PASS: 102 overlay checks: shared rendering, settings, placement, Windows styles, click-through, activation, hotkeys, minimizing, persistence and disposal.
+
+[map-detection-tests.txt]
+SKIP two F8 checks: another running app already owns F8.
+PASS: 86 map detection and shortcut fallback checks.

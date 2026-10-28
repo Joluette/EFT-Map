@@ -11,13 +11,13 @@ $runtime=Join-Path $OutputDirectory ('EFT-Position-'+$version)
 $source=Join-Path $OutputDirectory ('EFT-Map-'+$version)
 if((Test-Path -LiteralPath $runtime) -or (Test-Path -LiteralPath $source)){throw 'Use a new output directory'}
 New-Item -ItemType Directory -Force -Path $runtime,$source | Out-Null
-foreach($folder in @('assets','lib','licenses','sample')){
+foreach($folder in @('assets','lib','licenses','sample','docs')){
     Copy-Item -LiteralPath (Join-Path $root $folder) -Destination $runtime -Recurse
 }
 foreach($name in @('EftPosition.exe','EftPosition.exe.config','LICENSE.txt','THIRD-PARTY-NOTICES.md','README.md','RAPORT.md','RELEASE-NOTES.md','VERSION','Przyklad.cmd','Uruchom.cmd')){
     Copy-Item -LiteralPath (Join-Path $root $name) -Destination $runtime
 }
-foreach($folder in @('src','tests','tools','assets','lib','licenses','sample','.github')){
+foreach($folder in @('src','tests','tools','assets','lib','licenses','sample','.github','docs')){
     Copy-Item -LiteralPath (Join-Path $root $folder) -Destination $source -Recurse
 }
 foreach($name in @('Build.ps1','EftPosition.csproj','EftPosition.exe.config','LICENSE.txt','THIRD-PARTY-NOTICES.md','README.md','RAPORT.md','PUBLICATION-NOTES.md','RELEASE-NOTES.md','VERSION','Przyklad.cmd','Uruchom.cmd','Zbuduj.cmd','Testuj.cmd','Testuj.ps1','.gitignore')){

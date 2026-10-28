@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="520" viewBox="0 0 1600 520" role="img" aria-label="EFT Position 3.3.2 — borderless minimap and automatic map switching">
+<defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#0b1219"/><stop offset="1" stop-color="#162b32"/></linearGradient><pattern id="grid" width="64" height="64" patternUnits="userSpaceOnUse"><path d="M64 0H0V64" fill="none" stroke="#69c9bd" stroke-opacity=".09"/></pattern></defs>
+<rect width="1600" height="520" rx="28" fill="url(#bg)"/><rect width="1600" height="520" rx="28" fill="url(#grid)"/>
+<g fill="none" stroke="#65d6c0" stroke-opacity=".18" stroke-width="2">
+<path d="M940 0C770 160 1260 130 1030 340S1330 540 1600 390"/><path d="M1000 0C830 160 1320 130 1090 340S1390 540 1660 390"/><path d="M1060 0C890 160 1380 130 1150 340S1450 540 1720 390"/><path d="M1120 0C950 160 1440 130 1210 340S1510 540 1780 390"/><path d="M1180 0C1010 160 1500 130 1270 340S1570 540 1840 390"/>
+</g>
+<g font-family="Segoe UI,Arial,sans-serif"><text x="72" y="85" fill="#6edac6" font-size="28" font-weight="600" letter-spacing="7">EFT / POSITION</text><rect x="1360" y="45" width="164" height="48" rx="24" fill="#65d6c0" fill-opacity=".13" stroke="#65d6c0" stroke-opacity=".4"/><text x="1442" y="78" text-anchor="middle" fill="#b5f3e5" font-size="25" font-weight="600">v3.3.2</text>
+<text x="70" y="208" fill="#f0f5f4" font-size="91" font-weight="700" letter-spacing="-3">KEEP YOUR BEARINGS.</text>
+<text x="75" y="274" fill="#a6bdc3" font-size="30">Your last position. Your map. Your next move.</text>
+<g font-size="22" fill="#e5eeed"><rect x="74" y="334" width="306" height="54" rx="12" fill="#233e44"/><text x="99" y="369">BORDERLESS MINIMAP</text><rect x="397" y="334" width="304" height="54" rx="12" fill="#233e44"/><text x="423" y="369">AUTOMATIC MAPS</text><rect x="719" y="334" width="252" height="54" rx="12" fill="#caa65d" fill-opacity=".16"/><text x="746" y="369" fill="#ebcb88">F8 · SHOW / HIDE</text></g>
+<text x="76" y="463" fill="#78959d" font-size="21">WINDOWS x64  /  13 MAPS  /  PL + EN  /  POSITION FROM SCREENSHOTS</text></g></svg>

@@ -53,6 +53,13 @@ jobs:
           $ErrorActionPreference='Stop'
           ./EftPosition.RasterTests.exe (Join-Path $env:RUNNER_TEMP 'eft-raster') (Join-Path $env:RUNNER_TEMP 'eft-raster-images')
           if($LASTEXITCODE -ne 0){throw 'Raster viewport tests failed'}
+      - name: Check minimap, global shortcuts and automatic map selection
+        run: |
+          $ErrorActionPreference='Stop'
+          ./EftPosition.OverlayTests.exe (Join-Path $env:RUNNER_TEMP 'eft-overlay') (Join-Path $env:RUNNER_TEMP 'eft-overlay-images')
+          if($LASTEXITCODE -ne 0){throw 'Overlay tests failed'}
+          ./EftPosition.MapDetectionTests.exe (Join-Path $env:RUNNER_TEMP 'eft-map-detection') (Join-Path $env:RUNNER_TEMP 'eft-map-detection-images')
+          if($LASTEXITCODE -ne 0){throw 'Map detection tests failed'}
       - name: Package clean runtime and source archives
         run: ./tools/Package-Release.ps1
       - name: Publish version and checksums

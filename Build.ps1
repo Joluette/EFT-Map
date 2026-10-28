@@ -49,5 +49,11 @@ Copy-Item -LiteralPath 'EftPosition.exe.config' -Destination 'EftPosition.Raster
 & $compiler /nologo /target:exe /platform:x64 /optimize+ /warn:4 /utf8output /codepage:65001 /main:EftPosition.LanguageTests /out:EftPosition.LanguageTests.exe /win32manifest:src\app.manifest /reference:System.Windows.Forms.dll /reference:System.Drawing.dll /reference:System.Web.Extensions.dll $libraryRefs $sources tests\LanguageTests.cs
 if ($LASTEXITCODE -ne 0) { throw 'Kompilacja testów języka i podpowiedzi nie powiodła się.' }
 Copy-Item -LiteralPath 'EftPosition.exe.config' -Destination 'EftPosition.LanguageTests.exe.config' -Force
+& $compiler /nologo /target:exe /platform:x64 /optimize+ /warn:4 /utf8output /codepage:65001 /main:EftPosition.OverlayTests /out:EftPosition.OverlayTests.exe /win32manifest:src\app.manifest /reference:System.Windows.Forms.dll /reference:System.Drawing.dll /reference:System.Web.Extensions.dll $libraryRefs $sources tests\OverlayTests.cs
+if ($LASTEXITCODE -ne 0) { throw 'Kompilacja testów minimapy nie powiodła się.' }
+Copy-Item -LiteralPath 'EftPosition.exe.config' -Destination 'EftPosition.OverlayTests.exe.config' -Force
+& $compiler /nologo /target:exe /platform:x64 /optimize+ /warn:4 /utf8output /codepage:65001 /main:EftPosition.MapDetectionTests /out:EftPosition.MapDetectionTests.exe /win32manifest:src\app.manifest /reference:System.Windows.Forms.dll /reference:System.Drawing.dll /reference:System.Web.Extensions.dll $libraryRefs $sources tests\MapDetectionTests.cs
+if ($LASTEXITCODE -ne 0) { throw 'Kompilacja testów automatycznej mapy nie powiodła się.' }
+Copy-Item -LiteralPath 'EftPosition.exe.config' -Destination 'EftPosition.MapDetectionTests.exe.config' -Force
 } finally { Pop-Location }
 

@@ -15,6 +15,7 @@
     <Compile Include="src\AutoNavigation.cs"/><Compile Include="src\VectorMap.cs"/><Compile Include="src\TileMap.cs"/>
     <Compile Include="src\SvgPathCanonicalizer.cs"/>
     <Compile Include="src\MapViewport.cs"/><Compile Include="src\RasterImage.cs"/>
+    <Compile Include="src\MiniMapRenderer.cs"/><Compile Include="src\MiniMapOverlay.cs"/><Compile Include="src\OverlayHotkeys.cs"/><Compile Include="src\GameMapMonitor.cs"/>
     <Compile Include="src\UiText.cs"/><Compile Include="src\UiTheme.cs"/><Compile Include="src\ThemedForm.cs"/><Compile Include="src\MapBackdrop.cs"/><Compile Include="src\SettingsForm.cs"/>
     <Compile Include="src\MapMarkers.cs"/><Compile Include="src\MarkerPanel.cs"/>
     <Compile Include="src\AssemblyInfo.cs"/><Compile Include="src\AppPreferences.cs"/><Compile Include="src\ScreenshotCleaner.cs"/><Compile Include="src\MarkerArtwork.cs"/>

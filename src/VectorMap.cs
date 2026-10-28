@@ -136,6 +136,13 @@ namespace EftPosition
             if(document==null)throw new ObjectDisposedException("VectorMap");
             viewportCache.Draw(graphics,viewport,scale,offsetX,offsetY,opacity);
         }
+        // A small secondary view shares recorded geometry without replacing the main viewport cache.
+        public void DrawShared(Graphics graphics,Size viewport,float scale,float offsetX,float offsetY)
+        {
+            if(document==null)throw new ObjectDisposedException("VectorMap");
+            GraphicsState saved=graphics.Save();
+            try{PaintDrawing(graphics,viewport,scale,offsetX,offsetY);}finally{graphics.Restore(saved);}
+        }
         // All returned rectangles are calibrated logical map pixels, independent
         // of the current viewport/zoom; empty/non-rendered groups return Empty.
         public RectangleF GetElementBounds(string id)

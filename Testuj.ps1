@@ -29,4 +29,8 @@ try {
     if ($LASTEXITCODE -ne 0) { throw 'Testy map PNG nie przeszły.' }
     & .\EftPosition.LanguageTests.exe (Join-Path $FixtureRoot 'language') (Join-Path $PSScriptRoot 'reports\language') | Tee-Object -FilePath 'reports\language-tests.txt'
     if ($LASTEXITCODE -ne 0) { throw 'Testy języka i nazw ekstraktów nie przeszły.' }
+    & .\EftPosition.OverlayTests.exe (Join-Path $FixtureRoot 'overlay') (Join-Path $PSScriptRoot 'reports\overlay') | Tee-Object -FilePath 'reports\overlay-tests.txt'
+    if ($LASTEXITCODE -ne 0) { throw 'Testy minimapy nie przeszły.' }
+    & .\EftPosition.MapDetectionTests.exe (Join-Path $FixtureRoot 'map-detection') (Join-Path $PSScriptRoot 'reports\map-detection') | Tee-Object -FilePath 'reports\map-detection-tests.txt'
+    if ($LASTEXITCODE -ne 0) { throw 'Testy automatycznej mapy i skrótów nie przeszły.' }
 } finally { Pop-Location }

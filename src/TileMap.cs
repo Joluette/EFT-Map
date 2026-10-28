@@ -171,6 +171,29 @@ namespace EftPosition
 
         void ClearPending()
         { lock(gate) { if(disposed) return; wanted.Clear(); pending.Clear(); } }
+        // Secondary previews may reuse decoded details, but never replace the main download queue.
+        public void DrawCached(Graphics graphics,Rectangle client,float scale,float offsetX,float offsetY)
+        {
+            if(scale<=1 || Single.IsNaN(scale) || Single.IsInfinity(scale))return;
+            int zoom=ChooseZoom(layer,scale);
+            List<Request> visible=Visible(client,scale,offsetX,offsetY,zoom);
+            while(visible.Count>80 && zoom>layer.TileZoom){zoom--;visible=Visible(client,scale,offsetX,offsetY,zoom);}
+            if(visible.Count>80)return;
+            lock(gate)
+            {
+                if(disposed)return;
+                GraphicsState old=graphics.Save();
+                try
+                {
+                    graphics.SetClip(client,CombineMode.Intersect);
+                    graphics.SetClip(new RectangleF(offsetX,offsetY,layer.Width*scale,layer.Height*scale),CombineMode.Intersect);
+                    graphics.InterpolationMode=InterpolationMode.HighQualityBilinear;graphics.PixelOffsetMode=PixelOffsetMode.HighQuality;
+                    foreach(Request request in visible)
+                    {Entry item;if(cache.TryGetValue(request.Key,out item))graphics.DrawImage(item.Image,Destination(layer,request.Z,request.X,request.Y,scale,offsetX,offsetY));}
+                }
+                finally{graphics.Restore(old);}
+            }
+        }
 
         void Signal() { try { wake.Set(); } catch(ObjectDisposedException) { } }
 

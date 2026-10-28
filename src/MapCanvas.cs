@@ -10,17 +10,19 @@ using System.Windows.Forms;
 
 namespace EftPosition
 {
-    public sealed class MapCanvas : Control
+    public sealed partial class MapCanvas : Control
     {
         RasterImage map;
         readonly MapViewport rasterViewport;
         readonly MapBackdrop backdrop=new MapBackdrop();
         int mapOpacity=100,markerSize=100;
         public long AppearanceCacheBytes {get{return backdrop.CacheBytes+rasterViewport.CacheBytes+(map==null?0:map.Bytes);}}
+        public long SceneRevision {get;private set;}
         public string BackgroundError {get{return backdrop.Error;}}
         public void ApplyAppearance(AppPreferences preferences,string assets)
         {
             backdrop.Apply(preferences,assets);mapOpacity=preferences.MapOpacity;markerSize=preferences.MarkerSize;
+            SceneRevision++;
             SetMarkerTip("");Invalidate();
         }
         VectorMap vector;
@@ -81,6 +83,7 @@ namespace EftPosition
         }
         public void ClearMap()
         {
+            SceneRevision++;
             StopZoom();
             SetMarkerTip("");
             if(tiles!=null) { tiles.Dispose(); tiles=null; }
@@ -116,18 +119,19 @@ namespace EftPosition
             return found;
         }
         public void RefreshTiles()
-        { if(tilesChanged) { tilesChanged=false;rasterViewport.Invalidate();Invalidate(); } }
+        { if(tilesChanged) { tilesChanged=false;SceneRevision++;rasterViewport.Invalidate();Invalidate(); } }
         public void SetPosition(Position p)
         {
             position = p;
+            SceneRevision++;
             RefreshPlayerLevel();
             if (Follow) CenterPosition();
             Invalidate();
         }
         public void SetMarkers(string mapId,MapMarker[] points)
-        {markerMapId=mapId;markers=points??new MapMarker[0];RefreshMarkerLevels();SetMarkerTip("");Invalidate();}
+        {markerMapId=mapId;markers=points??new MapMarker[0];RefreshMarkerLevels();SceneRevision++;SetMarkerTip("");Invalidate();}
         public void SetMarkerLevels(AutoNavigator classifier)
-        {levelClassifier=classifier;RefreshMarkerLevels();Invalidate();}
+        {levelClassifier=classifier;RefreshMarkerLevels();SceneRevision++;Invalidate();}
         void RefreshPlayerLevel()
         {playerLevel=levelClassifier!=null && position!=null?levelClassifier.LevelAt(position.X,position.Y,position.Z):null;}
         void RefreshMarkerLevels()

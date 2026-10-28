@@ -1,29 +1,33 @@
-# Weryfikacja wydania 3.2.0
+# EFT Position 3.3.2 — validation
 
-27.10.2026. Windows x64 / .NET Framework 4.8. Testy uruchomiono na osobnych danych i cache, bez uruchamiania EFT i bez korzystania z rzeczywistych zrzutów użytkownika.
+Validated locally on 28 October 2026, Windows x64 / .NET Framework 4.8, using isolated screenshot folders and caches.
 
-## Testy
+## Local release build
 
-Pełny przebieg lokalny: **13 zestawów, 11 611 sprawdzeń — PASS**. Lokalny EXE miał SHA-256 `8E318834C35F104908CF48B4BD751F04C159FAF8B996213C5E78746141CC14E2`.
+**15 suites / 11,799 checks passed.** The complete public summary is in [reports/3.3.2/tests.txt](reports/3.3.2/tests.txt).
 
-Pełne wyniki bieżącego uruchomienia są w `reports/3.2.0/tests.txt`. Obejmują parser, obserwację folderu, nawigację, kafelki, wektory, interfejs, markery, czyszczenie zrzutów, ustawienia, pasek tytułu, raster, języki oraz podpowiedzi.
+Local release-build executable SHA-256: `3BFEF80FD7B150569C61F4C5314F7651191DC92FBED1D0F5EAD6F9C39E1DF08A`.
 
-Testy PL/EN sprawdzają zmianę w obie strony bez restartu, zapis i ponowne uruchomienie, menu ustawień, podpowiedzi, zachowanie filtrów, trybu danych, questów i wyglądu. Nazwy ekstraktów sprawdzono przy rozmiarach 80%, 100% i 150%, nakładających się punktach oraz zmianie kamery przed odrysowaniem. Osobno sprawdzono zdarzenie otwarcia natywnej podpowiedzi.
+The checks cover filename parsing, folder monitoring, calibrated coordinates, tiles, SVG rendering, map navigation, the interface, markers, cleanup, appearance, title bars, raster buffering, languages, extract tooltips, the minimap, shortcut dispatch and log-driven map selection.
 
-Testy rastra porównują bufor widoku z pełnym odrysowaniem. Obejmują przezroczystość, przesuwanie, piramidę pomniejszeń, nowe kafelki, zmianę rozmiaru, przywracanie jakości po ruchu i zwalnianie zasobów. Testy paska tytułu obejmują przesuwanie, min/max, powrót, pełny ekran i motyw.
+The offline GUI suite skips uncached Icebreaker, Labs and Labyrinth images. Raster tests use separate generated images and cached fixtures. A running production instance already owned the normal minimap shortcuts during local validation: the overlay suite exercised the settings actions for those two routes, and two F8-specific checks were skipped. The isolated Ctrl+Alt+F24 dispatch, polling and duplicate-prevention tests ran. Skips are printed explicitly in the test summary. CI runs the same tests and reports availability in its own environment.
 
-Test GUI pomija niepobrane mapy Icebreaker, Labs i Labyrinth w swoim osobnym cache offline. Testy rastra korzystają z własnych obrazów i kafelków. Podglądy są obrazami odrysowanych kontrolek WinForms; nie mierzą prezentacji na fizycznym ekranie ani FPS gry.
+## Map switching and minimap regression
 
-## Wydajność i pamięć — wcześniejszy pomiar implementacji
+Regression fixtures use actual game scene identifiers, including **Shopping_Mall**, **factory_day**, **factory_night**, **Rezerv_Base** and **city**, alongside the older Location fields.
 
-Przed dodaniem PL/EN przetestowano raster na lokalnym EXE `B221515DB76EB43FDCBD22F0E9E3C1B6E8E2004CCFDF1912BB5477BEB38404CA`. W kontrolce 1920×1080 przy zbliżeniu 6×, mapie 40% i syntetycznych detalach z dysku średni czas synchronicznego odrysowania podczas przesuwania wyniósł około 21–22 ms zamiast 172–184 ms, a podczas animowanego zoomu około 46–47 ms zamiast 160–167 ms. Jednorazowe odrysowanie w docelowej jakości po ruchu trwało w tym ciężkim scenariuszu około 131–146 ms.
+The Customs → Interchange scenario starts with a valid Customs position, creates a new log session, writes the Shopping_Mall scene event in two pieces, and verifies the switch while the main form is minimized. It checks that the old position is cleared, that a fresh screenshot appears on the Interchange minimap before optional deletion, and that restarting with Customs selected reads the existing Interchange log without needing another screenshot.
 
-Minutowa próba tego samego wcześniejszego EXE, obejmująca 13 map i 40 wczytań, wykazała systemowy szczyt working set 165 117 952 B, jeden proces i brak potomków. To pomiar jednego komputera, z wcześniej pobranymi mapami. Nie jest gwarancją FPS, zużycia RAM ani działania przez wiele godzin.
+The project user separately confirmed automatic switching worked during gameplay. The supplied gameplay image shows the minimap above EFT; it is a separate demonstration, not a test fixture.
 
-Nie powtarzano tego pomiaru dla języków ani pliku zbudowanego przez GitHub Actions. Dane te opisują wcześniejszy etap implementacji. Bieżący plik CI ma własny hash zapisany w `BUILD-INFO.json` w archiwum Windows.
+## Scope
 
-## Publikacja
+Position and heading are read from screenshot filenames. Map selection reads local application logs. There is no continuous position stream between screenshots, game-memory reading or code injection.
 
-GitHub Actions buduje z przypiętej rewizji i sprawdza rdzeń, nawigację, kafelki, ustawienia/usuwanie, płynny widok, języki/podpowiedzi oraz raster. Po ich przejściu tworzy dwa archiwa i `SHA256SUMS.txt`. Lokalny `Testuj.cmd` uruchamia również pełne zestawy GUI, markerów, wyglądu i paska tytułu.
+The UI previews are WinForms control renders with sample data, not measurements of presentation latency or game FPS. No new full memory benchmark was run for this release; measurements from older executables are not assigned to this binary or the CI build.
 
-W paczkach są jedynie raporty przejrzane do publikacji. Pochodzenie map, danych, bibliotek i teł opisano w `THIRD-PARTY-NOTICES.md`.
+## Published artifacts
+
+GitHub Actions builds from the published source, runs the configured checks and creates the Windows/source ZIPs plus SHA256SUMS.txt. Its executable may have a different hash from the local build. The Windows package records its own hash and source revision in BUILD-INFO.json.
+
+Only reviewed reports for this version and documentation images are included. Personal preferences, screenshot archives, full game logs and runtime caches are excluded. See [image credits](docs/images/README.md) and [third-party notices](THIRD-PARTY-NOTICES.md).

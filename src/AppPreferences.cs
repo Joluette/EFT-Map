@@ -22,13 +22,34 @@ namespace EftPosition
         public int MarkerSize {get;set;}
         public bool ShowStatusBar {get;set;}
         public bool RoundedCorners {get;set;}
+        public bool OverlayEnabled {get;set;}
+        public int OverlaySize {get;set;}
+        public int OverlayZoom {get;set;}
+        public int OverlayOpacity {get;set;}
+        public string OverlayCorner {get;set;}
+        public string OverlayMonitor {get;set;}
+        public bool OverlayCustomPosition {get;set;}
+        public int OverlayX {get;set;}
+        public int OverlayY {get;set;}
+        public bool AutoMapEnabled {get;set;}
+        public string GameLogsFolder {get;set;}
         public AppPreferences()
-        { ScreenshotFolder=""; DeleteScreenshots=true; Language="pl"; ResetAppearance(); }
+        {
+            ScreenshotFolder=""; DeleteScreenshots=true; Language="pl"; ResetAppearance();
+            OverlaySize=320;OverlayZoom=180;OverlayOpacity=90;OverlayCorner="top-right";OverlayMonitor="";
+            AutoMapEnabled=false;GameLogsFolder="";
+        }
         public void ResetAppearance()
         { Theme="tarkov";AccentArgb=0;BackgroundMode="tarkov";BackgroundFile="";BackgroundRevision=0;BackgroundDim=30;MapOpacity=96;WindowOpacity=100;FullscreenOpacityOnly=true;MarkerSize=100;ShowStatusBar=true;RoundedCorners=true; }
         public void Normalize()
         {
             if(Language!="pl" && Language!="en")Language="pl";
+            if((GameLogsFolder??"").Length>32767)GameLogsFolder="";
+            OverlaySize=Math.Max(240,Math.Min(520,OverlaySize));OverlayZoom=Math.Max(100,Math.Min(400,OverlayZoom));
+            OverlayOpacity=Math.Max(30,Math.Min(100,OverlayOpacity));
+            if(OverlayCorner!="top-left" && OverlayCorner!="top-right" && OverlayCorner!="bottom-left" && OverlayCorner!="bottom-right")OverlayCorner="top-right";
+            if((OverlayMonitor??"").Length>200)OverlayMonitor="";
+            OverlayX=Math.Max(-100000,Math.Min(100000,OverlayX));OverlayY=Math.Max(-100000,Math.Min(100000,OverlayY));
             if(Theme!="tarkov" && Theme!="night" && Theme!="forest")Theme="tarkov";
             if(BackgroundMode!="tarkov" && BackgroundMode!="custom" && BackgroundMode!="plain" && BackgroundMode!="cyberpunk")BackgroundMode="tarkov";
             if((BackgroundFile??"").Length>32767)BackgroundFile="";

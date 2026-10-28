@@ -1,5 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0-only
 using System;
+using System.IO;
+using System.Security.Cryptography;
+using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace EftPosition
@@ -30,7 +34,17 @@ namespace EftPosition
                     else if(args[i]=="--demo") demo=true;
                     else throw new ArgumentException(UiText.T("Nieznany lub niepełny parametr: ")+args[i]);
                 }
-                using(MainForm form=new MainForm(folder,telemetry,seconds,exercise,demo,preview,cache,cycle,fullscreen,map)) Application.Run(form);
+                string instancePath=Path.GetFullPath(cache??Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"cache")).TrimEnd('\\','/').ToUpperInvariant();
+                string instanceName;
+                using(var hash=SHA256.Create())instanceName=BitConverter.ToString(hash.ComputeHash(Encoding.UTF8.GetBytes(instancePath))).Replace("-","");
+                bool created;
+                using(var instance=new Mutex(true,@"Local\EftPosition-"+(demo?Guid.NewGuid().ToString("N"):instanceName),out created))
+                {
+                    if(!created)
+                    {UiText.Language=AppPreferences.Load(Path.Combine(instancePath,"app-preferences.json")).Language;MessageBox.Show(UiText.T("Aplikacja już działa. Użyj Ctrl+Alt+M lub F8, aby przełączyć minimapę."),"EFT Position",MessageBoxButtons.OK,MessageBoxIcon.Information);return;}
+                    try{using(MainForm form=new MainForm(folder,telemetry,seconds,exercise,demo,preview,cache,cycle,fullscreen,map)) Application.Run(form);}
+                    finally{instance.ReleaseMutex();}
+                }
             }
             catch(Exception ex)
             {

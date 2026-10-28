@@ -73,6 +73,12 @@ namespace EftPosition
         DateTime nextTelemetry = DateTime.MinValue;
         int viewStep;
         bool oldStale;
+        MiniMapOverlay miniMap;
+        OverlayHotkeys overlayHotkeys;
+        GameMapMonitor gameMapMonitor;
+        long gameMapRevision;
+        DateTime positionNotBefore=DateTime.MinValue;
+        public MiniMapOverlay MiniMap {get{return miniMap;}}
 
         public MainForm(string folder, string telemetryPath, int duration, bool exerciseView, bool demo, string preview, string cache=null, bool cycle=false, bool startFullScreen=false, string initialMap=null)
         {
@@ -182,7 +188,7 @@ namespace EftPosition
 
             detailsTip.SetToolTip(settingsButton,UiText.T("Wygląd, przezroczystość i folder zrzutów (Ctrl+,)"));detailsTip.SetToolTip(fullScreenButton,UiText.T("Pełny ekran / powrót · F11"));
             detailsTip.SetToolTip(markerButton,UiText.T("Wysuń questy i ekstrakty tej mapy · Ctrl+F"));detailsTip.SetToolTip(floatingSettings,UiText.T("Ustawienia · Ctrl+,"));detailsTip.SetToolTip(floatingQuest,UiText.T("Questy i ekstrakty · Ctrl+F"));detailsTip.SetToolTip(floatingExit,UiText.T("Powrót do okna · F11 / Esc"));
-            detailsTip.SetToolTip(autoNavigation,UiText.T("Dopasuj piętro i widok po zrzucie. Mapę wybierasz ręcznie."));detailsTip.SetToolTip(follow,UiText.T("Centruj pozycję po nowym zrzucie."));detailsTip.SetToolTip(timeLabel,UiText.T("Czas ostatniego zrzutu; najedź po odczycie, aby zobaczyć nazwę pliku."));
+            detailsTip.SetToolTip(autoNavigation,UiText.T("Dopasuj piętro i widok po zrzucie. Automatyczną mapę włączysz w ustawieniach."));detailsTip.SetToolTip(follow,UiText.T("Centruj pozycję po nowym zrzucie."));detailsTip.SetToolTip(timeLabel,UiText.T("Czas ostatniego zrzutu; najedź po odczycie, aby zobaczyć nazwę pliku."));
             detailsTip.SetToolTip(folderBox,UiText.T("Folder screenshotów zapisanych przez EFT. Możesz wkleić ścieżkę."));
             var mapMenu=new ContextMenuStrip();var lastUpdate=new ToolStripMenuItem(UiText.T("Brak zrzutu")) {Enabled=false};var mapCredit=new ToolStripMenuItem(UiText.T("Mapa")) {Enabled=false};
             mapMenu.Items.Add(lastUpdate);mapMenu.Items.Add(mapCredit);mapMenu.Items.Add(new ToolStripSeparator());
@@ -192,14 +198,18 @@ namespace EftPosition
             mapBox.SelectedIndexChanged+=delegate{PopulateLayers();};layerBox.SelectedIndexChanged+=delegate{RequestMap();};layerBox.SelectionChangeCommitted+=delegate{autoNavigation.Checked=false;};
             mapWorker.DoWork+=LoadMapInBackground;mapWorker.RunWorkerCompleted+=MapLoaded;
             main.Controls.Add(workspace);main.Controls.Add(statusStrip);main.Controls.Add(toolbar);Controls.Add(main);Controls.Add(header);
+            miniMap=new MiniMapOverlay(canvas,preferences);
+            miniMap.ConfigurationChanged+=delegate{UpdateOverlaySettings();SavePreferences();if(settingsWindow!=null)settingsWindow.RefreshValues();};
+            miniMap.EditingChanged+=delegate{RefreshOverlayStatus();};
+            if(!isDemo)overlayHotkeys=new OverlayHotkeys(ToggleOverlay,ToggleOverlayEditing);
             ApplyAppearance(false);
             RefreshLanguage();
 
             timer.Interval=100;
             timer.Tick+=Tick;
             timer.Start();
-            Shown+=delegate { PopulateLayers(); if(Directory.Exists(folderBox.Text)) StartWatching();else if(!String.IsNullOrWhiteSpace(folderBox.Text))statusLabel.Text=UiText.T("Folder niedostępny. Wybierz go ponownie."); canvas.FitMap(); if(startFullScreen) SetFullScreen(true); };
-            FormClosed+=delegate { timer.Stop(); SavePreferences();markerPanel.Save();mapWorker.CancelAsync(); if(cleaner!=null)cleaner.Dispose();if(monitor!=null) monitor.Dispose(); if(telemetry!=null) telemetry.Dispose(); ownProcess.Dispose(); };
+            Shown+=delegate { PopulateLayers();ConfigureMapDetection(); if(Directory.Exists(folderBox.Text)) StartWatching();else if(!String.IsNullOrWhiteSpace(folderBox.Text))statusLabel.Text=UiText.T("Folder niedostępny. Wybierz go ponownie."); canvas.FitMap(); if(startFullScreen) SetFullScreen(true); UpdateOverlaySettings(); };
+            FormClosed+=delegate { timer.Stop();if(overlayHotkeys!=null)overlayHotkeys.Dispose();if(miniMap!=null && !miniMap.IsDisposed)miniMap.Close(); SavePreferences();markerPanel.Save();mapWorker.CancelAsync(); if(cleaner!=null)cleaner.Dispose();if(monitor!=null) monitor.Dispose(); if(telemetry!=null) telemetry.Dispose(); ownProcess.Dispose(); };
         }
         void ShowMarkerFilters(bool show)
         {
@@ -213,11 +223,15 @@ namespace EftPosition
             if(Icon!=null)dialog.Icon=(Icon)Icon.Clone();settingsButton.Primary=true;settingsButton.Invalidate();
             dialog.AppearanceChanged+=delegate{ApplyAppearance(true);};
             dialog.LanguageChanged+=delegate{RefreshLanguage();SavePreferences();};
+            dialog.OverlayChanged+=delegate{UpdateOverlaySettings();SavePreferences();dialog.RefreshValues();};
+            dialog.EditOverlayRequested+=delegate{ToggleOverlayEditing();};
+            dialog.MapDetectionChanged+=delegate{ConfigureMapDetection();SavePreferences();dialog.RefreshValues();};
             dialog.RestoreVisibility+=delegate{RestoreVisibility();};
             dialog.FormClosed+=delegate{if(settingsWindow==dialog)settingsWindow=null;settingsButton.Primary=false;settingsButton.Invalidate();if(!IsDisposed && !Disposing)SavePreferences();};
             Rectangle area=Screen.FromControl(this).WorkingArea;
             dialog.StartPosition=FormStartPosition.Manual;dialog.Location=new Point(Math.Max(area.Left,Math.Min(area.Right-dialog.Width,Bounds.Right-dialog.Width-18)),Math.Max(area.Top,Math.Min(area.Bottom-dialog.Height,Bounds.Top+70)));
             dialog.Show(this);
+            RefreshOverlayStatus();
         }
         void ApplyAppearance(bool save)
         {
@@ -226,6 +240,57 @@ namespace EftPosition
             if(settingsWindow!=null){UiTheme.Recolor(settingsWindow,palette);((ThemedForm)settingsWindow).ApplyWindowTheme();}
             canvas.ApplyAppearance(preferences,assetsDirectory);statusStrip.Visible=!fullScreen && preferences.ShowStatusBar;
             ApplyWindowOpacity();if(save)SavePreferences();
+            UpdateOverlaySettings();
+        }
+        void UpdateOverlaySettings()
+        {if(miniMap==null || miniMap.IsDisposed)return;miniMap.ApplySettings(Screen.FromControl(this));miniMap.Pulse(displayed==null?(DateTime?)null:displayed.FileTimeUtc);RefreshOverlayStatus();}
+        void RefreshOverlayStatus()
+        {if(settingsWindow!=null && !settingsWindow.IsDisposed)settingsWindow.SetOverlayStatus(miniMap!=null && miniMap.IsEditing,overlayHotkeys==null?UiText.T("Skróty globalne są wyłączone w trybie demonstracyjnym."):overlayHotkeys.Status);}
+        public void ToggleOverlay()
+        {preferences.OverlayEnabled=!preferences.OverlayEnabled;UpdateOverlaySettings();SavePreferences();if(settingsWindow!=null)settingsWindow.RefreshValues();}
+        public void ToggleOverlayEditing()
+        {
+            if(!preferences.OverlayEnabled){preferences.OverlayEnabled=true;UpdateOverlaySettings();}
+            miniMap.SetEditing(!miniMap.IsEditing);SavePreferences();if(settingsWindow!=null)settingsWindow.RefreshValues();RefreshOverlayStatus();
+        }
+        void ConfigureMapDetection()
+        {
+            if(gameMapMonitor!=null){gameMapMonitor.Dispose();gameMapMonitor=null;}gameMapRevision=0;
+            if(preferences.AutoMapEnabled && !isDemo)
+            {
+                string folder=String.IsNullOrWhiteSpace(preferences.GameLogsFolder)?GameMapMonitor.FindDefaultFolder():GameMapMonitor.ResolveFolder(preferences.GameLogsFolder);
+                if(folder!=null){preferences.GameLogsFolder=folder;gameMapMonitor=new GameMapMonitor(folder);}
+            }
+            RefreshMapDetectionStatus();
+        }
+        void RefreshMapDetectionStatus()
+        {
+            if(settingsWindow==null || settingsWindow.IsDisposed)return;
+            string status=!preferences.AutoMapEnabled?UiText.T("Automatyczne przełączanie mapy jest wyłączone."):
+                isDemo?UiText.T("Logi gry są wyłączone w trybie demonstracyjnym."):
+                gameMapMonitor==null?UiText.T("Nie znaleziono logów. Wybierz folder Logs w katalogu gry."):
+                gameMapMonitor.Status=="unavailable"?UiText.T("Logi chwilowo niedostępne. Ponawiam odczyt."):
+                gameMapMonitor.Latest==null?UiText.T("Obserwuję logi. Oczekiwanie na załadowanie mapy."):
+                UiText.T("Mapa wykryta z logów: ")+gameMapMonitor.Latest.MapId;
+            settingsWindow.SetMapDetectionStatus(status);
+        }
+        void UpdateDetectedMap()
+        {
+            if(gameMapMonitor==null)return;
+            DetectedGameMap detected=gameMapMonitor.Latest;
+            if(detected==null || detected.Revision==gameMapRevision)return;
+            gameMapRevision=detected.Revision;
+            int index=Array.FindIndex(maps,delegate(MapDefinition m){return m.Id==detected.MapId;});
+            if(index<0)return;
+            positionNotBefore=detected.TimeUtc;
+            if(displayed!=null && displayed.FileTimeUtc<positionNotBefore)
+            {
+                displayed=null;cleanupQueued=null;canvas.SetPosition(null);
+                timeLabel.Text="—:—:—";coordsLabel.Text="X —   Z —   Y —";headingLabel.Text=UiText.T("Kierunek · —");
+                if(navigator!=null)navigator.Reset();visualFocus=null;pendingFocus=null;pendingFit=false;
+            }
+            if(mapBox.SelectedIndex!=index)mapBox.SelectedIndex=index;
+            navigationLabel.Text=UiText.T("Mapa wykryta z logów: ")+maps[index].Name;
         }
         void ApplyWindowOpacity()
         {Opacity=preferences.FullscreenOpacityOnly && !fullScreen?1:preferences.WindowOpacity/100.0;}
@@ -240,6 +305,7 @@ namespace EftPosition
                 UiText.Format("Kierunek · {0:F1}°",displayed.Position.Yaw):UiText.T("Pionowo · brak kierunku");
             mapProgress=UiText.T(mapProgress);canvas.LoadingText=UiText.T(canvas.LoadingText);
             ApplyWindowTheme();canvas.Invalidate();
+            if(miniMap!=null){miniMap.RefreshLanguage();miniMap.Pulse(displayed==null?(DateTime?)null:displayed.FileTimeUtc);}RefreshOverlayStatus();
         }
         void RestoreVisibility()
         {preferences.WindowOpacity=100;ApplyWindowOpacity();if(settingsWindow!=null)settingsWindow.RefreshValues();SavePreferences();}
@@ -393,7 +459,7 @@ namespace EftPosition
                 displayed=null; canvas.SetPosition(null); canvas.FitMap();
                 timeLabel.Text="—:—:—"; coordsLabel.Text="X —   Z —   Y —";
                 headingLabel.Text=UiText.T("Kierunek · —"); fileLabel.Text=UiText.T("Oczekiwanie na poprawną nazwę pliku…");
-                navigationLabel.Text=autoNavigation.Checked?UiText.T("Oczekiwanie na pozycję\nMapę wybierasz ręcznie."):UiText.T("Sterowanie ręczne\nWybierz poziom z menu.");
+                navigationLabel.Text=autoNavigation.Checked?(preferences.AutoMapEnabled?UiText.T("Oczekiwanie na mapę i pozycję"):UiText.T("Oczekiwanie na pozycję\nMapę wybierasz ręcznie.")):UiText.T("Sterowanie ręczne\nWybierz poziom z menu.");
                 UpdateWatchButtons();
             }
             catch(Exception ex)
@@ -426,13 +492,14 @@ namespace EftPosition
         }
         void Tick(object sender,EventArgs e)
         {
+            UpdateDetectedMap();RefreshMapDetectionStatus();RefreshOverlayStatus();
             if(monitor!=null)
             {
                 statusLabel.Text=monitor.Status.StartsWith("Obserwuję",StringComparison.Ordinal)?UiText.T("● Obserwacja aktywna"):UiText.T(monitor.Status);
                 statusLabel.ForeColor=monitor.Status.StartsWith("Obserwuję",StringComparison.Ordinal)?accent:Color.FromArgb(244,183,83);
                 countsLabel.Text=UiText.T("Aktualizacje: ")+monitor.Accepted+UiText.T("  •  Pominięte nazwy: ")+monitor.Ignored;
                 Snapshot s=monitor.Latest;
-                if(s!=null && s!=displayed)
+                if(s!=null && s!=displayed && s.FileTimeUtc>=positionNotBefore)
                 {
                     displayed=s;
                     canvas.SetPosition(s.Position);
@@ -459,10 +526,14 @@ namespace EftPosition
             else {ageLabel.Text=UiText.T("Brak pozycji\nWykonaj zrzut w grze.");ageLabel.ForeColor=muted;}
             if(stale!=oldStale) { canvas.Stale=stale; canvas.Invalidate(); oldStale=stale; }
             canvas.RefreshTiles();
+            if(miniMap!=null)miniMap.Pulse(displayed==null?(DateTime?)null:displayed.FileTimeUtc);
+            bool mainMapVisible=Visible && WindowState!=FormWindowState.Minimized && canvas.Visible;
+            bool miniMapVisible=miniMap!=null && miniMap.Visible && canvas.MiniMapHasPosition;
             if(cleaner!=null && displayed!=null && displayed!=cleanupQueued && !mapWorker.IsBusy && canvas.Definition!=null &&
-                requestedMap!=null && canvas.Definition.Id==requestedMap.Id && canvas.Layer.Contains(displayed.Position))
+                requestedMap!=null && canvas.Definition.Id==requestedMap.Id && canvas.Layer.Contains(displayed.Position) && (mainMapVisible || miniMapVisible))
             {
-                canvas.Update(); // Complete the position repaint before acknowledging this file.
+                if(mainMapVisible)canvas.Update();
+                if(miniMapVisible)miniMap.Update(); // Also acknowledge a completed minimap repaint when the main window is minimized.
                 cleaner.ConfirmDisplayed(displayed);cleanupQueued=displayed;
             }
             if(cleaner!=null && cleaner.Failed>0)detailsTip.SetToolTip(deleteScreenshots,UiText.T("Nie udało się usunąć części zrzutów. Pozostały w folderze. Usunięto: ")+cleaner.Deleted);
@@ -497,7 +568,8 @@ namespace EftPosition
         }
         protected override void Dispose(bool disposing)
         {
-            if(disposing) {if(settingsWindow!=null && !settingsWindow.IsDisposed)settingsWindow.Close();capturePanel.Dispose();timer.Dispose(); detailsTip.Dispose(); titleFont.Dispose(); valueFont.Dispose(); }
+            if(disposing && gameMapMonitor!=null){gameMapMonitor.Dispose();gameMapMonitor=null;}
+            if(disposing) {if(overlayHotkeys!=null)overlayHotkeys.Dispose();if(miniMap!=null)miniMap.Dispose();if(settingsWindow!=null && !settingsWindow.IsDisposed)settingsWindow.Close();capturePanel.Dispose();timer.Dispose(); detailsTip.Dispose(); titleFont.Dispose(); valueFont.Dispose(); }
             base.Dispose(disposing);
         }
     }

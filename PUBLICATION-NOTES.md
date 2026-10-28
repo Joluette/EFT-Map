@@ -1,9 +1,11 @@
-# Publikacja 3.2.0
+# Publication notes — 3.3.2
 
-Kod oraz zasoby pochodzą z lokalnie sprawdzonej implementacji 3.2.0. Dołączono licencje map i bibliotek oraz informacje o pochodzeniu nowych teł. Paczki nie zawierają preferencji, prywatnego cache, rzeczywistych zrzutów ani lokalnych raportów ze ścieżkami użytkownika.
+This release publishes the minimap, global shortcut handling and automatic map selection introduced locally in 3.3.0–3.3.2, including the confirmed Interchange scene-alias fix. README and release notes are English first, followed by Polish information.
 
-`Package-Release.ps1` kopiuje z raportów wyłącznie przejrzany katalog odpowiadający `VERSION`. Pliki EXE z katalogów źródłowych są usuwane przed utworzeniem archiwum kodu. `BUILD-INFO.json` w paczce Windows wskazuje hash programu i rewizję źródeł.
+The source/runtime archives retain required licenses, bundled dependencies and map attribution. Documentation images include sample-data renders and the user-supplied gameplay capture with its private-path notification redacted. The original unredacted capture is not distributed.
 
-Zmiana `VERSION` na `main` uruchamia zatwierdzony workflow: budowanie, testy, pakowanie i nowe wydanie testowe. Istniejące wydania nie są nadpisywane. Do dotychczasowych kontroli dodano języki/podpowiedzi oraz raster. Workflow korzysta z krótkotrwałego tokenu GitHub Actions z prawem zapisu zawartości, bez osobistego tokenu w repozytorium.
+Package-Release.ps1 includes docs and only reports/<VERSION>. It excludes runtime caches and preferences, and removes compiled executables from the source archive. The Windows archive includes BUILD-INFO.json; SHA256SUMS.txt identifies the two ZIPs.
 
-Wyniki dawnych pomiarów wydajności i pamięci nie są przypisywane binarnemu plikowi utworzonemu na GitHubie. Nowe paczki i ich sumy powstają w tym samym przebiegu automatyzacji.
+The existing main-branch VERSION-triggered workflow builds, checks and publishes a new prerelease with the scoped GitHub Actions token. Existing releases and assets are not overwritten. The 3.3 checks add minimap and automatic-map coverage to the previous CI checks. Environment-dependent shortcut conflicts are reported by the tests without taking shortcuts away from other running software.
+
+The installed local application is not replaced by this publication. CI creates its own executable from the same application source.
