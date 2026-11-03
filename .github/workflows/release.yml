@@ -3,7 +3,7 @@ name: Build, check and publish Windows release
 on:
   push:
     branches: [main]
-    paths: [VERSION, '.github/workflows/release.yml']
+    paths: [VERSION, 'src/**', 'tests/**', 'tools/**', 'assets/**', 'Build.ps1', 'Testuj.ps1', 'EftPosition.csproj', '.github/workflows/release.yml']
   workflow_dispatch:
     inputs:
       publish_release:

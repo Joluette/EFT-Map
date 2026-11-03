@@ -74,8 +74,9 @@ namespace EftPosition
                     settings.ShowOverlayPage();Save(form,Path.Combine(reports,"settings-minimap.png"));
                     settings.ShowCapturePage();Check(Find<TextBox>(settings,"Ścieżka folderu zrzutów").Visible,"screenshot controls remain inside settings");
                     Key(form,Keys.Escape);Check(form.SettingsWindow==null && !form.IsDisposed,"Escape closes settings only");
-                    Wait(()=>!form.IsSettingsAnimating);
-                    Check(Math.Abs(form.Opacity-.55)<.01 && map.Width==form.ClientSize.Width,"closing settings restores opacity and map width");
+                    Wait(()=>!form.IsSettingsAnimating && map.Bounds==map.Parent.ClientRectangle);
+                    Check(Math.Abs(form.Opacity-.55)<.01 && map.Bounds==map.Parent.ClientRectangle,
+                        "closing settings restores opacity and fills the map workspace; opacity="+form.Opacity+", map="+map.Bounds+", workspace="+map.Parent.ClientRectangle+", form="+form.ClientSize);
                     for(int i=0;i<5;i++){form.ShowSettings();settings=(SettingsForm)form.SettingsWindow;settings.ShowCapturePage();Check(!Find<TextBox>(settings,"Ścieżka folderu zrzutów").IsDisposed,"capture controls survive reopen "+i);settings.Close();}
                     form.SetFullScreen(true);form.ShowSettings();Key(form,Keys.Escape);Check(form.IsFullScreen && form.SettingsWindow==null,"first Escape closes settings within fullscreen");Key(form,Keys.Escape);Check(!form.IsFullScreen,"second Escape exits fullscreen");
                     using(var combo=new UiComboBox {Width=280})
