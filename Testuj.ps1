@@ -33,4 +33,16 @@ try {
     if ($LASTEXITCODE -ne 0) { throw 'Testy minimapy nie przeszły.' }
     & .\EftPosition.MapDetectionTests.exe (Join-Path $FixtureRoot 'map-detection') (Join-Path $PSScriptRoot 'reports\map-detection') | Tee-Object -FilePath 'reports\map-detection-tests.txt'
     if ($LASTEXITCODE -ne 0) { throw 'Testy automatycznej mapy i skrótów nie przeszły.' }
+    & .\EftPosition.UiRefreshTests.exe (Join-Path $FixtureRoot 'ui-refresh') (Join-Path $PSScriptRoot 'reports\ui-refresh') | Tee-Object -FilePath 'reports\ui-refresh-tests.txt'
+    if ($LASTEXITCODE -ne 0) { throw 'UI refresh tests failed.' }
+    & .\EftPosition.UiInteractionTests.exe (Join-Path $FixtureRoot 'ui-interaction') (Join-Path $PSScriptRoot 'reports\ui-interaction') | Tee-Object -FilePath 'reports\ui-interaction-tests.txt'
+    if ($LASTEXITCODE -ne 0) { throw 'UI interaction tests failed.' }
+    & .\EftPosition.ZoomPreviewTests.exe (Join-Path $PSScriptRoot 'assets') (Join-Path $FixtureRoot 'zoom-preview') | Tee-Object -FilePath 'reports\zoom-preview-tests.txt'
+    if ($LASTEXITCODE -ne 0) { throw 'Zoom preview tests failed.' }
+    & .\EftPosition.RasterTests.exe (Join-Path $FixtureRoot 'raster') (Join-Path $FixtureRoot 'raster-reports') | Tee-Object -FilePath 'reports\raster-tests.txt'
+    if ($LASTEXITCODE -ne 0) { throw 'Raster tests failed.' }
+    & .\EftPosition.LootTests.exe (Join-Path $PSScriptRoot 'assets') (Join-Path $FixtureRoot 'loot') | Tee-Object -FilePath 'reports\loot-tests.txt'
+    if ($LASTEXITCODE -ne 0) { throw 'Loot tests failed.' }
+    & .\EftPosition.MapIconTests.exe (Join-Path $PSScriptRoot 'assets') (Join-Path $FixtureRoot 'map-icons') | Tee-Object -FilePath 'reports\map-icon-tests.txt'
+    if ($LASTEXITCODE -ne 0) { throw 'Map icon release tests failed.' }
 } finally { Pop-Location }

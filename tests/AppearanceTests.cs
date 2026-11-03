@@ -36,7 +36,7 @@ namespace EftPosition
         }
         [STAThread]static int Main(string[] args)
         {
-            Application.EnableVisualStyles();Application.SetCompatibleTextRenderingDefault(false);
+            Application.EnableVisualStyles();Application.SetCompatibleTextRenderingDefault(false);UiText.Language="pl";
             try
             {
                 string root=Path.GetFullPath(args[0]),reports=Path.GetFullPath(args[1]);Check(!Directory.Exists(root),"fresh test folder");Directory.CreateDirectory(root);Directory.CreateDirectory(reports);
@@ -45,6 +45,7 @@ namespace EftPosition
                 using(var b=new Bitmap(20,20)){using(Graphics g=Graphics.FromImage(b))g.Clear(Color.Red);b.Save(red);using(Graphics g=Graphics.FromImage(b))g.Clear(Color.Blue);b.Save(blue);}
                 var legacy=Path.Combine(root,"legacy.json");File.WriteAllText(legacy,"{\"ScreenshotFolder\":\"screenshots\",\"DeleteScreenshots\":false}");
                 AppPreferences migrated=AppPreferences.Load(legacy);Check(migrated.Theme=="tarkov" && migrated.RoundedCorners && migrated.WindowOpacity==100 && !migrated.DeleteScreenshots,"old settings migrate without losing screenshot choice");
+                new AppPreferences {Language="pl"}.Save(prefs);
                 using(var f=new MainForm(null,null,0,false,false,null,cache,false,false,"ground-zero"))
                 {
                     f.Show();MapCanvas map=All(f).OfType<MapCanvas>().Single();Wait(()=>map.Layer!=null,"initial map loads");
@@ -55,7 +56,7 @@ namespace EftPosition
                     Find<Button>(f,"Filtry mapy i questy").PerformClick();Check(All(f).OfType<MarkerPanel>().Single().Visible,"quest drawer opens");Check(map.Width<f.ClientSize.Width-250,"drawer reserves space only while open");
                     Find<Button>(f,"Zamknij panel questów").PerformClick();Check(map.Width>=f.ClientSize.Width-2,"closing drawer returns map width");
                     Find<Button>(f,"Ustawienia").PerformClick();SettingsForm settings=(SettingsForm)f.SettingsWindow;Check(settings!=null && settings.Visible,"gear opens settings");Check(Math.Abs(settings.Opacity-1)<.001,"settings stay opaque");Save(settings,Path.Combine(reports,"settings-appearance.png"));
-                    Check(!All(f).OfType<TextBox>().Any(c=>c.AccessibleName=="Ścieżka folderu zrzutów"),"folder field has moved out of the main workspace");
+                    Check(All(settings).OfType<TextBox>().Any(c=>c.AccessibleName=="Ścieżka folderu zrzutów") && !settings.TopLevel && settings.TopLevelControl==f,"folder field is contained in embedded settings");
                     ComboBox backgrounds=Find<ComboBox>(settings,"Tło aplikacji");
                     Check(backgrounds.Items.Count==4 && backgrounds.Items[3].ToString()=="Tarkov × Cyberpunk (HD)","Cyberpunk HD is an additional built-in choice");
                     Check(backgrounds.Items[1].ToString()=="Własny obraz" && backgrounds.Items[2].ToString()=="Jednolity kolor","existing background choice indexes retain their meaning");
@@ -77,11 +78,11 @@ namespace EftPosition
                     Find<TrackBar>(settings,"Przyciemnienie tła").Value=0;Find<TrackBar>(settings,"Krycie mapy").Value=65;
                     Check(map.VisibleMarkerCount==6,"changing map opacity does not hide markers");
                     Find<Button>(settings,"Ustawienia okna i mapy").PerformClick();Find<TrackBar>(settings,"Przezroczystość okna").Value=50;
-                    Check(Math.Abs(f.Opacity-1)<.001,"fullscreen-only transparency does not affect windowed mode");
-                    f.SetFullScreen(true);Pump(80);Check(Math.Abs(f.Opacity-.5)<.001 && map.MapOnly,"fullscreen applies requested opacity");Check(Math.Abs(settings.Opacity-1)<.001,"settings remain readable above translucent fullscreen map");
+                    Check(Math.Abs(f.Opacity-.5)<.001,"transparency previews immediately while adjusting settings");
+                    f.SetFullScreen(true);Pump(80);Check(Math.Abs(f.Opacity-.5)<.001 && map.MapOnly,"fullscreen uses the selected opacity while settings are open");Check(Math.Abs(settings.Opacity-1)<.001,"embedded child has no independent window opacity");
                     Check(Find<Button>(f,"Ustawienia na pełnym ekranie").Visible,"settings remain reachable in fullscreen");Save(settings,Path.Combine(reports,"settings-window.png"));
-                    f.SetFullScreen(false);Check(Math.Abs(f.Opacity-1)<.001,"leaving fullscreen restores opaque window");
-                    Find<CheckBox>(settings,"Przezroczystość tylko na pełnym ekranie").Checked=false;Check(Math.Abs(f.Opacity-.5)<.001,"opacity can apply in windowed mode too");
+                    f.SetFullScreen(false);Check(Math.Abs(f.Opacity-.5)<.001,"live opacity preview remains visible until settings close");
+                    Find<CheckBox>(settings,"Przezroczystość tylko na pełnym ekranie").Checked=false;Check(Math.Abs(f.Opacity-.5)<.001 && AppPreferences.Load(prefs).WindowOpacity==50,"windowed mode applies and saves the requested opacity");
                     Key(f,Keys.F10);Check(Math.Abs(f.Opacity-1)<.001 && Find<TrackBar>(settings,"Przezroczystość okna").Value==0,"F10 restores visibility and updates settings");
                     int height=map.Height;Find<CheckBox>(settings,"Pokaż pasek pozycji").Checked=false;Check(map.Height>=height+40,"hiding footer returns its space to map");
                     Find<TrackBar>(settings,"Rozmiar znaczników").Value=140;Find<CheckBox>(settings,"Pokaż pasek pozycji").Checked=true;

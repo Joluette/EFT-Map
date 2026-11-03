@@ -6,7 +6,7 @@ using System.Web.Script.Serialization;
 namespace EftPosition
 {
     public sealed class MapLabel
-    { public string Text { get; set; } public double X { get; set; } public double Z { get; set; } }
+    { public string Text { get; set; } public double X { get; set; } public double Z { get; set; } public int Priority { get; set; } }
 
     public sealed class MapLayer
     {

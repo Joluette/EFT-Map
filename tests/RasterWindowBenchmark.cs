@@ -42,6 +42,8 @@ static class RasterWindowBenchmark
     }
     static void Pump(){Application.DoEvents();Thread.Sleep(2);}
     [STAThread]static int Main(string[] args)
+    {try{return Run(args);}catch(Exception error){Console.WriteLine(error);return 1;}}
+    static int Run(string[] args)
     {
         Application.EnableVisualStyles();Application.SetCompatibleTextRenderingDefault(false);
         string source=Path.GetFullPath(args[0]),output=Path.GetFullPath(args[1]),label=args[2],assets=Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"assets");Directory.CreateDirectory(output);
@@ -81,6 +83,8 @@ static class RasterWindowBenchmark
                         }
                         var clock=Stopwatch.StartNew();map.Refresh();clock.Stop();if(i>=4)times.Add(clock.Elapsed.TotalMilliseconds);
                     }
+                    if(motion=="animated-zoom")
+                    {var refine=typeof(MapCanvas).GetMethod("FinishZoomPreview",Private);if(refine!=null)refine.Invoke(map,null);}
                     var settle=Stopwatch.StartNew();if(motion=="pan")Mouse(map,"OnMouseUp",244,172);map.Refresh();settle.Stop();times.Sort();
                     if(tiles.DownloadCount!=0)throw new Exception("Benchmark must remain offline");
                     string row=String.Format(CultureInfo.InvariantCulture,"{0},{1},{2},{3},{4},{5},{6},{7:F3},{8:F3},{9:F3},{10:F3}",id,map.Width,map.Height,zoom,motion,tiles.CacheCount,times.Count,times[times.Count/2],times[(int)(times.Count*.95)],times[times.Count-1],settle.Elapsed.TotalMilliseconds);rows.Add(row);Console.WriteLine(row);

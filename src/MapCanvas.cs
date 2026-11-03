@@ -34,12 +34,15 @@ namespace EftPosition
         public MapDefinition Definition { get { return definition; } }
         public MapLayer Layer { get { return layer; } }
         readonly Font labelFont = new Font("Segoe UI", 9, FontStyle.Bold);
+        readonly MapLabelRenderer mapLabels=new MapLabelRenderer();
+        internal int VisibleMapLabels {get{return mapLabels.VisibleCount;}}
         readonly Font smallFont = new Font("Segoe UI", 8);
         float scale = 1, offsetX, offsetY;
         Point dragStart;
         bool dragging,dragMoved,rasterPreview,fitted;
-        readonly Timer zoomTimer=new Timer { Interval=15 };
-        bool zoomAnimating;
+        readonly Timer zoomTimer=new Timer { Interval=1 };
+        readonly Timer zoomQualityTimer=new Timer {Interval=100};
+        bool zoomAnimating,zoomPreviewActive;
         long zoomStarted;
         float zoomFromScale,zoomFromX,zoomFromY,zoomToScale,zoomToX,zoomToY;
         const double ZoomDurationSeconds=.16;
@@ -62,6 +65,9 @@ namespace EftPosition
         public bool MapOnly { get; set; }
         public bool IsVector { get { return vector!=null; } }
         public bool IsAnimating { get { return zoomAnimating; } }
+        internal int ZoomPreviewRenderCount {get{return vector==null?rasterViewport.ZoomRenderCount:vector.ZoomRenderCount;}}
+        internal long ZoomPreviewBytes {get{return vector==null?rasterViewport.ZoomCacheBytes:vector.ZoomCacheBytes;}}
+        internal bool IsZoomSettling {get{return zoomQualityTimer.Enabled;}}
         public MapCanvas()
         {
             markerHoverTimer.Tick+=delegate
@@ -79,6 +85,7 @@ namespace EftPosition
             TabStop = true;
             AccessibleName = UiText.T("Mapa: kółko przybliża, przeciągnięcie przesuwa");
             zoomTimer.Tick+=delegate { AdvanceZoom(); };
+            zoomQualityTimer.Tick+=delegate{FinishZoomPreview();};
             for(int i=0;i<6;i++)markerArtwork[i]=MarkerArtwork.Create((MapMarkerKind)(i%3),i>=3);
         }
         public void ClearMap()
@@ -92,6 +99,7 @@ namespace EftPosition
             rasterViewport.Clear();
             buildingBounds.Clear();
             definition=null; layer=null; fitted=false; Invalidate();
+            loot.Bind(null,null,null);
         }
         public void LoadMap(MapDefinition selected,MapLayer selectedLayer,string path,string cacheDirectory=null)
         {
@@ -100,6 +108,8 @@ namespace EftPosition
             else map=new RasterImage(path,selectedLayer.Width,selectedLayer.Height);
             if(selectedLayer.Remote) tiles=new TileMap(selectedLayer,cacheDirectory??Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"cache"),delegate { tilesChanged=true; });
             definition=selected; layer=selectedLayer; LoadingText=null; FitMap();
+            loot.Bind(definition,layer,levelClassifier);
+            UpdateLootRegions();
             RefreshMarkerLevels();
             if(vector!=null)
             {
@@ -131,7 +141,7 @@ namespace EftPosition
         public void SetMarkers(string mapId,MapMarker[] points)
         {markerMapId=mapId;markers=points??new MapMarker[0];RefreshMarkerLevels();SceneRevision++;SetMarkerTip("");Invalidate();}
         public void SetMarkerLevels(AutoNavigator classifier)
-        {levelClassifier=classifier;RefreshMarkerLevels();SceneRevision++;Invalidate();}
+        {levelClassifier=classifier;RefreshMarkerLevels();loot.Bind(definition,layer,levelClassifier);UpdateLootRegions();SceneRevision++;Invalidate();}
         void RefreshPlayerLevel()
         {playerLevel=levelClassifier!=null && position!=null?levelClassifier.LevelAt(position.X,position.Y,position.Z):null;}
         void RefreshMarkerLevels()
@@ -151,7 +161,8 @@ namespace EftPosition
         {if(layer==null)return PointF.Empty;MapPoint p=layer.Project(x,z);return new PointF(offsetX+(float)p.X*scale,offsetY+(float)p.Y*scale);}
         public string MarkerTooltipAt(Point point)
         {
-            if(definition==null || layer==null || definition.Id!=markerMapId || !ClientRectangle.Contains(point))return "";
+            if(definition==null || layer==null || !ClientRectangle.Contains(point))return "";
+            if(definition.Id!=markerMapId)return loot.Tooltip(ClientSize,scale,offsetX,offsetY,point);
             var names=new HashSet<string>(StringComparer.Ordinal);
             // Use the current camera directly so hover also works before the next paint.
             foreach(MapMarker marker in markers)
@@ -159,7 +170,7 @@ namespace EftPosition
                 PointF p=MarkerScreenPoint(marker.X,marker.Z);float s=markerSize/100f;
                 if(new RectangleF(p.X-14*s,p.Y-29*s,28*s,34*s).Contains(point))names.Add(marker.Name);
             }
-            var sorted=new List<string>(names);sorted.Sort(StringComparer.OrdinalIgnoreCase);return String.Join("\n",sorted.ToArray());
+            var sorted=new List<string>(names);sorted.Sort(StringComparer.OrdinalIgnoreCase);return sorted.Count>0?String.Join("\n",sorted.ToArray()):loot.Tooltip(ClientSize,scale,offsetX,offsetY,point);
         }
         void SetMarkerTip(string text)
         {
@@ -207,8 +218,11 @@ namespace EftPosition
         }
         public void Zoom(float factor) { ZoomAt(factor, Width/2, Height/2); }
         public void SmoothZoom(float factor) { SmoothZoomAt(factor,Width/2,Height/2); }
-        void StopZoom()
-        { zoomAnimating=false; zoomTimer.Stop(); }
+        void StopZoom(){StopZoom(false);}
+        void StopZoom(bool settle)
+        {zoomAnimating=false;zoomTimer.Stop();zoomQualityTimer.Stop();zoomPreviewActive=settle;if(settle)zoomQualityTimer.Start();}
+        void FinishZoomPreview()
+        {zoomQualityTimer.Stop();zoomPreviewActive=false;Invalidate();}
         void AdvanceZoom()
         {
             if(!zoomAnimating) return;
@@ -217,7 +231,7 @@ namespace EftPosition
             scale=zoomFromScale+(zoomToScale-zoomFromScale)*ease;
             offsetX=zoomFromX+(zoomToX-zoomFromX)*ease;
             offsetY=zoomFromY+(zoomToY-zoomFromY)*ease;
-            if(t>=1) { scale=zoomToScale;offsetX=zoomToX;offsetY=zoomToY;StopZoom(); }
+            if(t>=1) { scale=zoomToScale;offsetX=zoomToX;offsetY=zoomToY;StopZoom(true); }
             Invalidate();
         }
         void SmoothZoomAt(float factor,int x,int y)
@@ -233,7 +247,7 @@ namespace EftPosition
             zoomToX=x-(x-offsetX)*(next/scale);
             zoomToY=y-(y-offsetY)*(next/scale);
             zoomStarted=Stopwatch.GetTimestamp();
-            zoomAnimating=true;zoomTimer.Start();
+            zoomQualityTimer.Stop();zoomPreviewActive=true;zoomAnimating=true;zoomTimer.Start();
         }
         void ZoomAt(float factor, int x, int y)
         {
@@ -293,6 +307,7 @@ namespace EftPosition
         {
             map.Draw(graphics,viewport,viewScale,x,y,rasterPreview);
             if(tiles!=null)tiles.Draw(graphics,new Rectangle(Point.Empty,viewport),viewScale,x,y,rasterPreview);
+            loot.DrawRegionsScreen(graphics,viewScale,x,y);
         }
         protected override void OnPaint(PaintEventArgs e)
         {
@@ -309,15 +324,21 @@ namespace EftPosition
             g.PixelOffsetMode = PixelOffsetMode.HighQuality;
             // Vector opacity is cached along with the map pixels. Integer pans
             // only repaint/fade exposed strips; markers retain full opacity.
-            if(vector!=null)vector.Draw(g,ClientSize,scale,offsetX,offsetY,mapOpacity);
+            if(vector!=null)
+            {
+                if(zoomPreviewActive)vector.DrawZoom(g,ClientSize,scale,offsetX,offsetY,mapOpacity,zoomToScale,zoomToX,zoomToY);
+                else vector.Draw(g,ClientSize,scale,offsetX,offsetY,mapOpacity);
+            }
             else
             {
-                bool preview=zoomAnimating || (dragging && dragMoved);
+                bool preview=zoomPreviewActive || (dragging && dragMoved);
                 if(preview!=rasterPreview){rasterPreview=preview;rasterViewport.Invalidate();}
-                rasterViewport.Draw(g,ClientSize,scale,offsetX,offsetY,mapOpacity);
+                if(zoomPreviewActive)rasterViewport.DrawZoom(g,ClientSize,scale,offsetX,offsetY,mapOpacity,zoomToScale,zoomToX,zoomToY);
+                else rasterViewport.Draw(g,ClientSize,scale,offsetX,offsetY,mapOpacity);
             }
             g.SmoothingMode = SmoothingMode.AntiAlias;
-            if(definition.Labels!=null) foreach(MapLabel label in definition.Labels) DrawLabel(g,label.Text,label.X,label.Z);
+            loot.Draw(g,ClientSize,scale,offsetX,offsetY,false);
+            mapLabels.Draw(g,definition,layer,ClientSize,scale,offsetX,offsetY);
             DrawMarkers(g);
             if (position != null && layer.Contains(position))
             {
@@ -364,18 +385,9 @@ namespace EftPosition
                 }
             }
         }
-        void DrawLabel(Graphics g, string text, double x, double z)
-        {
-            MapPoint p = layer.Project(x,z);
-            float cx=offsetX+(float)p.X*scale, cy=offsetY+(float)p.Y*scale;
-            SizeF size=g.MeasureString(text,labelFont);
-            if (cx < -size.Width || cx > Width+size.Width || cy < 0 || cy > Height-35) return;
-            using (Brush bg = new SolidBrush(Color.FromArgb(175,15,23,27))) g.FillRectangle(bg,cx-size.Width/2-3,cy-10,size.Width+6,size.Height+2);
-            using (Brush fg = new SolidBrush(Color.FromArgb(225,231,228))) g.DrawString(text,labelFont,fg,cx-size.Width/2,cy-9);
-        }
         protected override void Dispose(bool disposing)
         {
-            if (disposing) { ClearMap();backdrop.Dispose();rasterViewport.Dispose();foreach(Bitmap image in markerArtwork)if(image!=null)image.Dispose();markerHoverTimer.Dispose();markerTip.Dispose(); zoomTimer.Dispose(); labelFont.Dispose(); smallFont.Dispose(); }
+            if (disposing) { ClearMap();mapLabels.Dispose();loot.Dispose();backdrop.Dispose();rasterViewport.Dispose();foreach(Bitmap image in markerArtwork)if(image!=null)image.Dispose();markerHoverTimer.Dispose();markerTip.Dispose(); zoomTimer.Dispose();zoomQualityTimer.Dispose(); labelFont.Dispose(); smallFont.Dispose(); }
             base.Dispose(disposing);
         }
     }

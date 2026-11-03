@@ -5,6 +5,11 @@ on:
     branches: [main]
     paths: [VERSION, '.github/workflows/release.yml']
   workflow_dispatch:
+    inputs:
+      publish_release:
+        description: Publish a prerelease after all checks pass
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -60,9 +65,23 @@ jobs:
           if($LASTEXITCODE -ne 0){throw 'Overlay tests failed'}
           ./EftPosition.MapDetectionTests.exe (Join-Path $env:RUNNER_TEMP 'eft-map-detection') (Join-Path $env:RUNNER_TEMP 'eft-map-detection-images')
           if($LASTEXITCODE -ne 0){throw 'Map detection tests failed'}
+      - name: Check embedded settings, loot filters and zoom preview
+        run: |
+          $ErrorActionPreference='Stop'
+          ./EftPosition.UiInteractionTests.exe (Join-Path $env:RUNNER_TEMP 'eft-interaction') (Join-Path $env:RUNNER_TEMP 'eft-interaction-images')
+          if($LASTEXITCODE -ne 0){throw 'Settings interaction tests failed'}
+          ./EftPosition.UiRefreshTests.exe (Join-Path $env:RUNNER_TEMP 'eft-refresh') (Join-Path $env:RUNNER_TEMP 'eft-refresh-images')
+          if($LASTEXITCODE -ne 0){throw 'UI refresh tests failed'}
+          ./EftPosition.LootTests.exe ./assets (Join-Path $env:RUNNER_TEMP 'eft-loot')
+          if($LASTEXITCODE -ne 0){throw 'Loot tests failed'}
+          ./EftPosition.MapIconTests.exe ./assets (Join-Path $env:RUNNER_TEMP 'eft-map-icons')
+          if($LASTEXITCODE -ne 0){throw 'Map icon tests failed'}
+          ./EftPosition.ZoomPreviewTests.exe ./assets (Join-Path $env:RUNNER_TEMP 'eft-zoom-preview')
+          if($LASTEXITCODE -ne 0){throw 'Zoom preview tests failed'}
       - name: Package clean runtime and source archives
         run: ./tools/Package-Release.ps1
       - name: Publish version and checksums
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.publish_release }}
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}

@@ -30,7 +30,7 @@ namespace EftPosition
         {
             try
             {
-                Application.EnableVisualStyles();Application.SetCompatibleTextRenderingDefault(false);
+                Application.EnableVisualStyles();Application.SetCompatibleTextRenderingDefault(false);UiText.Language="pl";
                 string assets=Path.GetFullPath(args[0]);MapDefinition selected=MapCatalog.Load(assets)[0];
                 using(Form form=new Form {ClientSize=new Size(1100,720)})
                 using(MapCanvas map=new MapCanvas {Dock=DockStyle.Fill})

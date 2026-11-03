@@ -68,7 +68,7 @@ namespace EftPosition
         }
         [STAThread]static int Main(string[] args)
         {
-            Application.EnableVisualStyles();Application.SetCompatibleTextRenderingDefault(false);
+            Application.EnableVisualStyles();Application.SetCompatibleTextRenderingDefault(false);UiText.Language="pl";
             try
             {
                 bool desktop=args.Length<3 || args[2]!="--noninteractive";
@@ -104,7 +104,7 @@ namespace EftPosition
                     for(int i=0;i<6;i++)using(var b=source.RenderMiniMap(new Size(280,280),100+i*50))Check(b.Width==280,"shared SVG preview renders");
                     Check(vector.RenderCount==renderCount && scale==Field<float>(source,"scale") && x==Field<float>(source,"offsetX") && y==Field<float>(source,"offsetY"),"SVG minimap leaves the main viewport cache and camera unchanged");
                     f.WindowState=FormWindowState.Minimized;Pump(80);Check(overlay.Visible,"ownerless overlay stays visible while the main app is minimized");f.WindowState=FormWindowState.Normal;
-                    f.ToggleOverlayEditing();Check(overlay.IsEditing && (GetWindowLong(overlay.Handle,-20)&0x20)==0 && Math.Abs(overlay.Opacity-1)<.001,"positioning mode accepts mouse interaction and restores full visibility");
+                    f.ToggleOverlayEditing();Check(overlay.IsEditing && (GetWindowLong(overlay.Handle,-20)&0x20)==0 && Math.Abs(overlay.Opacity-Field<AppPreferences>(f,"preferences").OverlayOpacity/100.0)<.001,"positioning mode accepts mouse interaction and preserves the selected opacity");
                     hit=overlay.PointToScreen(new Point(overlay.Width/2,overlay.Height/2));if(desktop)Check(WindowFromPoint(new NativePoint(hit))==overlay.Handle,"positioning mode receives Windows hit tests");
                     else Console.WriteLine("SKIP positioning desktop point hit test: noninteractive CI desktop. Input styles and drag/resize events are still checked.");
                     Rectangle before=overlay.Bounds;
@@ -143,7 +143,7 @@ namespace EftPosition
                 using(var reopened=new MainForm(null,null,0,false,true,null,cache,false,false,"ground-zero"))
                 {reopened.Show();Wait(()=>reopened.MiniMap.Visible,"restart restores enabled minimap");Check(Math.Abs(reopened.MiniMap.Opacity-.65)<.001,"restart restores overlay transparency");reopened.Close();}
                 string cleanCache=Path.Combine(root,"cleanup-cache"),cleanShots=Path.Combine(root,"cleanup-shots");Directory.CreateDirectory(cleanShots);
-                new AppPreferences {ScreenshotFolder=cleanShots,DeleteScreenshots=true,OverlayEnabled=true}.Save(Path.Combine(cleanCache,"app-preferences.json"));
+                new AppPreferences {Language="pl",ScreenshotFolder=cleanShots,DeleteScreenshots=true,OverlayEnabled=true}.Save(Path.Combine(cleanCache,"app-preferences.json"));
                 using(var cleanup=new MainForm(null,null,0,false,false,null,cleanCache,false,false,"ground-zero"))
                 {
                     cleanup.Show();MapCanvas canvas=All(cleanup).OfType<MapCanvas>().Single();Wait(()=>canvas.Layer!=null,"cleanup test map loads");

@@ -33,7 +33,7 @@ namespace EftPosition
         [STAThread]
         static int Main(string[] args)
         {
-            Application.EnableVisualStyles();Application.SetCompatibleTextRenderingDefault(false);
+            Application.EnableVisualStyles();Application.SetCompatibleTextRenderingDefault(false);UiText.Language="pl";
             try
             {
                 string root=Path.GetFullPath(args[0]);Check(!Directory.Exists(root),"use a fresh isolated fixture folder");Directory.CreateDirectory(root);
@@ -78,6 +78,7 @@ namespace EftPosition
                 MapQuest mole=catalog.ForMap("ground-zero","regular").Quests.Single(q=>q.Name=="Saving the Mole");selected.ForMap("ground-zero").Add(mole.Id);
                 Check(selected.Visible(catalog,"ground-zero").Where(p=>p.Kind==MapMarkerKind.Quest).All(p=>p.Y.HasValue),"source heights reach rendered quest markers");
                 string live=Path.Combine(root,"live");Directory.CreateDirectory(live);string cache=Path.Combine(root,"ui-cache");
+                new AppPreferences {Language="pl"}.Save(Path.Combine(cache,"app-preferences.json"));
                 Snapshot liveShot=Write(live,10);string liveFile=Path.Combine(live,liveShot.Position.FileName);File.WriteAllText(Path.Combine(live,"unrecognized.png"),"keep");
                 using(var form=new MainForm(live,null,0,false,false,null,cache,false,false,"customs"))
                 {
@@ -100,7 +101,7 @@ namespace EftPosition
                 }
                 using(var again=new MainForm(null,null,0,false,false,null,cache,false,false,"customs"))
                 {again.Show();Check(!Find<CheckBox>(again,"Usuwaj zrzut po odczycie").Checked,"cleanup switch survives restart");again.Close();}
-                string missingCache=Path.Combine(root,"missing-cache");new AppPreferences {ScreenshotFolder=Path.Combine(root,"missing")}.Save(Path.Combine(missingCache,"app-preferences.json"));
+                string missingCache=Path.Combine(root,"missing-cache");new AppPreferences {Language="pl",ScreenshotFolder=Path.Combine(root,"missing")}.Save(Path.Combine(missingCache,"app-preferences.json"));
                 using(var missing=new MainForm(null,null,0,false,false,null,missingCache))
                 {missing.Show();Pump(100);Check(Find<TextBox>(missing,"Ścieżka folderu zrzutów").Text.EndsWith("missing"),"unavailable folder is retained without startup dialog");missing.Close();}
                 using(var icon=new Icon(Path.Combine(assets,"app.ico"),new Size(32,32)))Check(icon.Width==32,"application icon loads at taskbar size");

@@ -14,9 +14,9 @@ namespace EftPosition
         static int checks;
         static void Check(bool ok,string message) { checks++; if(!ok) throw new Exception(message); }
         static IEnumerable<Control> Descend(Control c)
-        { foreach(Control child in c.Controls) { yield return child; foreach(Control nested in Descend(child)) yield return nested; } MainForm form=c as MainForm;if(form!=null && form.SettingsWindow!=null)foreach(Control nested in Descend(form.SettingsWindow))yield return nested; }
+        { foreach(Control child in c.Controls) { yield return child; foreach(Control nested in Descend(child)) yield return nested; } }
         static Button Button(MainForm f,string text)
-        { if(text=="Obserwuj" || text=="Zatrzymaj"){f.ShowSettings();((SettingsForm)f.SettingsWindow).ShowCapturePage();}foreach(Control c in Descend(f)) { Button b=c as Button; if(b!=null && b.Text==text) return b; } throw new Exception("Missing button "+text); }
+        { if(text=="Obserwuj" || text=="Zatrzymaj"){f.ShowSettings();((SettingsForm)f.SettingsWindow).ShowCapturePage();}foreach(Control c in Descend(f)) { Button b=c as Button; if(b!=null && b.Text==text && b.Visible) return b; } throw new Exception("Missing button "+text); }
         static float Field(MapCanvas c,string name)
         { return (float)typeof(MapCanvas).GetField(name,BindingFlags.NonPublic|BindingFlags.Instance).GetValue(c); }
         static void Mouse(MapCanvas c,string method,MouseEventArgs args)
@@ -55,6 +55,7 @@ namespace EftPosition
             using(File.Create(Path.Combine(fixtures,"2026-10-26[12-34]_200.00, 2.30, 150.00_0.0, 0.70711, 0.0, 0.70711_16.60 (0).png"))) { }
             Exception failure=null;
             string cache=args.Length>2?Path.GetFullPath(args[2]):Path.Combine(fixtures,"cache");
+            new AppPreferences {Language="pl"}.Save(Path.Combine(cache,"app-preferences.json"));
             using(MainForm form=new MainForm(fixtures,null,0,false,true,null,cache))
             using(System.Windows.Forms.Timer timer=new System.Windows.Forms.Timer())
             {

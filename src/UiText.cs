@@ -10,8 +10,10 @@ namespace EftPosition
     public static class UiText
     {
         public static string Language { get; set; }
+        static UiText(){Language="en";}
         static readonly Dictionary<string,string> english=new Dictionary<string,string>(StringComparer.Ordinal)
         {
+            {"Podgląd przezroczystości widać podczas regulacji.\nPo zamknięciu ustawień działa wybrany tryb.","Transparency previews while adjusting the slider.\nAfter closing settings, the selected mode applies."},
             {"aktywny","active"}, {"zajęty / niedostępny","in use / unavailable"},
             {"Automatycznie przełączaj mapę z logów gry","Automatically switch maps from game logs"},
             {"Automatyczna mapa","Automatic map selection"}, {"Folder logów gry","Game logs folder"},
@@ -160,7 +162,31 @@ namespace EftPosition
             {"Brak pozycji.\nZrób zrzut w grze.","No position.\nTake an in-game screenshot."},
             {"Poza obszarem mapy.\nWybierz właściwą mapę.","Outside the map area.\nSelect the correct map."},
             {"Oczekiwanie na zrzut","Waiting for a screenshot"},
-            {"Ostatnia pozycja ze zrzutu","Last screenshot position"}, {"USTAWIANIE · przeciągnij","POSITIONING · drag"}
+            {"Ostatnia pozycja ze zrzutu","Last screenshot position"}, {"USTAWIANIE · przeciągnij","POSITIONING · drag"},
+            {"Dane lootu są niedostępne.","Loot data is unavailable."}, {"Filtry lootu","Loot filters"}, {"Loot na mapie","Map loot"},
+            {"Zamknij panel lootu","Close loot panel"}, {"Pokaż loot","Show loot"}, {"Grupuj bliskie punkty","Group nearby points"},
+            {"Loot na minimapie","Loot on minimap"}, {"Wszystkie piętra","All floors"}, {"KATEGORIE","CATEGORIES"},
+            {"Loot luzem","Loose loot"}, {"Torby i kurtki","Bags and jackets"}, {"Broń i amunicja","Weapons and ammo"},
+            {"Medycyna","Medical"}, {"Żywność","Food"}, {"Komputery","Computers"}, {"Sejfy i kasy","Safes and registers"},
+            {"Ukryte skrytki","Hidden stashes"}, {"Inne pojemniki","Other containers"}, {"Wszystkie","All"}, {"Żadne","None"},
+            {"Pokaż wszystkie kategorie lootu","Show all loot categories"}, {"Ukryj wszystkie kategorie lootu","Hide all loot categories"},
+            {"Punkty lootu: {0}","Loot locations: {0}"}, {"Możliwe miejsca lootu, nie zawartość bieżącego rajdu.","Possible loot locations, not live raid contents."},
+            {"Grupa ikon: najedź, aby zobaczyć szczegóły.","Hover grouped icons for details."}, {"Pokaż questy i ekstrakty","Show quests and extracts"},
+            {"Pokaż filtry lootu","Show loot filters"}, {"Grupa: {0} miejsc lootu","Group: {0} map locations"},
+            {"Ikony mapy","Map icons"}, {"Szukaj ikon mapy","Search map icons"}, {"Wyczyść wyszukiwanie ikon","Clear icon search"},
+            {"Ikony minimapy","Minimap icons"}, {"Szukaj ikon lub przedmiotów…","Search icons or items…"},
+            {"Pokaż ikony mapy","Show map icons"},
+            {"Szukaj kontenera, kategorii lub przedmiotu","Search containers, categories or possible items"},
+            {"Kontenery","Containers"}, {"Zagrożenia","Hazards"}, {"Użyteczne","Utilities"},
+            {"Przełącz Kontenery","Toggle Containers"}, {"Przełącz Loot luzem","Toggle Loose loot"},
+            {"Przełącz Zagrożenia","Toggle Hazards"}, {"Przełącz Użyteczne","Toggle Utilities"},
+            {"Rozwiń Kontenery","Expand Containers"}, {"Rozwiń Loot luzem","Expand Loose loot"},
+            {"Rozwiń Zagrożenia","Expand Hazards"}, {"Rozwiń Użyteczne","Expand Utilities"},
+            {"Lokalizacje na mapie: {0}","Map locations: {0}"},
+            {"Możliwe lokalizacje · wszystkie piętra · tarkov.dev","Possible locations · all floors · tarkov.dev"},
+            {"Najedź na ikonę, aby zobaczyć szczegóły.","Hover an icon for details."},
+            {"Możliwy loot luzem","Possible loose loot"}, {"Wymagany klucz: ","Required key: "},
+            {"Wymaga zasilania","Requires power"}, {"+ {0} więcej","+ {0} more"}
         };
         static readonly Dictionary<string,string> polish=Reverse();
         static Dictionary<string,string> Reverse()

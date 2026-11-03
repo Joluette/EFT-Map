@@ -25,16 +25,16 @@ namespace EftPosition
         {typeof(MapCanvas).GetMethod("OnMouseMove",BindingFlags.NonPublic|BindingFlags.Instance).Invoke(canvas,new object[]{new MouseEventArgs(MouseButtons.None,0,point.X,point.Y,0)});}
         [STAThread]static int Main(string[] args)
         {
-            Application.EnableVisualStyles();Application.SetCompatibleTextRenderingDefault(false);
+            Application.EnableVisualStyles();Application.SetCompatibleTextRenderingDefault(false);UiText.Language="pl";
             try
             {
                 string root=Path.GetFullPath(args[0]),reports=Path.GetFullPath(args[1]);Directory.CreateDirectory(root);Directory.CreateDirectory(reports);
                 string cache=Path.Combine(root,"cache"),file=Path.Combine(cache,"app-preferences.json");
                 File.WriteAllText(Path.Combine(root,"legacy.json"),"{\"ScreenshotFolder\":\"custom folder\",\"DeleteScreenshots\":false,\"Theme\":\"night\",\"MapOpacity\":40}");
                 var old=AppPreferences.Load(Path.Combine(root,"legacy.json"));
-                Check(old.Language=="pl" && old.ScreenshotFolder=="custom folder" && !old.DeleteScreenshots && old.Theme=="night" && old.MapOpacity==40,"migration retains preferences and defaults to Polish");
-                old.Language="unknown";old.Normalize();Check(old.Language=="pl","unsupported language falls back to Polish");
-                var prefs=new AppPreferences {Theme="night",MapOpacity=40,BackgroundDim=14,DeleteScreenshots=false};prefs.Save(file);
+                Check(old.Language=="en" && old.ScreenshotFolder=="custom folder" && !old.DeleteScreenshots && old.Theme=="night" && old.MapOpacity==40,"migration retains preferences and defaults to English");
+                old.Language="unknown";old.Normalize();Check(old.Language=="en","unsupported language falls back to English");
+                var prefs=new AppPreferences {Language="pl",Theme="night",MapOpacity=40,BackgroundDim=14,DeleteScreenshots=false};prefs.Save(file);
                 using(var form=new MainForm(null,null,0,false,false,null,cache,false,false,"ground-zero"))
                 {
                     form.Show();MapCanvas canvas=All(form).OfType<MapCanvas>().Single();Wait(()=>canvas.Layer!=null,"map loads");
@@ -69,12 +69,13 @@ namespace EftPosition
                     Check(language.SelectedIndex==1 && AppPreferences.Load(file).Language=="en","appearance reset preserves language");
                     settings.Close();form.ShowSettings();settings=(SettingsForm)form.SettingsWindow;
                     Check(settings.Text=="Settings · EFT Position" && Find<ComboBox>(settings,"Język / Language").SelectedIndex==1,"reopening settings keeps English");settings.Close();
+                    Wait(()=>!form.IsSettingsAnimating,"settings finish moving before stationary marker hover is verified");
                     // Rebuild hovered markers without a paint, including overlapping PMC and Scav exits.
                     MapPoint world=canvas.Layer.Unproject(canvas.Layer.Width/2.0,canvas.Layer.Height/2.0);
                     var extracts=new[]{new MapMarker{Name="PMC extraction",X=world.X,Z=world.Y,Kind=MapMarkerKind.Pmc},new MapMarker{Name="Scav extraction",X=world.X,Z=world.Y,Kind=MapMarkerKind.Scav}};
                     foreach(int size in new[]{80,100,150})
                     {
-                        var appearance=new AppPreferences {MarkerSize=size};canvas.ApplyAppearance(appearance,Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"assets"));canvas.SetMarkers("ground-zero",extracts);canvas.FitMap();
+                        var appearance=new AppPreferences {Language="pl",MarkerSize=size};canvas.ApplyAppearance(appearance,Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"assets"));canvas.SetMarkers("ground-zero",extracts);canvas.FitMap();
                         PointF p=canvas.MarkerScreenPoint(world.X,world.Y);float scale=size/100f;
                         foreach(Point hit in new[]{Point.Round(p),Point.Round(new PointF(p.X,p.Y-16*scale)),Point.Round(new PointF(p.X+10*scale,p.Y-16*scale))})
                             Check(canvas.MarkerTooltipAt(hit)=="PMC extraction\nScav extraction","both extract names cover the icon at size "+size);

@@ -25,6 +25,9 @@ namespace EftPosition
         readonly MapViewport viewportCache;
         Metafile drawing;
         readonly int logicalWidth,logicalHeight;
+        Action<Graphics,float> sceneOverlay;long overlayRevision=-1;
+        internal void SetOverlay(Action<Graphics,float> overlay,long revision)
+        {if(sceneOverlay==overlay && overlayRevision==revision)return;sceneOverlay=overlay;overlayRevision=revision;viewportCache.Invalidate();}
         public VectorMap(string path,int width,int height)
         {
             if(width<=0 || height<=0) throw new ArgumentOutOfRangeException("width");
@@ -52,6 +55,8 @@ namespace EftPosition
         }
         public int RenderCount {get{return viewportCache.RenderCount;}}
         public int ReusedPanCount {get{return viewportCache.ReusedPanCount;}}
+        internal int ZoomRenderCount {get{return viewportCache.ZoomRenderCount;}}
+        internal long ZoomCacheBytes {get{return viewportCache.ZoomCacheBytes;}}
         public long CacheBytes {get{return viewportCache.CacheBytes;}}
         void PrepareDrawing()
         {
@@ -80,6 +85,8 @@ namespace EftPosition
             catch { drawing.Dispose(); drawing=null; throw; }
         }
         void PaintDrawing(Graphics target,Size viewport,float scale,float x,float y)
+        {PaintDrawing(target,viewport,scale,x,y,true);}
+        void PaintDrawing(Graphics target,Size viewport,float scale,float x,float y,bool includeOverlay)
         {
             PrepareDrawing();
             target.SmoothingMode=SmoothingMode.AntiAlias;
@@ -89,6 +96,7 @@ namespace EftPosition
             using(Brush background=new SolidBrush(Color.FromArgb(24,39,43)))
                 target.FillRectangle(background,0,0,logicalWidth,logicalHeight);
             target.DrawImage(drawing,new Rectangle(0,0,logicalWidth,logicalHeight),0,0,logicalWidth,logicalHeight,GraphicsUnit.Pixel);
+            if(includeOverlay && sceneOverlay!=null)sceneOverlay(target,scale);
         }
         // The native renderer has an inheritance defect for stylesheet classes.
         // Keep class names for building discovery, but materialize declarations
@@ -136,12 +144,17 @@ namespace EftPosition
             if(document==null)throw new ObjectDisposedException("VectorMap");
             viewportCache.Draw(graphics,viewport,scale,offsetX,offsetY,opacity);
         }
+        internal void DrawZoom(Graphics graphics,Size viewport,float scale,float x,float y,int opacity,float targetScale,float targetX,float targetY)
+        {
+            if(document==null)throw new ObjectDisposedException("VectorMap");
+            viewportCache.DrawZoom(graphics,viewport,scale,x,y,opacity,targetScale,targetX,targetY);
+        }
         // A small secondary view shares recorded geometry without replacing the main viewport cache.
         public void DrawShared(Graphics graphics,Size viewport,float scale,float offsetX,float offsetY)
         {
             if(document==null)throw new ObjectDisposedException("VectorMap");
             GraphicsState saved=graphics.Save();
-            try{PaintDrawing(graphics,viewport,scale,offsetX,offsetY);}finally{graphics.Restore(saved);}
+            try{PaintDrawing(graphics,viewport,scale,offsetX,offsetY,false);}finally{graphics.Restore(saved);}
         }
         // All returned rectangles are calibrated logical map pixels, independent
         // of the current viewport/zoom; empty/non-rendered groups return Empty.

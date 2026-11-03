@@ -28,21 +28,27 @@ namespace EftPosition
         readonly Label mapDetectionStatus;
         readonly string[] monitorIds;
         bool rebuilding;
+        internal bool RetainWhenClosed {get;set;}
+        public event EventHandler CloseRequested,WindowOpacityChanged;
         public event EventHandler AppearanceChanged;
         public event EventHandler RestoreVisibility;
         public event EventHandler LanguageChanged;
         public event EventHandler OverlayChanged,EditOverlayRequested;
         public event EventHandler MapDetectionChanged;
+        IWin32Window DialogOwner {get{return TopLevel?this:(TopLevelControl??this);}}
         public SettingsForm(AppPreferences current,string cacheDirectory,Panel capture)
         {
             preferences=current;cache=cacheDirectory;capturePanel=capture;
+            SuspendLayout();DoubleBuffered=true;
             Text=UiText.T("Ustawienia · EFT Position");ClientSize=new Size(470,630);MinimumSize=new Size(486,570);
             StartPosition=FormStartPosition.CenterParent;FormBorderStyle=FormBorderStyle.SizableToolWindow;
             BackColor=UiTheme.Background;ForeColor=UiTheme.Text;Font=UiTheme.Body;ShowInTaskbar=false;Opacity=1;KeyPreview=true;
             AutoScaleMode=AutoScaleMode.Dpi;
-            var header=new Panel {Dock=DockStyle.Top,Height=82,Padding=new Padding(22,16,22,0),BackColor=UiTheme.Surface};
-            header.Controls.Add(new Label {Text=UiText.T("Dopasuj widok do siebie"),Font=UiTheme.Section,AutoSize=true,Location=new Point(22,17)});
+            var header=new Panel {Dock=DockStyle.Top,Width=470,Height=82,Padding=new Padding(22,16,22,0),BackColor=UiTheme.Surface};
+            header.Controls.Add(new Label {Text=UiText.T("Ustawienia"),Font=UiTheme.Section,AutoSize=true,Location=new Point(22,17)});
             header.Controls.Add(new Label {Text=UiText.T("Zmiany widać od razu i zapisują się automatycznie."),Font=UiTheme.Small,ForeColor=UiTheme.Muted,AutoSize=true,Location=new Point(22,43)});
+            var dismiss=new UiIconButton {Glyph="close",AccessibleName=UiText.T("Zamknij ustawienia"),Location=new Point(426,12),Anchor=AnchorStyles.Top|AnchorStyles.Right};
+            dismiss.Click+=delegate{Close();};header.Controls.Add(dismiss);
             var tabs=new FlowLayoutPanel {Dock=DockStyle.Top,Height=54,Padding=new Padding(20,11,0,0),WrapContents=false};
             appearanceTab=new UiButton {Text=UiText.T("Wygląd"),Width=100,Height=32,AccessibleName=UiText.T("Ustawienia wyglądu")};
             windowTab=new UiButton {Text=UiText.T("Okno i mapa"),Width=118,Height=32,AccessibleName=UiText.T("Ustawienia okna i mapy")};
@@ -51,6 +57,7 @@ namespace EftPosition
             tabs.Controls.AddRange(new Control[]{appearanceTab,windowTab,captureTab,overlayTab});
             var body=new Panel {Dock=DockStyle.Fill,Padding=new Padding(20,6,20,8)};
             appearance=Page();windowPage=Page();overlayPage=Page();capturePage=new Panel {Dock=DockStyle.Fill,AutoScroll=true,Visible=false};
+            appearance.SuspendLayout();windowPage.SuspendLayout();overlayPage.SuspendLayout();
             body.Controls.AddRange(new Control[]{appearance,windowPage,capturePage,overlayPage});
             language=Combo("Język / Language",new[]{"Polski (PL)","English (EN)"},appearance);
             theme=Combo(UiText.T("Motyw kolorystyczny"),new[]{UiText.T("Tarkov · grafit i piasek"),UiText.T("Noc · chłodny turkus"),UiText.T("Las · oliwka")},appearance);
@@ -69,7 +76,7 @@ namespace EftPosition
             var restore=new UiButton {Text=UiText.T("Przywróć wygląd domyślny"),Width=252,Height=32,Margin=new Padding(0,6,0,12),AccessibleName=UiText.T("Przywróć wygląd domyślny")};appearance.Controls.Add(restore);
             transparency=Slider(UiText.T("Przezroczystość całego okna"),0,70,windowPage,UiText.T("Przezroczystość okna"));
             fullscreenOnly=Check(UiText.T("Stosuj tylko na pełnym ekranie"),windowPage,UiText.T("Przezroczystość tylko na pełnym ekranie"));
-            windowPage.Controls.Add(new Label {Text=UiText.T("Odsłania pulpit lub aplikację pod tym oknem.\nMapa i znaczniki również stają się przezroczyste."),Width=404,Height=48,Font=UiTheme.Small,ForeColor=UiTheme.Muted,Margin=new Padding(0,3,0,10)});
+            windowPage.Controls.Add(new Label {Text=UiText.T("Podgląd przezroczystości widać podczas regulacji.\nPo zamknięciu ustawień działa wybrany tryb."),Width=404,Height=48,Font=UiTheme.Small,ForeColor=UiTheme.Muted,Margin=new Padding(0,3,0,10)});
             var readable=new UiButton {Text=UiText.T("Pełna widoczność · F10"),Width=252,Height=32,Margin=new Padding(0,0,0,18),AccessibleName=UiText.T("Przywróć pełną widoczność")};windowPage.Controls.Add(readable);
             markerSize=Slider(UiText.T("Rozmiar znaczników"),80,150,windowPage,UiText.T("Rozmiar znaczników"));
             statusBar=Check(UiText.T("Pokaż dolny pasek pozycji"),windowPage,UiText.T("Pokaż pasek pozycji"));
@@ -84,7 +91,7 @@ namespace EftPosition
             mapDetectionStatus=new Label {Width=404,Height=66,Font=UiTheme.Small,ForeColor=UiTheme.Muted};windowPage.Controls.Add(mapDetectionStatus);
             autoMap.CheckedChanged+=delegate{if(rebuilding)return;preferences.AutoMapEnabled=autoMap.Checked;RaiseMapDetectionChanged();};
             findLogs.Click+=delegate{string found=GameMapMonitor.FindDefaultFolder();if(found!=null){preferences.GameLogsFolder=found;RefreshValues();RaiseMapDetectionChanged();}else SetMapDetectionStatus(UiText.T("Nie znaleziono logów. Wybierz folder Logs w katalogu gry."));};
-            chooseLogs.Click+=delegate{using(var dialog=new FolderBrowserDialog {Description=UiText.T("Wybierz folder Logs lub katalog instalacji EFT"),ShowNewFolderButton=false})if(dialog.ShowDialog(this)==DialogResult.OK){string found=GameMapMonitor.ResolveFolder(dialog.SelectedPath);if(found!=null){preferences.GameLogsFolder=found;RefreshValues();RaiseMapDetectionChanged();}else SetMapDetectionStatus(UiText.T("Nie znaleziono logów. Wybierz folder Logs w katalogu gry."));}};
+            chooseLogs.Click+=delegate{using(var dialog=new FolderBrowserDialog {Description=UiText.T("Wybierz folder Logs lub katalog instalacji EFT"),ShowNewFolderButton=false})if(dialog.ShowDialog(DialogOwner)==DialogResult.OK){string found=GameMapMonitor.ResolveFolder(dialog.SelectedPath);if(found!=null){preferences.GameLogsFolder=found;RefreshValues();RaiseMapDetectionChanged();}else SetMapDetectionStatus(UiText.T("Nie znaleziono logów. Wybierz folder Logs w katalogu gry."));}};
             overlayEnabled=Check(UiText.T("Pokaż minimapę nad grą"),overlayPage,UiText.T("Włącz minimapę"));
             overlayPage.Controls.Add(new Label {Text=UiText.T("Do gry w oknie bez ramek. Kliknięcia przechodzą do gry.\nPozycja zmienia się po nowym zrzucie.\nMinimapa działa też po zminimalizowaniu aplikacji."),Width=404,Height=64,Font=UiTheme.Small,ForeColor=UiTheme.Muted,Margin=new Padding(0,7,0,8)});
             Screen[] screens=Screen.AllScreens;monitorIds=new string[screens.Length+1];monitorIds[0]="";
@@ -122,25 +129,31 @@ namespace EftPosition
             background.SelectedIndexChanged+=delegate {if(rebuilding)return;preferences.BackgroundMode=background.SelectedIndex==1?"custom":background.SelectedIndex==2?"plain":background.SelectedIndex==3?"cyberpunk":"tarkov";RaiseChanged();};
             dim.ValueChanged+=delegate {if(rebuilding)return;preferences.BackgroundDim=dim.Value;RaiseChanged();};
             mapOpacity.ValueChanged+=delegate {if(rebuilding)return;preferences.MapOpacity=mapOpacity.Value;RaiseChanged();};
-            transparency.ValueChanged+=delegate {if(rebuilding)return;preferences.WindowOpacity=100-transparency.Value;RaiseChanged();};
-            fullscreenOnly.CheckedChanged+=delegate {if(rebuilding)return;preferences.FullscreenOpacityOnly=fullscreenOnly.Checked;RaiseChanged();};
+            transparency.ValueChanged+=delegate {if(rebuilding)return;preferences.WindowOpacity=100-transparency.Value;if(WindowOpacityChanged!=null)WindowOpacityChanged(this,EventArgs.Empty);};
+            fullscreenOnly.CheckedChanged+=delegate {if(rebuilding)return;preferences.FullscreenOpacityOnly=fullscreenOnly.Checked;if(WindowOpacityChanged!=null)WindowOpacityChanged(this,EventArgs.Empty);};
             markerSize.ValueChanged+=delegate {if(rebuilding)return;preferences.MarkerSize=markerSize.Value;RaiseChanged();};
             statusBar.CheckedChanged+=delegate {if(rebuilding)return;preferences.ShowStatusBar=statusBar.Checked;RaiseChanged();};
             rounded.CheckedChanged+=delegate {if(rebuilding)return;preferences.RoundedCorners=rounded.Checked;RaiseChanged();};
-            accent.Click+=delegate {using(var dialog=new ColorDialog {Color=UiTheme.Accent,FullOpen=true})if(dialog.ShowDialog(this)==DialogResult.OK){preferences.AccentArgb=dialog.Color.ToArgb();RaiseChanged();}};
+            accent.Click+=delegate {using(var dialog=new ColorDialog {Color=UiTheme.Accent,FullOpen=true})if(dialog.ShowDialog(DialogOwner)==DialogResult.OK){preferences.AccentArgb=dialog.Color.ToArgb();RaiseChanged();}};
             choose.Click+=delegate {ChooseBackground();};restore.Click+=delegate{preferences.ResetAppearance();RefreshValues();RaiseChanged();};
             readable.Click+=delegate{if(RestoreVisibility!=null)RestoreVisibility(this,EventArgs.Empty);RefreshValues();};
-            FormClosing+=delegate {capturePage.Controls.Remove(capturePanel);};
+            FormClosing+=delegate(object sender,FormClosingEventArgs e)
+            {
+                if(RetainWhenClosed && !TopLevel && e.CloseReason==CloseReason.UserClosing)
+                {e.Cancel=true;if(CloseRequested!=null)CloseRequested(this,EventArgs.Empty);}
+                else capturePage.Controls.Remove(capturePanel);
+            };
             KeyDown+=delegate(object sender,KeyEventArgs e){if(e.KeyCode==Keys.Escape){e.Handled=true;Close();}else if(e.KeyCode==Keys.F10){if(RestoreVisibility!=null)RestoreVisibility(this,EventArgs.Empty);RefreshValues();e.Handled=true;}};
             RefreshValues();RefreshLanguage();SelectPage(0);
-            Shown+=delegate{Rectangle area=Screen.FromControl(this).WorkingArea;MinimumSize=new Size(Math.Min(MinimumSize.Width,area.Width),Math.Min(MinimumSize.Height,area.Height-12));Size=new Size(Math.Min(Width,area.Width),Math.Min(Height,area.Height-12));Location=new Point(Math.Max(area.Left,Math.Min(Left,area.Right-Width)),Math.Max(area.Top,Math.Min(Top,area.Bottom-Height)));};
+            appearance.ResumeLayout(true);windowPage.ResumeLayout(true);overlayPage.ResumeLayout(true);ResumeLayout(true);
+            Shown+=delegate{if(!TopLevel)return;Rectangle area=Screen.FromControl(this).WorkingArea;MinimumSize=new Size(Math.Min(MinimumSize.Width,area.Width),Math.Min(MinimumSize.Height,area.Height-12));Size=new Size(Math.Min(Width,area.Width),Math.Min(Height,area.Height-12));Location=new Point(Math.Max(area.Left,Math.Min(Left,area.Right-Width)),Math.Max(area.Top,Math.Min(Top,area.Bottom-Height)));};
         }
         FlowLayoutPanel Page(){return new FlowLayoutPanel {Dock=DockStyle.Fill,FlowDirection=FlowDirection.TopDown,WrapContents=false,AutoScroll=true,Visible=false,Margin=Padding.Empty};}
         ComboBox Combo(string caption,string[] items,FlowLayoutPanel page)
         {
             var row=new Panel {Width=410,Height=62,Margin=Padding.Empty};
             row.Controls.Add(new Label {Text=caption,ForeColor=UiTheme.Muted,Location=Point.Empty,AutoSize=true,Font=UiTheme.Small});
-            var box=new UiComboBox {Location=new Point(0,22),Width=396,AccessibleName=caption};box.Items.AddRange(items);row.Controls.Add(box);page.Controls.Add(row);return box;
+            var box=new UiComboBox {Location=new Point(0,22),Width=396,AccessibleName=caption,WheelChangesSelection=false};box.Items.AddRange(items);row.Controls.Add(box);page.Controls.Add(row);return box;
         }
         CheckBox Check(string text,FlowLayoutPanel page,string name)
         {var box=new CheckBox {Text=text,Width=402,Height=28,Margin=Padding.Empty,ForeColor=UiTheme.Text,AccessibleName=name};page.Controls.Add(box);return box;}
@@ -148,8 +161,8 @@ namespace EftPosition
         {
             var row=new Panel {Width=410,Height=64,Margin=Padding.Empty};
             var label=new Label {Text=caption,AutoSize=true,Font=UiTheme.Small,ForeColor=UiTheme.Muted};
-            var value=new Label {Location=new Point(343,0),Size=new Size(55,22),TextAlign=ContentAlignment.TopRight,Font=UiTheme.Small,ForeColor=UiTheme.Text};
-            var bar=new TrackBar {Location=new Point(-8,21),Size=new Size(410,39),AutoSize=false,Minimum=low,Maximum=high,TickStyle=TickStyle.None,SmallChange=1,LargeChange=10,AccessibleName=name,BackColor=UiTheme.Background};
+            var value=new Label {Location=new Point(323,0),Size=new Size(73,22),TextAlign=ContentAlignment.TopRight,Font=UiTheme.Numbers,ForeColor=UiTheme.Text};
+            var bar=new UiSlider {Location=new Point(0,23),Size=new Size(396,34),Minimum=low,Maximum=high,SmallChange=1,LargeChange=10,AccessibleName=name,BackColor=UiTheme.Background};
             bar.ValueChanged+=delegate{value.Text=bar.Value+suffix;};value.Text=bar.Value+suffix;row.Controls.AddRange(new Control[]{label,value,bar});page.Controls.Add(row);return bar;
         }
         void RaiseChanged(){if(AppearanceChanged!=null)AppearanceChanged(this,EventArgs.Empty);}
@@ -180,12 +193,12 @@ namespace EftPosition
         {
             using(var dialog=new OpenFileDialog {Title=UiText.T("Wybierz tło aplikacji"),Filter=UiText.T("Obrazy JPG i PNG|*.jpg;*.jpeg;*.png|Obrazy BMP|*.bmp"),CheckFileExists=true})
             {
-                if(dialog.ShowDialog(this)!=DialogResult.OK)return;
+                if(dialog.ShowDialog(DialogOwner)!=DialogResult.OK)return;
                 try
                 {
                     ImportBackground(dialog.FileName);
                 }
-                catch(Exception ex){if(!(ex is IOException) && !(ex is UnauthorizedAccessException) && !(ex is ArgumentException) && !(ex is OutOfMemoryException))throw;MessageBox.Show(this,UiText.Error(ex.Message),UiText.T("Nie można ustawić tła"),MessageBoxButtons.OK,MessageBoxIcon.Information);}
+                catch(Exception ex){if(!(ex is IOException) && !(ex is UnauthorizedAccessException) && !(ex is ArgumentException) && !(ex is OutOfMemoryException))throw;MessageBox.Show(DialogOwner,UiText.Error(ex.Message),UiText.T("Nie można ustawić tła"),MessageBoxButtons.OK,MessageBoxIcon.Information);}
             }
         }
         public void ImportBackground(string source)

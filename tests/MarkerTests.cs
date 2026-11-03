@@ -94,10 +94,11 @@ namespace EftPosition
         {
             try
             {
-                Application.EnableVisualStyles();Application.SetCompatibleTextRenderingDefault(false);
+                Application.EnableVisualStyles();Application.SetCompatibleTextRenderingDefault(false);UiText.Language="pl";
                 string assets=Path.GetFullPath(args[0]),fixtures=Path.GetFullPath(args[1]),reports=Path.GetFullPath(args[2]);
                 Directory.CreateDirectory(fixtures);Directory.CreateDirectory(reports);DataChecks(assets,fixtures);
                 string cache=Path.Combine(fixtures,"cache");
+                new AppPreferences {Language="pl"}.Save(Path.Combine(cache,"app-preferences.json"));
                 using(MainForm form=new MainForm(null,null,0,false,true,null,cache,false,false,"ground-zero"))
                 using(var driver=new System.Windows.Forms.Timer {Interval=100})
                 {

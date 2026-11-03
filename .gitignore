@@ -15,6 +15,7 @@ EftPosition.CanvasBenchmark.exe.config
 EftPosition.FullscreenBenchmark.exe.config
 EftPosition.RasterBenchmark.exe.config
 EftPosition.RasterWindowBenchmark.exe.config
+EftPosition.*Benchmark.exe.config
 reports/preview.png
 reports/preview-v3-zoom.png
 

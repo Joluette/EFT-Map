@@ -16,7 +16,7 @@ namespace EftPosition
         static int checks;
         static void Check(bool test,string message){checks++;if(!test)throw new Exception(message);}
         static IEnumerable<Control> All(Control root){foreach(Control c in root.Controls){yield return c;foreach(var child in All(c))yield return child;}}
-        static T Find<T>(Control root,string name)where T:Control{return All(root).OfType<T>().Single(c=>c.AccessibleName==name);}
+        static T Find<T>(Control root,string name)where T:Control{return All(root).OfType<T>().Single(c=>c.AccessibleName==name && (!(root is MainForm) || name!="Pasek tytułu okna" || c.Parent==root));}
         static void Pump(int ms){var clock=Stopwatch.StartNew();while(clock.ElapsedMilliseconds<ms){Application.DoEvents();Thread.Sleep(3);}}
         [DllImport("user32.dll")]static extern IntPtr SendMessage(IntPtr window,int message,IntPtr wParam,IntPtr lParam);
         [DllImport("user32.dll")]static extern IntPtr GetSystemMenu(IntPtr window,bool revert);
@@ -28,10 +28,11 @@ namespace EftPosition
         {using(var image=new Bitmap(bar.Width,bar.Height)){bar.DrawToBitmap(image,bar.ClientRectangle);image.Save(file);}}
         [STAThread]static int Main(string[] args)
         {
-            Application.EnableVisualStyles();Application.SetCompatibleTextRenderingDefault(false);
+            Application.EnableVisualStyles();Application.SetCompatibleTextRenderingDefault(false);UiText.Language="pl";
             try
             {
                 string root=Path.GetFullPath(args[0]),reports=Path.GetFullPath(args[1]);Check(!Directory.Exists(root),"fresh isolated preferences");Directory.CreateDirectory(reports);
+                new AppPreferences {Language="pl"}.Save(Path.Combine(root,"app-preferences.json"));
                 using(var f=new MainForm(null,null,0,false,false,null,root,false,false,"ground-zero"))
                 {
                     f.Show();Pump(180);
@@ -62,14 +63,14 @@ namespace EftPosition
                     Check(GetSystemMenu(f.Handle,false)!=IntPtr.Zero,"native system menu remains available");
                     minimize.PerformClick();Pump(50);Check(f.WindowState==FormWindowState.Minimized,"minimize button minimizes");f.WindowState=FormWindowState.Normal;Pump(70);
                     f.ShowSettings();var settings=(SettingsForm)f.SettingsWindow;var settingsBar=Find<Control>(settings,"Pasek tytułu okna");
-                    Check(settingsBar.Visible && All(settingsBar).OfType<Button>().Count(b=>b.Visible)==1,"settings caption has only its close button");
+                    Check(!settingsBar.Visible && !settings.TopLevel && settings.FormBorderStyle==FormBorderStyle.None,"embedded settings do not add a second window caption");
                     ComboBox theme=Find<ComboBox>(settings,"Motyw kolorystyczny");
                     var colors=new[]{Color.FromArgb(25,29,31),Color.FromArgb(20,30,38),Color.FromArgb(28,33,28)};
                     for(int i=0;i<3;i++)
                     {
                         theme.SelectedIndex=i;Pump(50);
                         Check(CaptionPixel(bar)==colors[i].ToArgb(),"main caption pixels follow theme "+i);
-                        Check(CaptionPixel(settingsBar)==colors[i].ToArgb(),"settings caption pixels follow theme "+i);
+                        Check(!settingsBar.Visible && settings.BackColor==f.BackColor,"embedded settings follow theme without a second caption "+i);
                         SaveCaption(bar,Path.Combine(reports,"caption-theme-"+i+".png"));
                     }
                     Check(f.Text.Contains("Ground Zero"),"window title retains current map name");
@@ -77,7 +78,7 @@ namespace EftPosition
                     theme.SelectedIndex=1;Pump(50);f.SetFullScreen(false);Pump(70);
                     Check(bar.Visible && CaptionPixel(bar)==colors[1].ToArgb(),"returning from F11 restores the current theme");
                     Check(f.Bounds==normal,"F11 retains the window's original bounds");
-                    Find<Button>(settingsBar,"Zamknij okno").PerformClick();Check(f.SettingsWindow==null,"settings caption closes settings normally");
+                    All(settings).OfType<Button>().Single(b=>b.Text=="Gotowe").PerformClick();Check(f.SettingsWindow==null,"embedded settings close normally without closing the main window");
                     Find<Button>(bar,"Zamknij okno").PerformClick();Check(f.IsDisposed,"main caption closes the application normally");
                 }
                 using(var f=new MainForm(null,null,0,false,false,null,root,false,false,"ground-zero"))

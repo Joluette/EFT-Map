@@ -14,15 +14,17 @@ New-Item -ItemType Directory -Force -Path $runtime,$source | Out-Null
 foreach($folder in @('assets','lib','licenses','sample','docs')){
     Copy-Item -LiteralPath (Join-Path $root $folder) -Destination $runtime -Recurse
 }
-foreach($name in @('EftPosition.exe','EftPosition.exe.config','LICENSE.txt','THIRD-PARTY-NOTICES.md','README.md','RAPORT.md','RELEASE-NOTES.md','VERSION','Przyklad.cmd','Uruchom.cmd')){
+foreach($name in @('EftPosition.exe','EftPosition.exe.config','LICENSE.txt','THIRD-PARTY-NOTICES.md','README.md','RAPORT.md','ACCESSIBILITY.md','CONTRIBUTING.md','CODE_OF_CONDUCT.md','SECURITY.md','RELEASE-NOTES.md','VERSION','Przyklad.cmd','Uruchom.cmd')){
     Copy-Item -LiteralPath (Join-Path $root $name) -Destination $runtime
 }
+Copy-Item -LiteralPath (Join-Path $root 'MAP-ICONS-3.6.0.md') -Destination $runtime
 foreach($folder in @('src','tests','tools','assets','lib','licenses','sample','.github','docs')){
     Copy-Item -LiteralPath (Join-Path $root $folder) -Destination $source -Recurse
 }
-foreach($name in @('Build.ps1','EftPosition.csproj','EftPosition.exe.config','LICENSE.txt','THIRD-PARTY-NOTICES.md','README.md','RAPORT.md','PUBLICATION-NOTES.md','RELEASE-NOTES.md','VERSION','Przyklad.cmd','Uruchom.cmd','Zbuduj.cmd','Testuj.cmd','Testuj.ps1','.gitignore')){
+foreach($name in @('Build.ps1','EftPosition.csproj','EftPosition.exe.config','LICENSE.txt','THIRD-PARTY-NOTICES.md','README.md','RAPORT.md','ACCESSIBILITY.md','CONTRIBUTING.md','CODE_OF_CONDUCT.md','SECURITY.md','PUBLICATION-NOTES.md','RELEASE-NOTES.md','VERSION','Przyklad.cmd','Uruchom.cmd','Zbuduj.cmd','Testuj.cmd','Testuj.ps1','.gitignore')){
     Copy-Item -LiteralPath (Join-Path $root $name) -Destination $source
 }
+Copy-Item -LiteralPath (Join-Path $root 'MAP-ICONS-3.6.0.md') -Destination $source
 # Include only the reviewed report for this release, never the entire local reports folder.
 $publicReport=Join-Path $root ('reports\'+$version)
 foreach($destination in @($runtime,$source)){

@@ -14,12 +14,12 @@ namespace EftPosition
                 using(Graphics g=Graphics.FromImage(large))
                 {
                     g.ScaleTransform(4,4);g.SmoothingMode=SmoothingMode.AntiAlias;
-                    Color hue=kind==MapMarkerKind.Quest?Color.FromArgb(255,199,96):kind==MapMarkerKind.Pmc?Color.FromArgb(100,230,175):Color.FromArgb(127,187,255);
+                    Color hue=kind==MapMarkerKind.Quest?Color.FromArgb(245,212,129):kind==MapMarkerKind.Pmc?Color.FromArgb(135,224,199):Color.FromArgb(152,193,255);
                     if(dim)hue=Color.FromArgb(115,130,139);
                     using(GraphicsPath body=new GraphicsPath())
-                    using(Brush shadow=new SolidBrush(Color.FromArgb(dim?32:110,0,0,0)))
-                    using(Brush fill=new SolidBrush(Color.FromArgb(dim?110:248,18,30,39)))
-                    using(Pen edge=new Pen(Color.FromArgb(dim?100:255,hue),1.5f))
+                    using(Brush shadow=new SolidBrush(Color.FromArgb(dim?32:80,0,0,0)))
+                    using(Brush fill=new SolidBrush(Color.FromArgb(dim?110:247,17,27,35)))
+                    using(Pen edge=new Pen(Color.FromArgb(dim?100:205,hue),1.25f))
                     using(Pen glyph=new Pen(Color.FromArgb(dim?105:255,hue),1.6f))
                     {
                         glyph.StartCap=glyph.EndCap=LineCap.Round;glyph.LineJoin=LineJoin.Round;

@@ -35,7 +35,7 @@ namespace EftPosition
         public string GameLogsFolder {get;set;}
         public AppPreferences()
         {
-            ScreenshotFolder=""; DeleteScreenshots=true; Language="pl"; ResetAppearance();
+            ScreenshotFolder=""; DeleteScreenshots=true; Language="en"; ResetAppearance();
             OverlaySize=320;OverlayZoom=180;OverlayOpacity=90;OverlayCorner="top-right";OverlayMonitor="";
             AutoMapEnabled=false;GameLogsFolder="";
         }
@@ -43,7 +43,7 @@ namespace EftPosition
         { Theme="tarkov";AccentArgb=0;BackgroundMode="tarkov";BackgroundFile="";BackgroundRevision=0;BackgroundDim=30;MapOpacity=96;WindowOpacity=100;FullscreenOpacityOnly=true;MarkerSize=100;ShowStatusBar=true;RoundedCorners=true; }
         public void Normalize()
         {
-            if(Language!="pl" && Language!="en")Language="pl";
+            if(Language!="pl" && Language!="en")Language="en";
             if((GameLogsFolder??"").Length>32767)GameLogsFolder="";
             OverlaySize=Math.Max(240,Math.Min(520,OverlaySize));OverlayZoom=Math.Max(100,Math.Min(400,OverlayZoom));
             OverlayOpacity=Math.Max(30,Math.Min(100,OverlayOpacity));

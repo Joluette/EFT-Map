@@ -68,7 +68,7 @@ namespace EftPosition
         }
         [STAThread]static int Main(string[] args)
         {
-            Application.EnableVisualStyles();Application.SetCompatibleTextRenderingDefault(false);
+            Application.EnableVisualStyles();Application.SetCompatibleTextRenderingDefault(false);UiText.Language="pl";
             try
             {
                 string root=Path.GetFullPath(args[0]),reports=Path.GetFullPath(args[1]);Check(!Directory.Exists(root),"fresh raster fixtures");Directory.CreateDirectory(root);Directory.CreateDirectory(reports);
@@ -102,7 +102,7 @@ namespace EftPosition
                 using(var form=new Form {ClientSize=new Size(640,420)})using(var map=new MapCanvas {Dock=DockStyle.Fill,MapOnly=true})
                 {
                     form.Controls.Add(map);form.CreateControl();map.CreateControl();map.LoadMap(definition,layer,solid,cache);
-                    map.ApplyAppearance(new AppPreferences {BackgroundMode="plain",MapOpacity=40},AppDomain.CurrentDomain.BaseDirectory);Camera(map,2,0,0);
+                    map.ApplyAppearance(new AppPreferences {Language="pl",BackgroundMode="plain",MapOpacity=40},AppDomain.CurrentDomain.BaseDirectory);Camera(map,2,0,0);
                     var viewport=(MapViewport)typeof(MapCanvas).GetField("rasterViewport",Private).GetValue(map);
                     var tiles=(TileMap)typeof(MapCanvas).GetField("tiles",Private).GetValue(map);
                     Color initial;using(var first=Render(map))initial=first.GetPixel(320,210);int paints=viewport.RenderCount;
@@ -110,9 +110,9 @@ namespace EftPosition
                     Check(tiles.CacheCount>=6 && tiles.DownloadCount==0,"detail tiles load from offline fixtures");
                     map.RefreshTiles();using(var detail=Render(map)){Check(detail.GetPixel(320,210).B>initial.B+15,"tile arrival refreshes stationary raster image");detail.Save(Path.Combine(reports,"loaded-tiles.png"));}
                     Check(viewport.RenderCount>paints,"new tile pixels invalidate cached map");
-                    map.ApplyAppearance(new AppPreferences {BackgroundMode="plain",MapOpacity=0},AppDomain.CurrentDomain.BaseDirectory);
+                    map.ApplyAppearance(new AppPreferences {Language="pl",BackgroundMode="plain",MapOpacity=0},AppDomain.CurrentDomain.BaseDirectory);
                     Color background;using(var transparent=Render(map))background=transparent.GetPixel(320,210);
-                    map.ApplyAppearance(new AppPreferences {BackgroundMode="plain",MapOpacity=40},AppDomain.CurrentDomain.BaseDirectory);
+                    map.ApplyAppearance(new AppPreferences {Language="pl",BackgroundMode="plain",MapOpacity=40},AppDomain.CurrentDomain.BaseDirectory);
                     using(var composited=Render(map))
                     {
                         Color color=composited.GetPixel(320,210);

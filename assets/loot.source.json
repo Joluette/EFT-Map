@@ -1,0 +1,264 @@
+{
+  "Version": 2,
+  "Documentation": "https://tarkov.dev/api",
+  "RetrievedUtc": "2026-11-03T13:54:14.240Z",
+  "DataSha256": "7fe414af808dc1f64487854a88c539d51bacefcb28a9c4a5db9cecebe4d93823",
+  "Sources": [
+    {
+      "Url": "https://json.tarkov.dev/regular/maps",
+      "Bytes": 9058018,
+      "Sha256": "c1c72680d882ada08a1a47a4aab5d4e05d4ff035fe9e9b898ec314f683555c8d"
+    },
+    {
+      "Url": "https://json.tarkov.dev/regular/maps_en",
+      "Bytes": 24204,
+      "Sha256": "b38cdc2a1d1e64792370fd139d226a0e7887048ea5eab39cf06d91e0c424924e"
+    },
+    {
+      "Url": "https://json.tarkov.dev/pve/maps",
+      "Bytes": 9037721,
+      "Sha256": "8dd1642a2e559811d44836a63c4d533be4f995ee5610c75499425d3db20d7a96"
+    },
+    {
+      "Url": "https://json.tarkov.dev/pve/maps_en",
+      "Bytes": 24739,
+      "Sha256": "df896f8e84dd1c288c119d299a5f50aebda9720d46ac4562e424d21e6758cd39"
+    },
+    {
+      "Url": "https://json.tarkov.dev/pvp-season/maps",
+      "Bytes": 9211701,
+      "Sha256": "9cd144d1356e526d568ded329502e910742e48cf555a43e8aee69464e621efe9"
+    },
+    {
+      "Url": "https://json.tarkov.dev/pvp-season/maps_en",
+      "Bytes": 24775,
+      "Sha256": "f0480ef0abbc6ed3cc27ac80a69c0842c1f5c06ece655edc4271912950f5dfd4"
+    },
+    {
+      "Url": "https://json.tarkov.dev/regular/items",
+      "Bytes": 17343305,
+      "Sha256": "e24c8ff2ee5e45394de16e7ae0d2c86a4da8282e0ad927169ddab054e1b8aaf2"
+    },
+    {
+      "Url": "https://json.tarkov.dev/regular/items_en",
+      "Bytes": 1706904,
+      "Sha256": "0532003c71583a7b484366c753f6349187758189728c4be393ac703f0cd6258a"
+    },
+    {
+      "Url": "https://json.tarkov.dev/regular/items_pl",
+      "Bytes": 1814532,
+      "Sha256": "8fb082f8a0d4de20f06739f5ceefa85582457b6155df983f20764b4e47085fee"
+    }
+  ],
+  "Coverage": [
+    {
+      "Map": "customs",
+      "UniquePoints": 862,
+      "Sections": {
+        "container": 509,
+        "loose": 310,
+        "hazard": 5,
+        "utility": 38
+      },
+      "Modes": {
+        "regular": 862,
+        "pve": 862,
+        "pvp-season": 862
+      }
+    },
+    {
+      "Map": "factory",
+      "UniquePoints": 287,
+      "Sections": {
+        "container": 160,
+        "loose": 119,
+        "hazard": 0,
+        "utility": 8
+      },
+      "Modes": {
+        "regular": 287,
+        "pve": 287,
+        "pvp-season": 287
+      }
+    },
+    {
+      "Map": "ground-zero",
+      "UniquePoints": 875,
+      "Sections": {
+        "container": 465,
+        "loose": 380,
+        "hazard": 18,
+        "utility": 12
+      },
+      "Modes": {
+        "regular": 875,
+        "pve": 875,
+        "pvp-season": 875
+      }
+    },
+    {
+      "Map": "icebreaker",
+      "UniquePoints": 89,
+      "Sections": {
+        "container": 0,
+        "loose": 78,
+        "hazard": 0,
+        "utility": 11
+      },
+      "Modes": {
+        "regular": 89,
+        "pve": 89,
+        "pvp-season": 89
+      }
+    },
+    {
+      "Map": "interchange",
+      "UniquePoints": 1328,
+      "Sections": {
+        "container": 795,
+        "loose": 492,
+        "hazard": 24,
+        "utility": 17
+      },
+      "Modes": {
+        "regular": 1328,
+        "pve": 1328,
+        "pvp-season": 1328
+      }
+    },
+    {
+      "Map": "lighthouse",
+      "UniquePoints": 1456,
+      "Sections": {
+        "container": 474,
+        "loose": 844,
+        "hazard": 116,
+        "utility": 22
+      },
+      "Modes": {
+        "regular": 1456,
+        "pve": 1456,
+        "pvp-season": 1456
+      }
+    },
+    {
+      "Map": "reserve",
+      "UniquePoints": 1300,
+      "Sections": {
+        "container": 787,
+        "loose": 467,
+        "hazard": 4,
+        "utility": 42
+      },
+      "Modes": {
+        "regular": 1300,
+        "pve": 1300,
+        "pvp-season": 1300
+      }
+    },
+    {
+      "Map": "shoreline",
+      "UniquePoints": 1233,
+      "Sections": {
+        "container": 723,
+        "loose": 444,
+        "hazard": 30,
+        "utility": 36
+      },
+      "Modes": {
+        "regular": 1233,
+        "pve": 1233,
+        "pvp-season": 1233
+      }
+    },
+    {
+      "Map": "streets-of-tarkov",
+      "UniquePoints": 2061,
+      "Sections": {
+        "container": 998,
+        "loose": 948,
+        "hazard": 56,
+        "utility": 59
+      },
+      "Modes": {
+        "regular": 2061,
+        "pve": 2061,
+        "pvp-season": 2061
+      }
+    },
+    {
+      "Map": "terminal",
+      "UniquePoints": 17,
+      "Sections": {
+        "container": 0,
+        "loose": 13,
+        "hazard": 2,
+        "utility": 2
+      },
+      "Modes": {
+        "regular": 17,
+        "pve": 17,
+        "pvp-season": 17
+      }
+    },
+    {
+      "Map": "the-lab",
+      "UniquePoints": 999,
+      "Sections": {
+        "container": 283,
+        "loose": 699,
+        "hazard": 0,
+        "utility": 17
+      },
+      "Modes": {
+        "regular": 999,
+        "pve": 999,
+        "pvp-season": 999
+      }
+    },
+    {
+      "Map": "the-labyrinth",
+      "UniquePoints": 238,
+      "Sections": {
+        "container": 35,
+        "loose": 176,
+        "hazard": 19,
+        "utility": 8
+      },
+      "Modes": {
+        "regular": 238,
+        "pve": 238,
+        "pvp-season": 238
+      }
+    },
+    {
+      "Map": "woods",
+      "UniquePoints": 774,
+      "Sections": {
+        "container": 404,
+        "loose": 300,
+        "hazard": 64,
+        "utility": 6
+      },
+      "Modes": {
+        "regular": 774,
+        "pve": 774,
+        "pvp-season": 774
+      }
+    }
+  ],
+  "Discarded": {
+    "unknownMap": 9,
+    "invalidPosition": 0,
+    "outsideMap": 129,
+    "nonRoomLocks": 102
+  },
+  "Notes": [
+    "Possible locations, not live raid contents or guaranteed spawns.",
+    "XYZ rounded to 0.001; identical point payloads share a mode bitmask.",
+    "Container variants share the source normalized type, matching tarkov.dev filters.",
+    "Loose-loot filters use the first source handbook category; mixed locations retain every possible item and category.",
+    "Locks include keyed doors/rooms only; vehicle trunks are excluded.",
+    "Hazard outlines are retained. Icons are original application artwork."
+  ]
+}

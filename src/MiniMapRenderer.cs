@@ -43,6 +43,7 @@ namespace EftPosition
                     }
                     finally{g.Restore(saved);}
                     g.SmoothingMode=SmoothingMode.AntiAlias;
+                    loot.Draw(g,size,viewScale,x,y,true);
                     if(definition!=null && definition.Id==markerMapId)
                     {
                         float markerScale=markerSize/100f*.80f;

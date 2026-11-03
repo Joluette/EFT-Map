@@ -122,11 +122,15 @@
     ],
     "Labels": [
       {
+        "Priority": 1,
+
         "Text": "Big Red",
         "X": -215,
         "Z": -119
       },
       {
+        "Priority": 1,
+
         "Text": "Dorms",
         "X": 200,
         "Z": 150
@@ -142,6 +146,8 @@
         "Z": -173
       },
       {
+        "Priority": 1,
+
         "Text": "Fortress",
         "X": 201,
         "Z": -127
@@ -344,6 +350,8 @@
     ],
     "Labels": [
       {
+        "Priority": 1,
+
         "Text": "Office Building",
         "X": 21,
         "Z": 39
@@ -581,31 +589,43 @@
     ],
     "Labels": [
       {
+        "Priority": 1,
+
         "Text": "TerraGroup",
         "X": -50,
         "Z": 0
       },
       {
+        "Priority": 1,
+
         "Text": "Skyside",
         "X": 150,
         "Z": 1
       },
       {
+        "Priority": 1,
+
         "Text": "Fusion",
         "X": 141,
         "Z": 142
       },
       {
+        "Priority": 1,
+
         "Text": "Empire",
         "X": 14,
         "Z": 201
       },
       {
+        "Priority": 1,
+
         "Text": "Capital Insight",
         "X": 115,
         "Z": 285
       },
       {
+        "Priority": 1,
+
         "Text": "Nakatani",
         "X": 2,
         "Z": 324
@@ -1101,6 +1121,8 @@
     ],
     "Labels": [
       {
+        "Priority": 1,
+
         "Text": "Power Station",
         "X": -186.4,
         "Z": -318.7
@@ -1171,16 +1193,22 @@
         "Z": 138
       },
       {
+        "Priority": 1,
+
         "Text": "IDEA",
         "X": -34,
         "Z": -235
       },
       {
+        "Priority": 1,
+
         "Text": "Goshan",
         "X": -115,
         "Z": -45
       },
       {
+        "Priority": 1,
+
         "Text": "OLI",
         "X": -28,
         "Z": 140
@@ -1528,6 +1556,8 @@
     ],
     "Labels": [
       {
+        "Priority": 1,
+
         "Text": "Train Yard",
         "X": -30,
         "Z": -882
@@ -1538,6 +1568,8 @@
         "Z": -841
       },
       {
+        "Priority": 1,
+
         "Text": "Water Treatment",
         "X": -65,
         "Z": -600
@@ -1578,6 +1610,8 @@
         "Z": -323
       },
       {
+        "Priority": 1,
+
         "Text": "Cottages",
         "X": -162,
         "Z": -225
@@ -1618,6 +1652,8 @@
         "Z": -53
       },
       {
+        "Priority": 1,
+
         "Text": "Grand Chalet",
         "X": -133,
         "Z": 100
@@ -1628,6 +1664,8 @@
         "Z": 129
       },
       {
+        "Priority": 1,
+
         "Text": "Lightkeeper Island",
         "X": 382,
         "Z": 496
@@ -1788,11 +1826,15 @@
     ],
     "Labels": [
       {
+        "Priority": 1,
+
         "Text": "K Buildings",
         "X": 28,
         "Z": -102
       },
       {
+        "Priority": 1,
+
         "Text": "White Queen",
         "X": -25,
         "Z": 180
@@ -1813,6 +1855,8 @@
         "Z": -30
       },
       {
+        "Priority": 1,
+
         "Text": "White King",
         "X": -49.5,
         "Z": 15.5
@@ -1833,6 +1877,8 @@
         "Z": -124
       },
       {
+        "Priority": 1,
+
         "Text": "Train Station",
         "X": 161,
         "Z": -149
@@ -1913,6 +1959,8 @@
         "Z": -132
       },
       {
+        "Priority": 1,
+
         "Text": "Dome",
         "X": -8.5,
         "Z": 175
@@ -2025,11 +2073,15 @@
     ],
     "Labels": [
       {
+        "Priority": 1,
+
         "Text": "Resort",
         "X": -258.2,
         "Z": -71.2
       },
       {
+        "Priority": 1,
+
         "Text": "Power Station",
         "X": -215.8,
         "Z": 178.4
@@ -2040,6 +2092,8 @@
         "Z": 420
       },
       {
+        "Priority": 1,
+
         "Text": "Weather Station",
         "X": -496,
         "Z": 257
@@ -2055,6 +2109,8 @@
         "Z": -118.5
       },
       {
+        "Priority": 1,
+
         "Text": "Village",
         "X": 418.4,
         "Z": 118
@@ -2065,6 +2121,8 @@
         "Z": 144
       },
       {
+        "Priority": 1,
+
         "Text": "Cottages",
         "X": 128,
         "Z": 93
@@ -2075,6 +2133,8 @@
         "Z": 188
       },
       {
+        "Priority": 1,
+
         "Text": "Pier",
         "X": -338.6,
         "Z": 525
@@ -2332,6 +2392,8 @@
         "Z": 100
       },
       {
+        "Priority": 1,
+
         "Text": "Kilmov Shopping Mall",
         "X": -128,
         "Z": -35
@@ -2342,6 +2404,8 @@
         "Z": -52
       },
       {
+        "Priority": 1,
+
         "Text": "Cardinal Apartments",
         "X": 99,
         "Z": -71
@@ -2352,6 +2416,8 @@
         "Z": 295
       },
       {
+        "Priority": 1,
+
         "Text": "Lexos",
         "X": 66,
         "Z": 305
@@ -2372,6 +2438,8 @@
         "Z": 135
       },
       {
+        "Priority": 1,
+
         "Text": "Pinewood Hotel",
         "X": -35,
         "Z": 64
@@ -2382,6 +2450,8 @@
         "Z": 398
       },
       {
+        "Priority": 1,
+
         "Text": "Concordia",
         "X": 140,
         "Z": 362
@@ -2641,6 +2711,8 @@
         "Z": -379
       },
       {
+        "Priority": 1,
+
         "Text": "Main Working Area",
         "X": -172,
         "Z": -342
@@ -2661,6 +2733,8 @@
         "Z": -356
       },
       {
+        "Priority": 1,
+
         "Text": "Server Room",
         "X": -125,
         "Z": -308
@@ -2671,6 +2745,8 @@
         "Z": -266
       },
       {
+        "Priority": 1,
+
         "Text": "Warehouse",
         "X": -163,
         "Z": -269
@@ -2766,6 +2842,8 @@
         "Z": -401
       },
       {
+        "Priority": 1,
+
         "Text": "Sterile Laboratory",
         "X": -130,
         "Z": -361
@@ -2866,31 +2944,43 @@
     ],
     "Labels": [
       {
+        "Priority": 1,
+
         "Text": "Sawmill",
         "X": 10,
         "Z": -3
       },
       {
+        "Priority": 1,
+
         "Text": "Scav Town",
         "X": -485,
         "Z": -390
       },
       {
+        "Priority": 1,
+
         "Text": "Old Sawmill",
         "X": -517,
         "Z": -210
       },
       {
+        "Priority": 1,
+
         "Text": "Cultist Village",
         "X": -80,
         "Z": -680
       },
       {
+        "Priority": 1,
+
         "Text": "USEC Camp",
         "X": 290,
         "Z": -475
       },
       {
+        "Priority": 1,
+
         "Text": "Military Camp",
         "X": -188,
         "Z": 235

@@ -29,7 +29,7 @@ namespace EftPosition
         readonly MapDefinition[] maps;
         readonly ComboBox mapBox,layerBox;
         readonly Label mapSubtitle;
-        readonly Panel header,sidebar;
+        readonly Panel header,sidebar,settingsHost;
         readonly FlowLayoutPanel selectors,toolbar;
         readonly Label mapHint,navigationLabel;
         readonly CheckBox autoNavigation;
@@ -40,6 +40,13 @@ namespace EftPosition
         readonly Panel capturePanel,statusStrip,fullscreenBar;
         readonly UiIconButton settingsButton;
         SettingsForm settingsWindow;
+        SettingsForm settingsPanel;
+        readonly Timer settingsAnimation=new Timer {Interval=15};
+        readonly Stopwatch settingsAnimationClock=new Stopwatch();
+        double settingsProgress,settingsAnimationFrom,settingsAnimationTo;
+        bool windowOpacityPreview;
+        internal int SettingsPreparationCount {get;private set;}
+        public bool IsSettingsAnimating {get{return settingsAnimation.Enabled;}}
         bool questOpen;
         public Form SettingsWindow {get{return settingsWindow;}}
         readonly UiButton markerButton;
@@ -150,14 +157,19 @@ namespace EftPosition
             var workspace=new Panel {Dock=DockStyle.Fill};canvas=new MapCanvas {Dock=DockStyle.Fill};
             sidebar=new Panel {Dock=DockStyle.Left,Width=292,Padding=new Padding(14,14,12,12),BackColor=UiTheme.Surface,Visible=false};
             markerPanel=new MarkerPanel(assetsDirectory,cacheDirectory) {Dock=DockStyle.Fill};sidebar.Controls.Add(markerPanel);
-            markerPanel.Changed+=delegate{canvas.SetMarkers(markerPanel.MapId,markerPanel.VisibleMarkers);};markerPanel.BackRequested+=delegate{ShowMarkerFilters(false);};
-            markerButton.Click+=delegate{ShowMarkerFilters(!sidebar.Visible);};settingsButton.Click+=delegate{ShowSettings();};fullScreenButton.Click+=delegate{SetFullScreen(!fullScreen);};
-            workspace.Controls.Add(canvas);workspace.Controls.Add(sidebar);
+            markerPanel.Changed+=delegate{canvas.SetMarkers(markerPanel.MapId,markerPanel.VisibleMarkers);ApplyLootLayer();};markerPanel.BackRequested+=delegate{ShowMarkerFilters(false);};
+            markerPanel.LootChanged+=delegate{ApplyLootLayer();if(!isDemo)markerPanel.SaveLoot();};
+            markerButton.Click+=delegate{ShowMarkerFilters(!sidebar.Visible);};settingsButton.Click+=delegate{ToggleSettings();};fullScreenButton.Click+=delegate{SetFullScreen(!fullScreen);};
+            settingsHost=new Panel {Width=490,Visible=false,Padding=new Padding(1,0,0,0),BackColor=UiTheme.Border};
+            workspace.Controls.Add(canvas);workspace.Controls.Add(sidebar);workspace.Controls.Add(settingsHost);
+            workspace.Resize+=delegate{PositionSettingsHost();};
+            settingsHost.SizeChanged+=delegate{PositionSettingsPanel();};
+            settingsAnimation.Tick+=delegate{AdvanceSettingsTransition();};
             fullscreenBar=new Panel {Size=new Size(128,42),BackColor=UiTheme.Surface,Visible=false};
             var floatingQuest=new UiIconButton {Glyph="quests",Location=new Point(5,5),AccessibleName=UiText.T("Questy na pełnym ekranie")};
             var floatingSettings=new UiIconButton {Glyph="gear",Location=new Point(45,5),AccessibleName=UiText.T("Ustawienia na pełnym ekranie")};
             var floatingExit=new UiIconButton {Glyph="fullscreen",Location=new Point(85,5),AccessibleName=UiText.T("Wyjdź z pełnego ekranu")};
-            floatingQuest.Click+=delegate{ShowMarkerFilters(!sidebar.Visible);};floatingSettings.Click+=delegate{ShowSettings();};floatingExit.Click+=delegate{SetFullScreen(false);};
+            floatingQuest.Click+=delegate{ShowMarkerFilters(!sidebar.Visible);};floatingSettings.Click+=delegate{ToggleSettings();};floatingExit.Click+=delegate{SetFullScreen(false);};
             fullscreenBar.Controls.AddRange(new Control[]{floatingQuest,floatingSettings,floatingExit});canvas.Controls.Add(fullscreenBar);
             canvas.Resize+=delegate{fullscreenBar.Location=new Point(Math.Max(10,canvas.Width-fullscreenBar.Width-16),14);};
 
@@ -179,7 +191,7 @@ namespace EftPosition
             var folderFrame=new Panel {Location=new Point(0,43),Size=new Size(406,34),Padding=new Padding(8),BackColor=UiTheme.Field,Anchor=AnchorStyles.Top|AnchorStyles.Left|AnchorStyles.Right};
             folderBox=new TextBox {Dock=DockStyle.Fill,BackColor=UiTheme.Field,ForeColor=UiTheme.Text,BorderStyle=BorderStyle.None,Text=initialFolder??"",Font=UiTheme.Small,AccessibleName=UiText.T("Ścieżka folderu zrzutów")};folderFrame.Controls.Add(folderBox);capturePanel.Controls.Add(folderFrame);
             browseButton=(UiButton)MakeButton(UiText.T("Wybierz folder…"),0,90,182);browseButton.AccessibleName=UiText.T("Wybierz folder zrzutów");
-            browseButton.Click+=delegate{using(var dialog=new FolderBrowserDialog {Description=UiText.T("Folder zrzutów zapisanych przez EFT"),ShowNewFolderButton=false}){if(Directory.Exists(folderBox.Text))dialog.SelectedPath=folderBox.Text;if(dialog.ShowDialog(settingsWindow??(IWin32Window)this)==DialogResult.OK){folderBox.Text=dialog.SelectedPath;StartWatching();}}};
+            browseButton.Click+=delegate{using(var dialog=new FolderBrowserDialog {Description=UiText.T("Folder zrzutów zapisanych przez EFT"),ShowNewFolderButton=false}){if(Directory.Exists(folderBox.Text))dialog.SelectedPath=folderBox.Text;if(dialog.ShowDialog(this)==DialogResult.OK){folderBox.Text=dialog.SelectedPath;StartWatching();}}};
             startButton=MakeButton(UiText.T("Obserwuj"),0,135,124);stopButton=MakeButton(UiText.T("Zatrzymaj"),134,135,124);
             startButton.Click+=delegate{StartWatching();};stopButton.Click+=delegate{StopWatching();};folderBox.TextChanged+=delegate{UpdateWatchButtons();};
             deleteScreenshots=new CheckBox {Text=UiText.T("Usuwaj zrzut po odczycie"),AccessibleName=UiText.T("Usuwaj zrzut po odczycie"),Location=new Point(0,184),Size=new Size(400,26),Font=UiTheme.Body,Checked=preferences.DeleteScreenshots,Enabled=!demo};
@@ -208,36 +220,105 @@ namespace EftPosition
             timer.Interval=100;
             timer.Tick+=Tick;
             timer.Start();
-            Shown+=delegate { PopulateLayers();ConfigureMapDetection(); if(Directory.Exists(folderBox.Text)) StartWatching();else if(!String.IsNullOrWhiteSpace(folderBox.Text))statusLabel.Text=UiText.T("Folder niedostępny. Wybierz go ponownie."); canvas.FitMap(); if(startFullScreen) SetFullScreen(true); UpdateOverlaySettings(); };
-            FormClosed+=delegate { timer.Stop();if(overlayHotkeys!=null)overlayHotkeys.Dispose();if(miniMap!=null && !miniMap.IsDisposed)miniMap.Close(); SavePreferences();markerPanel.Save();mapWorker.CancelAsync(); if(cleaner!=null)cleaner.Dispose();if(monitor!=null) monitor.Dispose(); if(telemetry!=null) telemetry.Dispose(); ownProcess.Dispose(); };
+            Shown+=delegate { PopulateLayers();ConfigureMapDetection(); if(Directory.Exists(folderBox.Text)) StartWatching();else if(!String.IsNullOrWhiteSpace(folderBox.Text))statusLabel.Text=UiText.T("Folder niedostępny. Wybierz go ponownie."); canvas.FitMap(); if(startFullScreen) SetFullScreen(true); UpdateOverlaySettings();BeginInvoke((MethodInvoker)delegate{if(!IsDisposed && !Disposing)PrepareSettingsPanel();}); };
+            FormClosed+=delegate { timer.Stop();settingsAnimation.Stop();if(overlayHotkeys!=null)overlayHotkeys.Dispose();if(miniMap!=null && !miniMap.IsDisposed)miniMap.Close(); SavePreferences();markerPanel.Save();if(!isDemo)markerPanel.SaveLoot();mapWorker.CancelAsync(); if(cleaner!=null)cleaner.Dispose();if(monitor!=null) monitor.Dispose(); if(telemetry!=null) telemetry.Dispose(); ownProcess.Dispose(); };
         }
+        void ApplyLootLayer(){canvas.SetLoot(markerPanel.LootCatalog,markerPanel.MapId,markerPanel.Selection.Preferences.Mode,markerPanel.LootOptions);}
         void ShowMarkerFilters(bool show)
         {
+            if(show && (settingsWindow!=null || settingsHost.Visible)){CloseSettings();FinishSettingsTransition();}
             questOpen=show;sidebar.Visible=show;markerButton.Primary=show;markerButton.Invalidate();
             if(show){markerPanel.BringToFront();markerPanel.FocusSearch();}
         }
-        public void ShowSettings()
+        void ToggleSettings()
+        {if(settingsWindow!=null && !settingsWindow.IsDisposed)settingsWindow.Close();else ShowSettings();}
+        void PrepareSettingsPanel()
         {
-            if(settingsWindow!=null && !settingsWindow.IsDisposed){settingsWindow.Activate();return;}
-            var dialog=new SettingsForm(preferences,cacheDirectory,capturePanel);settingsWindow=dialog;
-            if(Icon!=null)dialog.Icon=(Icon)Icon.Clone();settingsButton.Primary=true;settingsButton.Invalidate();
+            if(settingsPanel!=null && !settingsPanel.IsDisposed)return;
+            var dialog=new SettingsForm(preferences,cacheDirectory,capturePanel) {TopLevel=false,FormBorderStyle=FormBorderStyle.None,ControlBox=false,MinimumSize=Size.Empty,Dock=DockStyle.None,RetainWhenClosed=true};
+            settingsPanel=dialog;SettingsPreparationCount++;
             dialog.AppearanceChanged+=delegate{ApplyAppearance(true);};
+            dialog.WindowOpacityChanged+=delegate{windowOpacityPreview=true;ApplyWindowOpacity();SavePreferences();};
             dialog.LanguageChanged+=delegate{RefreshLanguage();SavePreferences();};
             dialog.OverlayChanged+=delegate{UpdateOverlaySettings();SavePreferences();dialog.RefreshValues();};
             dialog.EditOverlayRequested+=delegate{ToggleOverlayEditing();};
             dialog.MapDetectionChanged+=delegate{ConfigureMapDetection();SavePreferences();dialog.RefreshValues();};
             dialog.RestoreVisibility+=delegate{RestoreVisibility();};
-            dialog.FormClosed+=delegate{if(settingsWindow==dialog)settingsWindow=null;settingsButton.Primary=false;settingsButton.Invalidate();if(!IsDisposed && !Disposing)SavePreferences();};
-            Rectangle area=Screen.FromControl(this).WorkingArea;
-            dialog.StartPosition=FormStartPosition.Manual;dialog.Location=new Point(Math.Max(area.Left,Math.Min(area.Right-dialog.Width,Bounds.Right-dialog.Width-18)),Math.Max(area.Top,Math.Min(area.Bottom-dialog.Height,Bounds.Top+70)));
-            dialog.Show(this);
+            dialog.CloseRequested+=delegate{CloseSettings();};
+            settingsHost.Controls.Add(dialog);PositionSettingsHost();PrepareControlHandles(dialog);
+        }
+        static void PrepareControlHandles(Control root)
+        {GC.KeepAlive(root.Handle);foreach(Control child in root.Controls)PrepareControlHandles(child);}
+        public void ShowSettings()
+        {
+            if(settingsWindow!=null && !settingsWindow.IsDisposed){settingsWindow.Select();return;}
+            if(settingsAnimation.Enabled)AdvanceSettingsTransition();
+            PrepareSettingsPanel();settingsWindow=settingsPanel;windowOpacityPreview=false;
+            settingsPanel.RefreshValues();settingsButton.Primary=true;settingsButton.Invalidate();sidebar.Visible=false;
+            PositionSettingsHost();settingsPanel.Show();settingsHost.Visible=true;settingsPanel.Select();
+            ApplyWindowOpacity();StartSettingsTransition(true);
             RefreshOverlayStatus();
+        }
+        void CloseSettings()
+        {
+            if(settingsWindow==null && !settingsHost.Visible)return;
+            if(settingsAnimation.Enabled)AdvanceSettingsTransition();
+            settingsWindow=null;windowOpacityPreview=false;settingsButton.Primary=false;settingsButton.Invalidate();
+            if(!IsDisposed && !Disposing){ApplyWindowOpacity();SavePreferences();canvas.Focus();}
+            StartSettingsTransition(false);
+        }
+        void PositionSettingsHost()
+        {
+            Control parent=settingsHost.Parent;if(parent==null)return;
+            int width=Math.Min((int)Math.Round(490*DeviceDpi/96.0),Math.Max(1,parent.ClientSize.Width));
+            if(settingsHost.Dock==DockStyle.None)
+                settingsHost.SetBounds(parent.ClientSize.Width-(int)Math.Round(settingsProgress*width),0,width,parent.ClientSize.Height);
+            else settingsHost.Width=width;
+            PositionSettingsPanel();
+        }
+        void PositionSettingsPanel()
+        {
+            if(settingsPanel==null || settingsPanel.IsDisposed)return;
+            int width=Math.Max(1,settingsHost.ClientSize.Width-settingsHost.Padding.Horizontal);
+            settingsPanel.SetBounds(settingsHost.Padding.Left,settingsHost.Padding.Top,width,Math.Max(1,settingsHost.ClientSize.Height-settingsHost.Padding.Vertical));
+        }
+        void StartSettingsTransition(bool open)
+        {
+            // Move the complete panel over the map; a full-width docked background would flash before its contents arrive.
+            Control parent=settingsHost.Parent;parent.SuspendLayout();
+            try{settingsHost.Dock=DockStyle.None;PositionSettingsHost();settingsHost.BringToFront();}
+            finally{parent.ResumeLayout(true);}
+            settingsAnimationFrom=settingsProgress;settingsAnimationTo=open?1:0;settingsAnimationClock.Restart();
+            if(Math.Abs(settingsAnimationTo-settingsAnimationFrom)<.001 || IsDisposed || Disposing){FinishSettingsTransition();return;}
+            settingsAnimation.Start();
+        }
+        void AdvanceSettingsTransition()
+        {
+            double duration=Math.Max(60,190*Math.Abs(settingsAnimationTo-settingsAnimationFrom));
+            double progress=Math.Min(1,settingsAnimationClock.Elapsed.TotalMilliseconds/duration);
+            double eased=1-Math.Pow(1-progress,3);
+            settingsProgress=settingsAnimationFrom+(settingsAnimationTo-settingsAnimationFrom)*eased;
+            PositionSettingsHost();if(progress>=1)FinishSettingsTransition();
+        }
+        void FinishSettingsTransition()
+        {
+            settingsAnimation.Stop();settingsProgress=settingsWindow==null?0:1;PositionSettingsHost();
+            if(settingsWindow==null)
+            {if(settingsPanel!=null && !settingsPanel.IsDisposed)settingsPanel.Hide();settingsHost.Visible=false;if(!IsDisposed && !Disposing)sidebar.Visible=!fullScreen && questOpen;}
+            else
+            {
+                // Reserve map space once, after the entrance, instead of resizing the map on every animation frame.
+                Control parent=settingsHost.Parent;parent.SuspendLayout();
+                try{settingsHost.SendToBack();settingsHost.Dock=DockStyle.Right;}
+                finally{parent.ResumeLayout(true);}
+                PositionSettingsPanel();
+            }
         }
         void ApplyAppearance(bool save)
         {
-            preferences.Normalize();UiTheme.CornerRadius=preferences.RoundedCorners?8:0;var palette=UiTheme.Change(preferences.Theme,preferences.AccentArgb);UiTheme.Recolor(this,palette);UiTheme.Recolor(capturePanel,palette);
+            preferences.Normalize();UiTheme.CornerRadius=preferences.RoundedCorners?6:0;var palette=UiTheme.Change(preferences.Theme,preferences.AccentArgb);UiTheme.Recolor(this,palette);if(capturePanel.Parent==null)UiTheme.Recolor(capturePanel,palette);
             ApplyWindowTheme();
-            if(settingsWindow!=null){UiTheme.Recolor(settingsWindow,palette);((ThemedForm)settingsWindow).ApplyWindowTheme();}
+            if(settingsWindow!=null)((ThemedForm)settingsWindow).ApplyWindowTheme();
             canvas.ApplyAppearance(preferences,assetsDirectory);statusStrip.Visible=!fullScreen && preferences.ShowStatusBar;
             ApplyWindowOpacity();if(save)SavePreferences();
             UpdateOverlaySettings();
@@ -293,7 +374,7 @@ namespace EftPosition
             navigationLabel.Text=UiText.T("Mapa wykryta z logów: ")+maps[index].Name;
         }
         void ApplyWindowOpacity()
-        {Opacity=preferences.FullscreenOpacityOnly && !fullScreen?1:preferences.WindowOpacity/100.0;}
+        {Opacity=!windowOpacityPreview && preferences.FullscreenOpacityOnly && !fullScreen?1:preferences.WindowOpacity/100.0;}
         void RefreshLanguage()
         {
             markerPanel.RefreshLanguage();
@@ -308,7 +389,7 @@ namespace EftPosition
             if(miniMap!=null){miniMap.RefreshLanguage();miniMap.Pulse(displayed==null?(DateTime?)null:displayed.FileTimeUtc);}RefreshOverlayStatus();
         }
         void RestoreVisibility()
-        {preferences.WindowOpacity=100;ApplyWindowOpacity();if(settingsWindow!=null)settingsWindow.RefreshValues();SavePreferences();}
+        {windowOpacityPreview=false;preferences.WindowOpacity=100;ApplyWindowOpacity();if(settingsWindow!=null)settingsWindow.RefreshValues();SavePreferences();}
         sealed class MapJob
         { public MapDefinition Map; public MapLayer Layer; public int Generation; public string Path; }
         void PopulateLayers()
@@ -376,7 +457,7 @@ namespace EftPosition
                 else
                 {
                     fullScreen=false; WindowState=FormWindowState.Normal; FormBorderStyle=FormBorderStyle.Sizable;
-                    header.Visible=true;sidebar.Visible=questOpen;toolbar.Visible=true;statusStrip.Visible=preferences.ShowStatusBar;fullscreenBar.Visible=false;
+                    header.Visible=true;sidebar.Visible=settingsWindow==null && questOpen;toolbar.Visible=true;statusStrip.Visible=preferences.ShowStatusBar;fullscreenBar.Visible=false;
                     canvas.MapOnly=false; Bounds=savedBounds; MinimumSize=savedMinimum; WindowState=savedWindowState;
                 }
             }
@@ -387,9 +468,10 @@ namespace EftPosition
         protected override bool ProcessCmdKey(ref Message msg,Keys keyData)
         {
             if(keyData==(Keys.Control|Keys.F)){ShowMarkerFilters(!sidebar.Visible);return true;}
-            if(keyData==(Keys.Control|Keys.Oemcomma)){ShowSettings();return true;}
+            if(keyData==(Keys.Control|Keys.Oemcomma)){ToggleSettings();return true;}
             if(keyData==Keys.F10){RestoreVisibility();return true;}
             if(keyData==Keys.F11) { SetFullScreen(!fullScreen); return true; }
+            if(keyData==Keys.Escape && settingsWindow!=null){settingsWindow.Close();return true;}
             if(keyData==Keys.Escape && fullScreen) { SetFullScreen(false); return true; }
             return base.ProcessCmdKey(ref msg,keyData);
         }
@@ -569,7 +651,7 @@ namespace EftPosition
         protected override void Dispose(bool disposing)
         {
             if(disposing && gameMapMonitor!=null){gameMapMonitor.Dispose();gameMapMonitor=null;}
-            if(disposing) {if(overlayHotkeys!=null)overlayHotkeys.Dispose();if(miniMap!=null)miniMap.Dispose();if(settingsWindow!=null && !settingsWindow.IsDisposed)settingsWindow.Close();capturePanel.Dispose();timer.Dispose(); detailsTip.Dispose(); titleFont.Dispose(); valueFont.Dispose(); }
+            if(disposing) {settingsAnimation.Stop();settingsAnimation.Dispose();if(overlayHotkeys!=null)overlayHotkeys.Dispose();if(miniMap!=null)miniMap.Dispose();if(settingsPanel!=null && !settingsPanel.IsDisposed)settingsPanel.Dispose();capturePanel.Dispose();timer.Dispose(); detailsTip.Dispose(); titleFont.Dispose(); valueFont.Dispose(); }
             base.Dispose(disposing);
         }
     }

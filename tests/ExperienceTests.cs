@@ -29,7 +29,6 @@ namespace EftPosition
         {
             foreach(Control child in c.Controls)
             { yield return child;foreach(Control inner in Descendants(child)) yield return inner; }
-            MainForm main=c as MainForm;if(main!=null && main.SettingsWindow!=null)foreach(Control child in Descendants(main.SettingsWindow))yield return child;
         }
         static float Field(string name)
         {
@@ -210,7 +209,8 @@ namespace EftPosition
             string outside=WritePosition(300,1,220);
             foreach(Control c in Descendants(form)) if(c is Button && c.Text=="Obserwuj") ((Button)c).PerformClick();
             WaitFor(delegate{return canvas.Position!=null && canvas.Position.FileName==outside && canvas.Layer!=null && canvas.Layer.Id=="base";},"watcher restart reads latest outdoor screenshot");
-            Near(Field("scale"),fit,Math.Max(.002,fit*.03),"new watcher session clears stale indoor zoom");
+            float restartedScale=Field("scale");canvas.FitMap();float currentFit=Field("scale");
+            Near(restartedScale,currentFit,Math.Max(.002,currentFit*.03),"new watcher session clears stale indoor zoom for the current viewport beside settings");
             Check(Directory.GetFiles(fixtures,"*.png").Length==counter,"all synthetic screenshots are preserved");
         }
 
@@ -221,12 +221,13 @@ namespace EftPosition
             try
             {
                 Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
-                Application.EnableVisualStyles();Application.SetCompatibleTextRenderingDefault(false);
+                Application.EnableVisualStyles();Application.SetCompatibleTextRenderingDefault(false);UiText.Language="pl";
                 string dataRoot=Path.GetFullPath(args.Length>0?args[0]:Path.Combine(Path.GetTempPath(),"EftPosition-experience"));
                 fixtures=Path.Combine(dataRoot,DateTime.UtcNow.ToString("yyyyMMdd-HHmmss-fff"));
                 reports=Path.GetFullPath(args.Length>1?args[1]:Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"reports"));
                 Directory.CreateDirectory(fixtures);Directory.CreateDirectory(reports);
                 string cache=args.Length>2?Path.GetFullPath(args[2]):Path.Combine(fixtures,"cache");
+                new AppPreferences {Language="pl"}.Save(Path.Combine(cache,"app-preferences.json"));
                 form=new MainForm(fixtures,null,0,false,true,null,cache);
                 handler=delegate(object sender,ThreadExceptionEventArgs e) { failure=e.Exception;Console.WriteLine("GUI exception: "+e.Exception);if(form!=null&&!form.IsDisposed) form.Close(); };
                 Application.ThreadException+=handler;

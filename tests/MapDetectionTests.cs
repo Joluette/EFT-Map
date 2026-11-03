@@ -97,7 +97,7 @@ namespace EftPosition
         {
             string logs=Path.Combine(root,"ui-logs"),shots=Path.Combine(root,"ui-shots"),cache=Path.Combine(root,"ui-cache");Directory.CreateDirectory(logs);Directory.CreateDirectory(shots);
             string log=Path.Combine(logs,"application.log");File.WriteAllText(log,Line("Sandbox_high",DateTime.Now));
-            var prefs=new AppPreferences {AutoMapEnabled=true,GameLogsFolder=logs,ScreenshotFolder=shots,DeleteScreenshots=true,OverlayEnabled=true};prefs.Save(Path.Combine(cache,"app-preferences.json"));
+            var prefs=new AppPreferences {Language="pl",AutoMapEnabled=true,GameLogsFolder=logs,ScreenshotFolder=shots,DeleteScreenshots=true,OverlayEnabled=true};prefs.Save(Path.Combine(cache,"app-preferences.json"));
             string old=Path.Combine(shots,"2026-10-28[12-34]_200.00, 2.30, 150.00_0.0, 0.70711, 0.0, 0.70711_16.60 (1).png");File.WriteAllBytes(old,new byte[]{1,2,3});File.SetLastWriteTimeUtc(old,DateTime.UtcNow.AddDays(-1));
             using(var f=new MainForm(null,null,0,false,false,null,cache,false,false,"customs"))
             {
@@ -122,7 +122,7 @@ namespace EftPosition
             string logs=Path.Combine(root,"switch-logs"),a=Path.Combine(logs,"log_2026.10.28_13-00-00"),b=Path.Combine(logs,"log_2026.10.28_13-39-17");
             string cache=Path.Combine(root,"switch-cache"),shots=Path.Combine(root,"switch-shots");Directory.CreateDirectory(a);Directory.CreateDirectory(shots);
             File.WriteAllText(Path.Combine(a,"application_000.log"),Line("bigmap",DateTime.Now.AddMinutes(-1),true));
-            new AppPreferences {AutoMapEnabled=true,GameLogsFolder=logs,ScreenshotFolder=shots,DeleteScreenshots=true,OverlayEnabled=true}.Save(Path.Combine(cache,"app-preferences.json"));
+            new AppPreferences {Language="pl",AutoMapEnabled=true,GameLogsFolder=logs,ScreenshotFolder=shots,DeleteScreenshots=true,OverlayEnabled=true}.Save(Path.Combine(cache,"app-preferences.json"));
             string old=Path.Combine(shots,"2026-10-28[12-34]_200.00, 2.30, 150.00_0.0, 0.70711, 0.0, 0.70711_16.60 (1).png");File.WriteAllBytes(old,new byte[]{1,2,3});
             using(var f=new MainForm(null,null,0,false,false,null,cache,false,false,"customs"))
             {
@@ -146,7 +146,7 @@ namespace EftPosition
         {
             try
             {
-                Application.EnableVisualStyles();Application.SetCompatibleTextRenderingDefault(false);
+                Application.EnableVisualStyles();Application.SetCompatibleTextRenderingDefault(false);UiText.Language="pl";
                 bool mapOnly=args.Length>2 && args[2]=="--map-only";
                 string root=Path.GetFullPath(args[0]),reports=Path.GetFullPath(args[1]);Directory.CreateDirectory(root);Directory.CreateDirectory(reports);Parser();ActualScenes();Files(root);if(!mapOnly)Hotkeys();Interface(root,reports);CustomsToInterchange(root,reports);
                 Console.WriteLine("PASS: "+checks+" map detection"+(mapOnly?"":" and shortcut fallback")+" checks.");return 0;

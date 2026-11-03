@@ -30,6 +30,7 @@ namespace EftPosition
         [DllImport("user32.dll",EntryPoint="GetWindowLongW")]static extern int GetWindowLong(IntPtr window,int index);
         [DllImport("user32.dll",EntryPoint="SetWindowLongW")]static extern int SetWindowLong(IntPtr window,int index,int value);
         [DllImport("user32.dll")]static extern bool SetWindowPos(IntPtr window,IntPtr after,int x,int y,int width,int height,uint flags);
+        [DllImport("user32.dll")]static extern bool SetLayeredWindowAttributes(IntPtr window,uint colorKey,byte alpha,uint flags);
         public MiniMapOverlay(MapCanvas canvas,AppPreferences settings)
         {
             source=canvas;preferences=settings;Text="EFT Position · "+UiText.T("Minimapa");
@@ -39,6 +40,15 @@ namespace EftPosition
             AccessibleName=UiText.T("Minimapa nad grą");
         }
         protected override bool ShowWithoutActivation {get{return true;}}
+        protected override void OnHandleCreated(EventArgs e){base.OnHandleCreated(e);if(preferences!=null)ApplyOpacity();}
+        void ApplyOpacity()
+        {
+            Opacity=preferences.OverlayOpacity/100.0;
+            if(!IsHandleCreated)return;
+            int style=GetWindowLong(Handle,-20);
+            if((style&0x80000)==0)SetWindowLong(Handle,-20,style|0x80000);
+            SetLayeredWindowAttributes(Handle,0,(byte)Math.Round(Opacity*255),2);
+        }
         protected override CreateParams CreateParams
         {
             get
@@ -71,7 +81,7 @@ namespace EftPosition
             Rectangle bounds=Placement(appliedScreen,new Size(width,width+L(82)),preferences.OverlayCorner,preferences.OverlayCustomPosition,preferences.OverlayX,preferences.OverlayY);
             if(!dragging && !resizing && Bounds!=bounds)Bounds=bounds;
             if(!preferences.OverlayCustomPosition){preferences.OverlayX=Left;preferences.OverlayY=Top;}
-            Opacity=editing?1:preferences.OverlayOpacity/100.0;
+            ApplyOpacity();
             UpdateShape();
             if(preferences.OverlayEnabled){if(!Visible)Show();Pulse(screenshotTime);}
             else{SetEditing(false);if(Visible)Hide();ClearSnapshot();}
@@ -87,7 +97,7 @@ namespace EftPosition
         public void SetEditing(bool value)
         {
             if(value==editing)return;
-            editing=value;Opacity=editing?1:preferences.OverlayOpacity/100.0;
+            editing=value;ApplyOpacity();
             if(IsHandleCreated)
             {
                 int style=GetWindowLong(Handle,-20);

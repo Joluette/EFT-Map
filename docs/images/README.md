@@ -9,3 +9,5 @@ Map artwork visible in the app and minimap is by **Shebuka**, [CC BY-NC-SA 4.0](
 Escape from Tarkov and its game artwork belong to **Battlestate Games** and the respective rights holders. The gameplay image demonstrates the independent companion application and does not imply endorsement. See [full third-party notices](../../THIRD-PARTY-NOTICES.md).
 
 Legend badge PNGs are exported from MarkerArtwork.cs. Player, heading and older-position SVGs are code-drawn illustrations of the matching application markers. These application graphics follow the code license.
+
+- **map-labels-3.6.1.png**: render of the 3.6.1 map canvas on Woods with overlays disabled, showing the new outlined place names. Uses synthetic/demo state and no personal paths. Map artwork retains the Shebuka / CC BY-NC-SA 4.0 credit above.

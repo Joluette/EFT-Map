@@ -7,24 +7,69 @@ using System.Runtime.InteropServices;
 
 namespace EftPosition
 {
-    // Shared by vector and raster maps. Cache only screen pixels; an integer
-    // pan repaints exposed strips, while zoom/content changes redraw geometry.
+    // Shared by vector and raster maps. Integer pans repaint exposed strips;
+    // animated zoom reuses a bounded preview, then restores exact geometry.
     sealed class MapViewport : IDisposable
     {
         readonly Action<Graphics,Size,float,float,float> paint;
         Bitmap viewportCache,panCache;
+        Bitmap zoomCache;
+        RectangleF zoomWorld;
+        float zoomScale,zoomReferenceScale;
+        int zoomOpacity;
+        const int ZoomPixelLimit=1280*720;
         float cachedScale,cachedX,cachedY;
         bool cacheValid;
         int cachedOpacity=100;
         int[] opacityRow;
         public int RenderCount {get;private set;}
         public int ReusedPanCount {get;private set;}
-        public long CacheBytes {get{return Bytes(viewportCache)+Bytes(panCache);}}
+        public int ZoomRenderCount {get;private set;}
+        public long ZoomCacheBytes {get{return Bytes(zoomCache);}}
+        public long CacheBytes {get{return Bytes(viewportCache)+Bytes(panCache)+Bytes(zoomCache);}}
         static long Bytes(Bitmap image){return image==null?0:(long)image.Width*image.Height*4;}
         public MapViewport(Action<Graphics,Size,float,float,float> draw){paint=draw;}
-        public void Invalidate(){cacheValid=false;}
+        public void Invalidate(){cacheValid=false;ClearZoom();}
+        static RectangleF WorldView(Size viewport,float scale,float x,float y)
+        {return new RectangleF(-x/scale,-y/scale,viewport.Width/scale,viewport.Height/scale);}
+        public void DrawZoom(Graphics graphics,Size viewport,float scale,float x,float y,int opacity,float targetScale,float targetX,float targetY)
+        {
+            if(viewport.Width<=0 || viewport.Height<=0)return;
+            if(scale<=0 || targetScale<=0 || Single.IsNaN(scale) || Single.IsNaN(targetScale) || Single.IsInfinity(scale) || Single.IsInfinity(targetScale))throw new ArgumentOutOfRangeException("scale");
+            if(opacity<0 || opacity>100)throw new ArgumentOutOfRangeException("opacity");
+            RectangleF wanted=RectangleF.Union(WorldView(viewport,scale,x,y),WorldView(viewport,targetScale,targetX,targetY));
+            if(zoomCache==null || zoomOpacity!=opacity || !zoomWorld.Contains(wanted) || scale>zoomReferenceScale*1.8f)
+            {
+                ClearZoom();
+                // Cover both ends of the camera motion, including newly revealed edges on zoom-out.
+                wanted.Inflate(wanted.Width*.04f,wanted.Height*.04f);
+                zoomScale=(float)Math.Min(Math.Min(viewport.Width/wanted.Width,viewport.Height/wanted.Height),Math.Sqrt(ZoomPixelLimit/(double)(wanted.Width*wanted.Height)));
+                int width=Math.Max(1,(int)Math.Floor(wanted.Width*zoomScale)),height=Math.Max(1,(int)Math.Floor(wanted.Height*zoomScale));
+                zoomWorld=new RectangleF(wanted.Left,wanted.Top,width/zoomScale,height/zoomScale);
+                zoomCache=new Bitmap(width,height,PixelFormat.Format32bppPArgb);
+                try
+                {
+                    using(Graphics target=Graphics.FromImage(zoomCache))
+                    {target.Clear(Color.Transparent);paint(target,zoomCache.Size,zoomScale,-zoomWorld.Left*zoomScale,-zoomWorld.Top*zoomScale);}
+                    ApplyOpacity(zoomCache,new Rectangle(Point.Empty,zoomCache.Size),opacity);
+                    zoomOpacity=opacity;zoomReferenceScale=scale;ZoomRenderCount++;
+                }
+                catch{ClearZoom();throw;}
+            }
+            GraphicsState state=graphics.Save();
+            try
+            {
+                float left=x+zoomWorld.Left*scale,top=y+zoomWorld.Top*scale;
+                graphics.InterpolationMode=InterpolationMode.NearestNeighbor;graphics.PixelOffsetMode=PixelOffsetMode.Half;
+                graphics.TranslateTransform(left,top);graphics.ScaleTransform(scale/zoomScale,scale/zoomScale);
+                var bounds=new Rectangle(0,0,zoomCache.Width,zoomCache.Height);graphics.DrawImage(zoomCache,bounds,bounds,GraphicsUnit.Pixel);
+            }
+            finally{graphics.Restore(state);}
+        }
+        void ClearZoom(){if(zoomCache!=null){zoomCache.Dispose();zoomCache=null;}}
         public void Draw(Graphics graphics,Size viewport,float scale,float offsetX,float offsetY,int opacity)
         {
+            ClearZoom();
             if(viewport.Width<=0 || viewport.Height<=0)return;
             if(Single.IsNaN(scale) || Single.IsInfinity(scale) || scale<=0)throw new ArgumentOutOfRangeException("scale");
             if(opacity<0 || opacity>100)throw new ArgumentOutOfRangeException("opacity");
@@ -104,7 +149,8 @@ namespace EftPosition
             finally{source.UnlockBits(from);}
         }
         public void Clear()
-        {cacheValid=false;opacityRow=null;if(viewportCache!=null){viewportCache.Dispose();viewportCache=null;}if(panCache!=null){panCache.Dispose();panCache=null;}}
+        {cacheValid=false;opacityRow=null;ClearZoom();if(viewportCache!=null){viewportCache.Dispose();viewportCache=null;}if(panCache!=null){panCache.Dispose();panCache=null;}}
         public void Dispose(){Clear();}
+
     }
 }

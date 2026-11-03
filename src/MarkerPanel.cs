@@ -18,13 +18,19 @@ namespace EftPosition
         readonly CheckBox pmc,scav,showQuests;
         readonly Label summary,footer;
         readonly ToolTip tips=new ToolTip {InitialDelay=400,AutoPopDelay=10000};
+        readonly Panel questPage;
+        readonly LootPanel lootPanel;
+        readonly UiButton questsTab,lootTab;
         bool rebuilding;
         string mapId="customs",hovered="";
         public event EventHandler Changed,BackRequested;
+        public event EventHandler LootChanged;
         public string MapId {get{return mapId;}}
         public MarkerSelection Selection {get{return selection;}}
         public MarkerCatalog Catalog {get{return catalog;}}
         public MapMarker[] VisibleMarkers {get{return selection.Visible(catalog,mapId);}}
+        public LootCatalog LootCatalog {get{return lootPanel.Catalog;}}
+        public LootPreferences LootOptions {get{return lootPanel.Preferences;}}
         public MarkerPanel(string assets,string cache)
         {
             BackColor=UiTheme.Background;AccessibleName=UiText.T("Filtry ekstraktów i questów");
@@ -36,6 +42,14 @@ namespace EftPosition
             layout.RowStyles.Add(new RowStyle(SizeType.Percent,100));
             foreach(float height in new[]{36,38,42})layout.RowStyles.Add(new RowStyle(SizeType.Absolute,height));
             Controls.Add(layout);
+            questPage=layout;
+            lootPanel=new LootPanel(assets,cache) {Dock=DockStyle.Fill,Visible=false};Controls.Add(lootPanel);
+            lootPanel.Changed+=delegate{if(LootChanged!=null)LootChanged(this,EventArgs.Empty);};lootPanel.BackRequested+=delegate{if(BackRequested!=null)BackRequested(this,EventArgs.Empty);};
+            var tabs=new TableLayoutPanel {Dock=DockStyle.Top,Height=38,ColumnCount=2,RowCount=1,Margin=Padding.Empty};tabs.ColumnStyles.Add(new ColumnStyle(SizeType.Percent,50));tabs.ColumnStyles.Add(new ColumnStyle(SizeType.Percent,50));
+            questsTab=new UiButton {Text=UiText.T("Questy"),AccessibleName=UiText.T("Pokaż questy i ekstrakty"),Dock=DockStyle.Fill,Primary=true,Margin=new Padding(0,0,3,6)};
+            lootTab=new UiButton {Text="Loot",AccessibleName=UiText.T("Pokaż filtry lootu"),Dock=DockStyle.Fill,Margin=new Padding(3,0,0,6)};
+            tabs.Controls.Add(questsTab,0,0);tabs.Controls.Add(lootTab,1,0);Controls.Add(tabs);
+            questsTab.Click+=delegate{ShowQuestPage();};lootTab.Click+=delegate{ShowLootPage();};
             var heading=new Panel {Dock=DockStyle.Fill,Margin=Padding.Empty};
             heading.Controls.Add(new Label {Text=UiText.T("Questy i ekstrakty"),Font=UiTheme.Section,ForeColor=UiTheme.Text,AutoSize=true,Location=new Point(0,4)});
             var back=new UiIconButton {Glyph="close",Dock=DockStyle.Right,Width=32,AccessibleName=UiText.T("Zamknij panel questów")};
@@ -69,7 +83,7 @@ namespace EftPosition
             actions.Controls.Add(select,0,0);actions.Controls.Add(reset,1,0);layout.Controls.Add(actions,0,6);
             footer=new Label {Dock=DockStyle.Fill,Font=UiTheme.Small,ForeColor=UiTheme.Muted,Margin=Padding.Empty};layout.Controls.Add(footer,0,7);
             clear.Click+=delegate{search.Clear();search.Focus();};search.TextChanged+=delegate{RefreshList();};
-            mode.SelectedIndexChanged+=delegate{if(rebuilding)return;selection.Preferences.Mode=mode.SelectedIndex==1?"pve":mode.SelectedIndex==2?"pvp-season":"regular";RefreshList();RaiseChanged();};
+            mode.SelectedIndexChanged+=delegate{if(rebuilding)return;selection.Preferences.Mode=mode.SelectedIndex==1?"pve":mode.SelectedIndex==2?"pvp-season":"regular";lootPanel.SetMap(mapId,selection.Preferences.Mode);RefreshList();RaiseChanged();};
             EventHandler filter=delegate {selection.Preferences.ShowPmc=pmc.Checked;selection.Preferences.ShowScav=scav.Checked;selection.Preferences.ShowQuests=showQuests.Checked;UpdateSummary();RaiseChanged();};
             pmc.CheckedChanged+=filter;scav.CheckedChanged+=filter;showQuests.CheckedChanged+=filter;
             quests.ItemCheck+=delegate(object sender,ItemCheckEventArgs e)
@@ -85,14 +99,17 @@ namespace EftPosition
         }
         public void SetMap(string id)
         {
-            if(mapId==id){RaiseChanged();return;}mapId=id;
+            lootPanel.SetMap(id,selection.Preferences.Mode);if(mapId==id){RaiseChanged();return;}mapId=id;
             rebuilding=true;search.Clear();rebuilding=false;
             RefreshList();RaiseChanged();
         }
-        public void FocusSearch() {search.Focus();search.SelectAll();}
+        public void FocusSearch() {if(lootPanel.Visible){lootPanel.FocusSearch();return;}search.Focus();search.SelectAll();}
+        public void ShowLootPage(){questPage.Visible=false;lootPanel.Visible=true;questsTab.Primary=false;lootTab.Primary=true;questsTab.Invalidate();lootTab.Invalidate();}
+        public void ShowQuestPage(){lootPanel.Visible=false;questPage.Visible=true;questsTab.Primary=true;lootTab.Primary=false;questsTab.Invalidate();lootTab.Invalidate();}
         public void RefreshLanguage()
         {
             rebuilding=true;try{UiText.Apply(this,tips);}finally{rebuilding=false;}
+            lootPanel.RefreshLanguage();
             UpdateSummary();
         }
         void RaiseChanged() {if(Changed!=null)Changed(this,EventArgs.Empty);}
@@ -114,6 +131,7 @@ namespace EftPosition
             footer.Text=catalog.Error??(UiText.T("⚑ Quest · ↪ PMC / Scav\nSzare questy: inne piętro · tarkov.dev"));
         }
         public bool Save() {return selection.Save(preferencesFile);}
+        public bool SaveLoot(){return lootPanel.Save();}
         protected override void Dispose(bool disposing) {if(disposing)tips.Dispose();base.Dispose(disposing);}
     }
 }

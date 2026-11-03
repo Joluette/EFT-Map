@@ -1,4 +1,4 @@
-$ErrorActionPreference = 'Stop'
+﻿$ErrorActionPreference = 'Stop'
 Push-Location -LiteralPath $PSScriptRoot
 try {
 $compiler = Join-Path $env:WINDIR 'Microsoft.NET\Framework64\v4.0.30319\csc.exe'
@@ -46,6 +46,12 @@ Copy-Item -LiteralPath 'EftPosition.exe.config' -Destination 'EftPosition.Captio
 & $compiler /nologo /target:exe /platform:x64 /optimize+ /warn:4 /utf8output /codepage:65001 /main:EftPosition.RasterTests /out:EftPosition.RasterTests.exe /win32manifest:src\app.manifest /reference:System.Windows.Forms.dll /reference:System.Drawing.dll /reference:System.Web.Extensions.dll $libraryRefs $sources tests\RasterTests.cs
 if ($LASTEXITCODE -ne 0) { throw 'Kompilacja testów map PNG nie powiodła się.' }
 Copy-Item -LiteralPath 'EftPosition.exe.config' -Destination 'EftPosition.RasterTests.exe.config' -Force
+& $compiler /nologo /target:exe /platform:x64 /optimize+ /warn:4 /utf8output /codepage:65001 /main:EftPosition.LootTests /out:EftPosition.LootTests.exe /win32manifest:src\app.manifest /reference:System.Windows.Forms.dll /reference:System.Drawing.dll /reference:System.Web.Extensions.dll $libraryRefs $sources tests\LootTests.cs
+if ($LASTEXITCODE -ne 0) { throw 'Loot tests failed to compile.' }
+Copy-Item -LiteralPath 'EftPosition.exe.config' -Destination 'EftPosition.LootTests.exe.config' -Force
+& $compiler /nologo /target:exe /platform:x64 /optimize+ /warn:4 /utf8output /codepage:65001 /main:EftPosition.MapIconTests /out:EftPosition.MapIconTests.exe /win32manifest:src\app.manifest /reference:System.Windows.Forms.dll /reference:System.Drawing.dll /reference:System.Web.Extensions.dll $libraryRefs $sources tests\MapIconTests.cs
+if ($LASTEXITCODE -ne 0) { throw 'Map icon release tests failed to compile.' }
+Copy-Item -LiteralPath 'EftPosition.exe.config' -Destination 'EftPosition.MapIconTests.exe.config' -Force
 & $compiler /nologo /target:exe /platform:x64 /optimize+ /warn:4 /utf8output /codepage:65001 /main:EftPosition.LanguageTests /out:EftPosition.LanguageTests.exe /win32manifest:src\app.manifest /reference:System.Windows.Forms.dll /reference:System.Drawing.dll /reference:System.Web.Extensions.dll $libraryRefs $sources tests\LanguageTests.cs
 if ($LASTEXITCODE -ne 0) { throw 'Kompilacja testów języka i podpowiedzi nie powiodła się.' }
 Copy-Item -LiteralPath 'EftPosition.exe.config' -Destination 'EftPosition.LanguageTests.exe.config' -Force
@@ -55,5 +61,17 @@ Copy-Item -LiteralPath 'EftPosition.exe.config' -Destination 'EftPosition.Overla
 & $compiler /nologo /target:exe /platform:x64 /optimize+ /warn:4 /utf8output /codepage:65001 /main:EftPosition.MapDetectionTests /out:EftPosition.MapDetectionTests.exe /win32manifest:src\app.manifest /reference:System.Windows.Forms.dll /reference:System.Drawing.dll /reference:System.Web.Extensions.dll $libraryRefs $sources tests\MapDetectionTests.cs
 if ($LASTEXITCODE -ne 0) { throw 'Kompilacja testów automatycznej mapy nie powiodła się.' }
 Copy-Item -LiteralPath 'EftPosition.exe.config' -Destination 'EftPosition.MapDetectionTests.exe.config' -Force
+& $compiler /nologo /target:exe /platform:x64 /optimize+ /warn:4 /utf8output /codepage:65001 /main:EftPosition.UiRefreshTests /out:EftPosition.UiRefreshTests.exe /win32manifest:src\app.manifest /reference:System.Windows.Forms.dll /reference:System.Drawing.dll /reference:System.Web.Extensions.dll $libraryRefs $sources tests\UiRefreshTests.cs
+if ($LASTEXITCODE -ne 0) { throw 'UI refresh tests failed to compile.' }
+Copy-Item -LiteralPath 'EftPosition.exe.config' -Destination 'EftPosition.UiRefreshTests.exe.config' -Force
+& $compiler /nologo /target:exe /platform:x64 /optimize+ /warn:4 /utf8output /codepage:65001 /main:EftPosition.UiInteractionTests /out:EftPosition.UiInteractionTests.exe /win32manifest:src\app.manifest /reference:System.Windows.Forms.dll /reference:System.Drawing.dll /reference:System.Web.Extensions.dll $libraryRefs $sources tests\UiInteractionTests.cs
+if ($LASTEXITCODE -ne 0) { throw 'UI interaction tests failed to compile.' }
+Copy-Item -LiteralPath 'EftPosition.exe.config' -Destination 'EftPosition.UiInteractionTests.exe.config' -Force
+& $compiler /nologo /target:exe /platform:x64 /optimize+ /warn:4 /utf8output /codepage:65001 /main:EftPosition.ZoomPreviewTests /out:EftPosition.ZoomPreviewTests.exe /win32manifest:src\app.manifest /reference:System.Windows.Forms.dll /reference:System.Drawing.dll /reference:System.Web.Extensions.dll $libraryRefs $sources tests\ZoomPreviewTests.cs
+if ($LASTEXITCODE -ne 0) { throw 'Zoom preview tests failed to compile.' }
+Copy-Item -LiteralPath 'EftPosition.exe.config' -Destination 'EftPosition.ZoomPreviewTests.exe.config' -Force
+& $compiler /nologo /target:exe /platform:x64 /optimize+ /warn:4 /utf8output /codepage:65001 /main:EftPosition.RasterTests /out:EftPosition.RasterTests.exe /win32manifest:src\app.manifest /reference:System.Windows.Forms.dll /reference:System.Drawing.dll /reference:System.Web.Extensions.dll $libraryRefs $sources tests\RasterTests.cs
+if ($LASTEXITCODE -ne 0) { throw 'Raster tests failed to compile.' }
+Copy-Item -LiteralPath 'EftPosition.exe.config' -Destination 'EftPosition.RasterTests.exe.config' -Force
 } finally { Pop-Location }
 
