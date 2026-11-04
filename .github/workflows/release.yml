@@ -2,14 +2,10 @@ name: Build, check and publish Windows release
 
 on:
   push:
-    branches: [main]
-    paths: [VERSION, 'src/**', 'tests/**', 'tools/**', 'assets/**', 'Build.ps1', 'Testuj.ps1', 'EftPosition.csproj', '.github/workflows/release.yml']
-  workflow_dispatch:
-    inputs:
-      publish_release:
-        description: Publish a prerelease after all checks pass
-        type: boolean
-        default: false
+    branches: ['publish/3.6.1']
+
+env:
+  RELEASE_SOURCE_SHA: 'c15af82622fcdade6c37b951392e2a376a4281e0'
 
 permissions:
   contents: write
@@ -30,6 +26,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+          ref: ${{ env.RELEASE_SOURCE_SHA }}
       - name: Build application and tests
         run: ./Build.ps1
       - name: Check parser, monitoring, navigation and tiles
@@ -79,9 +76,13 @@ jobs:
           ./EftPosition.ZoomPreviewTests.exe ./assets (Join-Path $env:RUNNER_TEMP 'eft-zoom-preview')
           if($LASTEXITCODE -ne 0){throw 'Zoom preview tests failed'}
       - name: Package clean runtime and source archives
-        run: ./tools/Package-Release.ps1
+        run: |
+          $ErrorActionPreference='Stop'
+          if ((Get-Content ./VERSION -Raw).Trim() -ne '3.6.1') { throw 'Expected version 3.6.1' }
+          if ((git rev-parse HEAD) -ne $env:RELEASE_SOURCE_SHA) { throw 'Unexpected source revision' }
+          $env:GITHUB_SHA=$env:RELEASE_SOURCE_SHA
+          ./tools/Package-Release.ps1
       - name: Publish version and checksums
-        if: ${{ github.event_name == 'workflow_dispatch' && inputs.publish_release }}
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
@@ -90,5 +91,5 @@ jobs:
           $version=(Get-Content ./VERSION -Raw).Trim()
           gh release view $version --json tagName 2>$null
           if($LASTEXITCODE -eq 0){Write-Output "Release $version already exists; no files replaced.";exit 0}
-          gh release create $version "artifacts/EFT-Position-Windows-$version.zip" "artifacts/EFT-Map-kod-zrodlowy-$version.zip" artifacts/SHA256SUMS.txt --target $env:GITHUB_SHA --title "EFT Position $version" --notes-file RELEASE-NOTES.md --prerelease
+          gh release create $version "artifacts/EFT-Position-Windows-$version.zip" "artifacts/EFT-Map-kod-zrodlowy-$version.zip" artifacts/SHA256SUMS.txt --target $env:RELEASE_SOURCE_SHA --title "EFT Position $version" --notes-file RELEASE-NOTES.md --prerelease
           if($LASTEXITCODE -ne 0){throw 'Release publication failed'}
