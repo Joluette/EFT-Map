@@ -1,10 +1,10 @@
 # EFT Position 3.6.1
 
-**Source version: 3.6.1.** Embedded settings, fixed window/minimap transparency, smoother full-screen zoom, modern loot icons, individual filters and outlined place names. Open **Quests & filters → Loot** for 27 container types, 14 loose-loot categories, hazards and keyed rooms. English is the default for new settings; existing language choices are preserved. See [what changed](RELEASE-NOTES.md) and the [map icon guide](MAP-ICONS-3.6.0.md). The downloadable prerelease below is still **3.3.2**; build this repository for 3.6.1.
+**Current prerelease: 3.6.1.** Embedded settings, fixed window/minimap transparency, smoother full-screen zoom, modern loot icons, individual filters and outlined place names. Open **Quests & filters → Loot** for 27 container types, 14 loose-loot categories, hazards and keyed rooms. English is the default for new settings; existing language choices are preserved. See [what changed](RELEASE-NOTES.md) and the [map icon guide](MAP-ICONS-3.6.0.md).
 
 ![EFT Position 3.3.2 — map companion and borderless minimap](docs/images/hero.svg)
 
-**[Download 3.3.2 for Windows](https://github.com/Joluette/EFT-Map/releases/tag/3.3.2)** · [What's new](RELEASE-NOTES.md) · [English](#english) · [Polski](#polski)
+**[Download 3.6.1 for Windows](https://github.com/Joluette/EFT-Map/releases/tag/3.6.1)** · [What's new](RELEASE-NOTES.md) · [English](#english) · [Polski](#polski)
 
 ## English
 
@@ -14,8 +14,8 @@ Know where your last screenshot puts you. EFT Position is a small Windows map co
 
 ### Get started
 
-1. Download **EFT-Position-Windows-3.3.2.zip** from the [release](https://github.com/Joluette/EFT-Map/releases/tag/3.3.2). Extract the whole folder and run **EftPosition.exe** or **Uruchom.cmd**. Keep `assets`, `lib` and `EftPosition.exe.config` beside the app.
-2. Source builds start in English. The downloadable 3.3.2 build starts in Polish: gear button → **Wygląd → Język / Language → English (EN)**.
+1. Download **EFT-Position-Windows-3.6.1.zip** from the [release](https://github.com/Joluette/EFT-Map/releases/tag/3.6.1). Extract the whole folder and run **EftPosition.exe** or **Uruchom.cmd**. Keep `assets`, `lib` and `EftPosition.exe.config` beside the app.
+2. New installations start in English. Change the language under **Settings → Appearance → Language**.
 3. In **Settings → Screenshots**, select EFT's screenshot folder, usually `Documents\Escape from Tarkov\Screenshots`.
 4. In **Settings → Window & map**, enable **Automatically switch maps from game logs**. Use **Detect folder** or select the game's `Logs` folder. BSG and Steam installations are supported, including Steam's `build\Logs`.
 5. For the overlay, use borderless mode in EFT and enable **Settings → Minimap → Show minimap above the game**. Press **F8** to show or hide it.
@@ -107,7 +107,7 @@ Found a bug or have an idea? Use the [issue forms](https://github.com/Joluette/E
 
 ### Build and verification
 
-Download **EFT-Map-kod-zrodlowy-3.3.2.zip** or use this repository. **Zbuduj.cmd** builds the C#/WinForms application; **Testuj.cmd** runs the tests. The .NET Framework compiler and bundled `lib` libraries are sufficient. Some UI checks need a Windows desktop session.
+Download **EFT-Map-kod-zrodlowy-3.6.1.zip** or use this repository. **Zbuduj.cmd** builds the C#/WinForms application; **Testuj.cmd** runs the tests. The .NET Framework compiler and bundled `lib` libraries are sufficient. Some UI checks need a Windows desktop session.
 
 See [3.6.1 validation](reports/3.6.1/validation.md) for current checks, [RAPORT.md](RAPORT.md) for the earlier 3.3.2 report, and [RELEASE-NOTES.md](RELEASE-NOTES.md) for changes. The release includes **SHA256SUMS.txt**. The Windows ZIP contains `BUILD-INFO.json` with the executable hash and source revision.
 
@@ -123,7 +123,7 @@ Full sources, attribution and license texts: [THIRD-PARTY-NOTICES.md](THIRD-PART
 
 ## Polski
 
-EFT Position pokazuje pozycję i kierunek z ostatniego screenshota z Tarkova. Kod w repozytorium ma wersję **3.6.1**: ustawienia w głównym oknie, poprawiona przezroczystość i zoom F11, loot z osobnymi filtrami, zagrożenia, zamknięte pomieszczenia i czytelniejsze podpisy map. Angielski jest domyślny dla nowych ustawień; zapisany język pozostaje zachowany. Dostępna do pobrania paczka nadal ma wersję **3.3.2**. [Opis zmian](RELEASE-NOTES.md) i [instrukcja filtrów](MAP-ICONS-3.6.0.md).
+EFT Position pokazuje pozycję i kierunek z ostatniego screenshota z Tarkova. Wersja **3.6.1** zawiera ustawienia w głównym oknie, poprawiona przezroczystość i zoom F11, loot z osobnymi filtrami, zagrożenia, zamknięte pomieszczenia i czytelniejsze podpisy map. Angielski jest domyślny dla nowych ustawień; zapisany język pozostaje zachowany. [Opis zmian](RELEASE-NOTES.md) i [instrukcja filtrów](MAP-ICONS-3.6.0.md).
 
 ### Legenda ikon
 
@@ -142,7 +142,7 @@ Nazwę questu lub ekstraktu zobaczysz po najechaniu na ikonę na głównej mapie
 
 ### Uruchomienie
 
-1. Pobierz [EFT-Position-Windows-3.3.2.zip](https://github.com/Joluette/EFT-Map/releases/tag/3.3.2), rozpakuj cały folder i uruchom **EftPosition.exe**. Zachowaj `assets`, `lib` i `EftPosition.exe.config`.
+1. Pobierz [EFT-Position-Windows-3.6.1.zip](https://github.com/Joluette/EFT-Map/releases/tag/3.6.1), rozpakuj cały folder i uruchom **EftPosition.exe**. Zachowaj `assets`, `lib` i `EftPosition.exe.config`.
 2. W **Ustawienia → Zrzuty** wybierz folder screenshotów EFT.
 3. W **Ustawienia → Okno i mapa** włącz **Automatycznie przełączaj mapę z logów gry**. Użyj **Wykryj folder** lub wskaż folder `Logs` w instalacji gry.
 4. W EFT wybierz tryb bez ramek. W **Ustawienia → Minimapa** włącz nakładkę i dopasuj jej wygląd.

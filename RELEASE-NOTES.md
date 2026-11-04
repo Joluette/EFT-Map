@@ -1,6 +1,4 @@
-# EFT Position 3.6.1
-
-Changes since the downloadable 3.3.2 prerelease. The repository contains the 3.6.1 source; binary publication is a separate, manually enabled workflow action.
+Changes since EFT Position 3.3.2.
 
 ## Interface and performance
 
@@ -18,7 +16,7 @@ Changes since the downloadable 3.3.2 prerelease. The repository contains the 3.6
 - Mines, sniper zones and other source hazards with area outlines.
 - Stationary weapons and keyed rooms. Room tooltips identify the required key and power requirement; vehicle trunks are excluded.
 
-Open **Quests & filters → Loot**. Locations and tooltips describe possible loot, not guaranteed spawns or live raid contents. Loose ammunition has not been added without source locations.
+Open **Quests & filters → Loot**. Locations and tooltips show possible loot based on the map data.
 
 ## Place names and language
 
@@ -26,12 +24,12 @@ Open **Quests & filters → Loot**. Locations and tooltips describe possible loo
 - English is the default for new settings. Existing English/Polish choices and screenshot/quest/loot preferences are preserved.
 - Old broad loot categories migrate to independent filter IDs.
 
-## Verification and publication
+## Download and update
 
-See [validation scope](reports/3.6.1/validation.md) and the [map icon guide](MAP-ICONS-3.6.0.md).
+Download **EFT-Position-Windows-3.6.1.zip**, extract the entire archive and run **EftPosition.exe**. Requires Windows x64 and .NET Framework 4.8. If updating an existing installation, close the app first and keep your `cache` folder to preserve settings and downloaded maps.
 
-The Windows workflow builds, tests and packages source updates. Publishing a prerelease requires a manual run with **publish_release** selected. No new executable or private preferences are committed to the repository.
+The source archive and SHA-256 checksums are attached below. See the [validation report](https://github.com/Joluette/EFT-Map/blob/3.6.1/reports/3.6.1/validation.md) and [map icon guide](https://github.com/Joluette/EFT-Map/blob/3.6.1/MAP-ICONS-3.6.0.md).
 
 ## Polski
 
-Ustawienia znajdują się w głównym oknie, poprawiono przezroczystość i płynność zoomu F11. Dodano nowy zestaw ikon, osobne filtry kontenerów i lootu luzem, zagrożenia oraz zamknięte pomieszczenia z nazwą klucza. Podpisy map mają jasny tekst z ciemnym obrysem i większe nazwy ważniejszych miejsc. Zapisane ustawienia i wybrany język pozostają zachowane. Publikacja paczki wymaga osobnego uruchomienia workflow.
+Ustawienia znajdują się w głównym oknie, poprawiono przezroczystość i płynność zoomu F11. Dodano nowy zestaw ikon, osobne filtry kontenerów i lootu luzem, zagrożenia oraz zamknięte pomieszczenia z nazwą klucza. Podpisy map mają jasny tekst z ciemnym obrysem i większe nazwy ważniejszych miejsc. Zapisane ustawienia i wybrany język pozostają zachowane. Pobierz **EFT-Position-Windows-3.6.1.zip**, rozpakuj całą paczkę i uruchom **EftPosition.exe**. Przy aktualizacji zachowaj folder `cache`.
